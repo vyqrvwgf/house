@@ -12,15 +12,6 @@ from settings import (
     BASE_DIR
 )
 
-from attackt.fileupload.upload_manager import UploadManager
-
-upload_manager = UploadManager(
-    BASE_DIR,
-    'qiniu',
-    QINIU_ACCESS_KEY,
-    QINIU_SECRET_KEY,
-)
-
 
 def upload(key, localpath):
     from qiniu import Auth, put_file, set_default
@@ -52,10 +43,6 @@ def get_extension(filename):
         return ''
 
     return arr[-1]
-
-
-def get_upload_token(key):
-    return upload_manager.auth.upload_token(BUCKET_NAME, key=None)
 
 
 def handle_uploaded_file(f, path):
