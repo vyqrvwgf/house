@@ -1,0 +1,146 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+  {% if client.id %}
+  编辑礼物
+  {% else %}
+  新建礼物
+  {% endif %}
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-danger">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      {% if client.id %}
+      编辑礼物
+      {% else %}
+      新建礼物
+      {% endif %}
+    </h3>
+  </div><!-- /.box-header -->
+  <!-- form start -->
+
+  <div class="box-body">
+    <form role="form" method="POST"
+      {% if not client.id %}
+      action="{% url 'web:gift_create' %}"
+      {% else %}
+      action="{% url 'web:gift_edit' client.id %}"
+      {% endif %}
+      enctype="multipart/form-data">
+      {% csrf_token %}
+    <div class="form-group">
+      <label for="title">标题</label><br>
+      <input type="text" class="form-control" name="title"  value="{{ client.title }}"/>
+      {{ error.title_msg|safe }}
+    </div>
+    <div class="form-group">
+      <label for="titlelanguage">题语</label><br>
+      <textarea class="form-control" name="titlelanguage">{{ client.titlelanguage }}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="giftcategory">分类</label>
+      <select class="form-control" name="giftcategory">
+        {% for giftcategory in giftcategorys %}
+          <option value="{{ giftcategory.id }}" 
+            {% if client.giftcategory and client.giftcategory.id == giftcategory.id %}
+              selected
+            {% endif %}
+          >{{ giftcategory.title }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="speaker">所属讲者</label>
+      <select class="form-control select2" multiple name="speaker">
+        {% for speaker in speakers %}
+          <option value="{{ speaker.id }}" 
+            {% if client.speaker and client.speaker.id == speaker.id %}
+              selected
+            {% endif %}
+          >{{ speaker.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="cover">封面</label>
+      <input type="file" id="cover" name="cover" />
+      <p style="margin-top: 10px;">
+        {% if client.cover_url and client.id %}
+          <img src="{{ client.cover_url }}?imageView2/1/w/100/h/100" />
+        {% endif %}
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="free_shipping">是否包邮</label>
+      <select class="form-control" name="free_shipping">
+          <option value="0" {% if client.free_shipping == 0 %}select{% endif %}>是</option>
+          <option value="1" {% if client.free_shipping == 1 %}select{% endif %}>否</option>
+      </select>
+    </div>
+    <div class="form-group" id="div_express">
+      <label for="express_fee">快递费</label><br>
+      <input type="number" class="form-control" name="express_fee"  value="{{ client.express_fee }}"/>
+    </div>
+    <div class="form-group">
+      <label for="stock_number">总库存</label><br>
+      <input type="number" class="form-control" name="stock_number"  value="{{ client.stock_number }}"/>
+      {{ error.stock_number_msg|safe }}
+    </div>
+    <div class="form-group">
+      <label for="price">售价</label><br>
+      <input type="number" class="form-control" name="price"  value="{{ client.price }}"/>
+    </div>
+    <div class="form-group">
+      <label for="detail">商品详情</label><br>
+      <textarea class="form-control" name="detail">{{ client.detail }}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="buying_tips">购买需知</label><br>
+      <textarea class="form-control" name="buying_tips">{{ client.buying_tips }}</textarea>
+    </div>
+    <input type="hidden" name="status" id="status" value="{% if client.status %}{{ client.status }}{% else %}0{% endif %}"/>
+    <div class="form-group">
+      <button type="submit" class="btn btn-default pull-left" onclick="$('#status').val(1)">
+        存为草稿
+      </button>
+      <button type="submit" class="btn btn-primary pull-right" onclick="$('#status').val(0)">
+        {% if client.id %}
+          更新
+        {% else %}
+          创建
+        {% endif %}
+      </button>
+    </div>
+  </form>
+  </div><!-- /.box-body -->
+
+  <div class="box-footer">
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+  $(document).ready(function() {
+    CKEDITOR.replace('buying_tips');
+    CKEDITOR.replace('detail');
+    var select_shipping_info = "{{ client.free_shipping }}"
+    if(select_shipping_info == "" || select_shipping_info == "0")
+    {
+      $('#div_express').hide();
+    }else{
+      $('#div_express').show();
+    }
+    $('[name="free_shipping"]').change(function() {
+      var select_val = $(this).val();
+      if(select_val == 0)
+      {
+        $('#div_express').hide();
+      }else{
+        $('#div_express').show();
+      }
+    });
+  });
+</script>
+{% endblock %}

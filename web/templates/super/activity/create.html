@@ -1,0 +1,112 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+  {% if client.id %}
+  编辑活动
+  {% else %}
+  新建活动
+  {% endif %}
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-danger">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      {% if client.id %}
+      编辑活动
+      {% else %}
+      新建活动
+      {% endif %}
+    </h3>
+  </div><!-- /.box-header -->
+  <!-- form start -->
+
+  <div class="box-body">
+    <form role="form" method="POST"
+      {% if not client.id %}
+        action="{% url 'web:activity_create' %}"
+      {% else %}
+        action="{% url 'web:activity_edit' client.id %}"
+      {% endif %}
+      enctype="multipart/form-data">
+      {% csrf_token %}
+    <div class="form-group">
+      <label for="title">活动名称</label><br>
+      <input type="text" class="form-control" name="title"  value="{{ client.title }}"/>
+      {{ error.title_msg|safe }}
+    </div>
+    <div class="form-group">
+      <label for="cover">封面</label>
+      <input type="file" id="cover" name="cover" />
+      <p style="margin-top: 10px;">
+        {% if client.cover_url and client.id %}
+          <img src="{{ client.cover_url }}?imageView2/1/w/100/h/100" />
+        {% endif %}
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="periods">活动期数</label><br>
+      <input type="number" class="form-control" name="periods"  value="{{ client.periods }}"/>
+    </div>
+    <div class="form-group">
+      <label for="speechdate">演讲日期</label><br>
+      <input type="text" class="form-control" name="activity_date" value="{{ client.activity_date|date:"Y-m-d" }}" id="activity_date"/>
+      {{ error.activity_date_msg|safe }}
+    </div>
+    <div class="form-group">
+      <label for="activity_city">活动城市</label><br>
+      <input type="text" class="form-control" name="activity_city"  value="{{ client.activity_city }}"/>
+    </div>
+    <div class="form-group">
+      <label for="activity_address">活动地址</label><br>
+      <input type="text" class="form-control" name="activity_address"  value="{{ client.activity_address }}"/>
+    </div>
+    <input type="hidden" name="status" id="status" value="{% if client.status %}{{ client.status }}{% else %}0{% endif %}"/>
+    <div class="form-group">
+      <button type="submit" class="btn btn-default pull-left" onclick="$('#status').val(1)">
+        存为草稿
+      </button>
+      <button type="submit" class="btn btn-primary pull-right" onclick="$('#status').val(0)">
+        {% if client.id %}
+          更新
+        {% else %}
+          创建
+        {% endif %}
+      </button>
+    </div>
+  </form>
+  </div><!-- /.box-body -->
+
+  <div class="box-footer">
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+  $(document).ready(function() {
+    //设置日期选中
+    $('#activity_date').datetimepicker({
+        format: 'yyyy-mm-dd',
+      autoclose: true,
+      todayBtn: true,
+      minView: 2,
+    });
+    var select_shipping_info = "{{ client.free_shipping }}"
+    if(select_shipping_info == "" || select_shipping_info == "0")
+    {
+      $('#div_express').hide();
+    }else{
+      $('#div_express').show();
+    }
+    $('[name="free_shipping"]').change(function() {
+      var select_val = $(this).val();
+      if(select_val == 0)
+      {
+        $('#div_express').hide();
+      }else{
+        $('#div_express').show();
+      }
+    });
+  });
+</script>
+{% endblock %}

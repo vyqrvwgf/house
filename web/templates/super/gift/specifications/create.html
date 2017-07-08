@@ -1,0 +1,363 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+商品规格
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-primary">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      {% if gift_sku_list %}
+      编辑规格
+      {% else %}
+      新建规格
+      {% endif %}
+    </h3>
+  </div><!-- /.box-header -->
+  <!-- form start -->
+
+  <div class="box-body">
+    <form role="form" method="POST"
+      {% if not gift_sku_list %}
+      action="{% url 'web:specifications_create' gift_id %}"
+      {% else %}
+      action="{% url 'web:specifications_edit' gift_id %}"
+      {% endif %}
+      enctype="multipart/form-data">
+      {% csrf_token %}
+    <div class="form-group">
+      <label for="name">商品规格设置</label><br/>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary addguige">添加规格项目</button>
+      </div>
+      <div class="guige">
+      {% for sil in specifications_items_list %}
+        <div class="project">
+          <input type="text" class="text" name="name" value="{{sil.name}}" placeholder=""/>
+          <button type="button" class="btn btn-danger btn-xs cancel">删除</button><br>
+          <div class="gcontent">
+            {% for svs in sil.specifications_values %}
+              <div class="pcontent">
+                <input type="text" class="text" name="name" value="{{svs.name}}" placeholder=""/>
+                <button type="button" class="btn btn-danger btn-xs cancel">删除</button><br>
+              </div>
+            {% endfor %}
+          </div>
+          <a class="addguigecontent">+添加规格</a>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">价格组</label><br>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary createtab">生成</button>
+      </div>
+      <table class="table table-bordered table-striped">
+        <tbody class="pricezu">
+              {% for gil in specifications_items_list %}
+                <th>{{gil.name}}</th>
+              {% endfor %}
+              <th>价格（元）</th>
+              <th>结算价（元）</th>
+              <th>库存数量</th>
+              <th>图片</th>
+            </tr>
+            {% for gs in gift_sku_list %}
+              <tr role="row">
+                {% for gf in gs.gift_specifications %}
+                  <td>
+                    {{gf.specification_values.name}}
+                  </td>
+                {% endfor %}
+                <td>
+                  <input type="text" class="price" name="price" value="{{gs.price}}">
+                </td>
+                <td>
+                  <input type="text" class="original_price" name="original_price" value="{{gs.original_price}}">
+                </td>
+                <td>
+                  <input type="text" class="stock_number" name="stock_number" value="{{gs.stock_number}}">
+                </td>
+                <!--<td id="container">-->
+                  <!--<button type="button" class="btn btn-default pull-left" style="margin-left: 12px;" id="pickfiles">选择文件</button>-->
+                  <!--<img src="{{gf.cover_url}}" width="100px">-->
+                <!--</td>-->
+              </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="form-group">
+      <a type="button" class="btn btn-default pull-left" href="{% url 'web:specifications_list' gift_id %}">返回</a>
+      <button type="submit" class="btn btn-primary pull-right">
+      <input type="hidden"  id="guizes_list" name="guizes_list" value="{{gift_sku_list}}"/>
+      <input type="hidden"  id="p_list" name="p_list" value=""/>
+      <input type="hidden"  id="pc_list" name="pc_list" value=""/>
+        {% if gift_sku_list %}
+          更新
+        {% else %}
+          创建
+        {% endif %}
+      </button>
+    </div>
+  </form>
+  </div><!-- /.box-body -->
+  <div class="box-footer">
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/qiniu-js/qiniu.min.js"></script>
+<script type="text/javascript" src="/static/qiniu-js/plupload.full.min.js"></script>
+<script type="text/javascript">
+  function doExchange(doubleArrays){
+      var len=doubleArrays.length;
+      if(len>=2){
+          var len1=doubleArrays[0].length;
+          var len2=doubleArrays[1].length;
+          var newlen=len1*len2;
+          var temp=new Array(newlen);
+          var index=0;
+          for(var i=0;i<len1;i++){
+              for(var j=0;j<len2;j++){
+                  temp[index]=doubleArrays[0][i]+','+
+                      doubleArrays[1][j];
+                  index++;
+              }
+          }
+          var newArray=new Array(len-1);
+          for(var i=2;i<len;i++){
+              newArray[i-1]= doubleArrays[i];
+          }
+          newArray[0]=temp;
+          return doExchange(newArray);
+      }else{
+        var guigeArrays = []
+        for (var i = 0; i < doubleArrays[0].length; i++) {
+            var guigeStringToArray = doubleArrays[0][i].split(',')
+            guigeArrays.push(guigeStringToArray)
+        };
+        return guigeArrays;
+      }
+  }
+
+  //是否被包含,是返回true,不是返回false
+  function isContained(a, b){
+      if(!(a instanceof Array) || !(b instanceof Array)) return false;
+      for (var i = 0; i < b.length; i++) {
+        if (b[i].join(',').indexOf(a.join(',')) != -1) {
+          return b[i]
+        };
+      };
+      return false;
+  }
+
+</script>
+<script>
+$(function (){
+  var commit_guige_array = []
+  s1 = '<div class="project">\
+          <input type="text" class="text" name="name" value="" placeholder="输入规格项目"/>\
+          <button type="button" class="btn btn-danger btn-xs cancel">删除</button><br>\
+          <div class="gcontent"></div>\
+          <a class="addguigecontent">+添加规格</a>\
+        </div>'
+
+  s2 = '<div class="pcontent">\
+          <input type="text" class="text" name="name" value="" placeholder="输入规格"/>\
+          <button type="button" class="btn btn-danger btn-xs cancel">删除</button><br>\
+        </div>'
+
+  var addcontent = function(obj){
+    obj.parent().find('.gcontent').append(s2)
+  }
+
+  $(".addguige").on('click',function(){
+    $('.guige').append(s1)
+  })
+
+  $('.guige').on('click', '.cancel',function(){
+    $(this).parent().remove()
+  })
+  $(".guige").on('click', '.addguigecontent',function(){
+    addcontent($(this))
+  })
+  var createTable = function(headArr,arr){
+    var tab = ''
+
+    var head = '<tr>'
+    for (var i = 0; i < headArr.length; i++) {
+      head += '<th>' + headArr[i] + '</th>'
+    };
+    head += '<th>价格（元）</th><th>结算价（元）</th><th>库存数量</th><th>图片</th></tr>'
+
+    var trs = ''
+    for (var j = 0; j < arr.length; j++) {
+      var original_price = ''
+      var price = ''
+      var stock_number = ''
+      trs += '<tr>'
+      var tds = ''
+      for (var k = 0; k < arr[j].length; k++) {
+        var td = arr[j][k]
+        tds += '<td>' + td + '</td>'
+      };
+      old_arg = isContained(arr[j], commit_guige_array)
+      // console.log(arr[j])
+      // console.log(old_arg)
+      if (old_arg) {
+        original_price = old_arg[old_arg.length-2]
+        price = old_arg[old_arg.length-3]
+        stock_number = old_arg[old_arg.length-1]
+      };
+      tds += '<td>\
+                <input type="text" value="'+price+'" class="price" name="price">\
+              </td>\
+              <td>\
+                <input type="text" value="'+original_price+'" class="original_price" name="original_price">\
+              </td>\
+              <td>\
+                <input type="text" value="'+stock_number+'" class="stock_number" name="stock_number"/>\
+              </td>\
+              <td id="container">\
+                <button type="button" class="btn btn-default pull-left" style="margin-left: 12px;" id="pickfiles">选择文件</button>\
+              </td>'
+
+      trs += tds + '</tr>'
+    };
+
+    tab += head + trs
+    $(".pricezu").html(tab)
+  }
+
+  var createlist = function(){
+    var pc_list = []
+    var p_list = []
+    $('.guige').find('.project').each(function(){
+      var project = $(this).find('.text').val()
+      p_list.push(project)
+      var project_childs = []
+      $(this).find('.pcontent').each(function(){
+        var pcontent = $(this).find('.text').val()
+        project_childs.push(pcontent)
+      })
+      pc_list.push(project_childs)
+    })
+    if(pc_list.length ==0){
+      $('#guizes_list').val('')
+      $('.pricezu').html('')
+    }
+    $('#pc_list').val(pc_list.join(';'))
+    pc_list = doExchange(pc_list)
+    if (pc_list.length) {
+        createTable(p_list, pc_list)
+        //设置上传信息
+        var uploader = Qiniu.uploader({
+        runtimes: 'html5,flash,html4',    //上传模式,依次退化
+        browse_button: 'pickfiles',       //上传选择的点选按钮，**必需**
+        uptoken_url: '/admin/uptoken/',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+        // uptoken : '', //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
+        unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
+        // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
+        domain: 'http://{{qiniu_domain}}',   //bucket 域名，下载资源时用到，**必需**
+        get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+        container: 'container',           //上传区域DOM ID，默认是browser_button的父元素，
+        max_file_size: '500mb',           //最大文件体积限制
+        max_retries: 3,                   //上传失败最大重试次数
+        dragdrop: true,                   //开启可拖曳上传
+        drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+        chunk_size: '4mb',                //分块上传时，每片的体积
+        auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+        multi_selection: false,           //限制只能上传一个文件
+        init: {
+          'FilesAdded': function(up, files) {
+            plupload.each(files, function(file) {
+              // 文件添加进队列后,处理相关的事情
+            });
+          },
+          'BeforeUpload': function(up, file) {
+            // 每个文件上传前,处理相关的事情
+            $('#pickfiles').prev().val("");
+          },
+          'UploadProgress': function(up, file) {
+            var percent = up.total.percent + '%';
+            $("#upload_progress").css('width', percent);
+            $("#upload_progress").text(percent);
+          },
+          'FileUploaded': function(up, file, info) {
+            // 每个文件上传成功后,处理相关的事情
+            var res = JSON.parse(info);
+            console.log(res)
+            $('#pickfiles').prev().val(res.key);
+          },
+          'Error': function(up, err, errTip) {
+            //上传出错时,处理相关的事情
+          },
+          'UploadComplete': function() {
+            //队列文件处理完毕后,处理相关的事情
+          },
+        }
+      });
+    };
+    $('#p_list').val(p_list)
+  }
+
+  $(".createtab").on('click',function(){
+    commit_guige_array = []
+    $(".pricezu").find('tr:gt(0)').each(function(){
+      var tisObj = $(this)
+      var guize_list = []
+      tisObj.find('td').each(function(){
+        if ($(this).find('input').length>0) {
+          val = $(this).find('input').val()
+        }else{
+          val = $.trim($(this).text())
+        }
+        guize_list.push(val)
+      })
+      commit_guige_array.push(guize_list)
+    })
+    createlist()
+  })
+  if ($.trim($('#guizes_list').val()).length>0) {
+    $('.createtab').click()
+  };
+  
+  $('form').submit(function(){
+      var guizes_list = []
+      var flag = true
+      $('.pricezu').find('tr:gt(0)').each(function(){
+          var guize_list = []
+          var pObject = $(this)
+          pObject.find('td').each(function(){
+            if ($(this).find('input').length>0) {
+              var va = $.trim($(this).find('input').val())
+              if (!va && !(va instanceof Array)) {
+                flag = false
+              };
+            }else{
+              var va = $(this).text()
+            }
+            guize_list.push(va)
+          })
+          guizes_list.push(guize_list)
+      })
+      if (guizes_list.length>0) {
+        $('#guizes_list').val(guizes_list.join(';'))
+      };
+      if (!flag) {
+        alert('表格填入信息有误')
+        return flag
+      };
+  })
+  
+});
+</script>
+<script>
+  $(document).ready(function() {
+  });
+</script>
+{% endblock %}
