@@ -124,6 +124,13 @@ USE_L10N = True
 USE_TZ = False
 
 
+# qiniu
+QINIU_DOMAIN = 'cdn.yixi.tv'
+QINIU_ACCESS_KEY = 'uugIULr_1sS0ntwh8iSFXATUgiGyeXDyoEB1EbmX'
+QINIU_SECRET_KEY = 'o2Xfvf3qPa9JCqc6XhafBqBGFHf-pXkPfye7RS4A'
+BUCKET_NAME = 'almond'
+
+
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

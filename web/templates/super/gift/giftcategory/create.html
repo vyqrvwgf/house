@@ -1,0 +1,75 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+  {% if client.id %}
+  编辑一个礼物分类
+  {% else %}
+  新建一个礼物分类
+  {% endif %}
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-danger">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      {% if client.id %}
+      编辑一个礼物分类
+      {% else %}
+      新建一个礼物分类
+      {% endif %}
+    </h3>
+  </div><!-- /.box-header -->
+  <!-- form start -->
+
+  <div class="box-body">
+    <form role="form" method="POST"
+      {% if not client.id %}
+      action="{% url 'web:giftcategory_create' %}"
+      {% else %}
+      action="{% url 'web:giftcategory_edit' client.id %}"
+      {% endif %}
+      enctype="multipart/form-data">
+      {% csrf_token %}
+    <div class="form-group">
+      <label for="name">标题</label><br>
+      <input type="text" class="form-control" name="title"  value="{{ client.title }}"/>
+      {{ error.title_msg|safe }}
+    </div>
+    <div class="form-group">
+      <label for="cover">类型图片</label>
+      <input type="file" id="img" name="img" />
+      <p style="margin-top: 10px;">
+        {% if client.img_url and client.id %}
+          <img src="{{ client.img_url }}?imageView2/1/w/100/h/100" />
+        {% endif %}
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="name">是否显示在首页</label><br>
+      <input type="radio" class="icheck" name="is_home" value="0" {% if client.is_home == 0 or not client %}checked{% endif %}>否
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" class="icheck" name="is_home" value="1" {% if client.is_home == 1 %}checked{% endif %}>是
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary pull-right">
+        {% if client.id %}
+          更新
+        {% else %}
+          创建
+        {% endif %}
+      </button>
+    </div>
+  </form>
+  </div><!-- /.box-body -->
+
+  <div class="box-footer">
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+  $(document).ready(function() {
+    CKEDITOR.replace('content');
+  });
+</script>
+{% endblock %}

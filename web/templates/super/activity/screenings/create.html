@@ -1,0 +1,122 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+  {% if client.id %}
+  编辑场次
+  {% else %}
+  新建场次
+  {% endif %}
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-danger">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      {% if client.id %}
+      编辑场次
+      {% else %}
+      新建场次
+      {% endif %}
+    </h3>
+  </div><!-- /.box-header -->
+  <!-- form start -->
+
+  <div class="box-body">
+    <form role="form" method="POST"
+      {% if not client.id %}
+        action="{% url 'web:activity_screenings_create' activity.id %}"
+      {% else %}
+        action="{% url 'web:activity_screenings_edit' client.id %}"
+      {% endif %}
+      enctype="multipart/form-data">
+      {% csrf_token %}
+    <div class="form-group">
+      <label for="title">场次名称</label><br>
+      <input type="text" class="form-control" name="name"  value="{{ client.name }}"/>
+      {{ error.name_msg|safe }}
+    </div>
+    <div class="form-group">
+      <label for="cover">封面图片</label>
+      <input type="file" id="cover" name="cover" />
+      <p style="margin-top: 10px;">
+        {% if client.cover_url and client.id %}
+          <img src="{{ client.cover_url }}?imageView2/1/w/100/h/100" />
+        {% endif %}
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="speechdate">开始时间</label><br>
+      <input type="text" class="form-control" name="activity_begin_date" value="{{ client.activity_begin_date|date:"Y-m-d H:i" }}" id="activity_begin_date"/>
+      {{ error.activity_begin_date_msg|safe }}
+    </div>
+    <div class="form-group">
+      <label for="speechdate">结束时间</label><br>
+      <input type="text" class="form-control" name="activity_end_date" value="{{ client.activity_end_date|date:"Y-m-d H:i" }}" id="activity_end_date"/>
+      {{ error.activity_end_date_msg|safe }}
+    </div>
+    <div class="form-group">
+      <label for="stock_number">库存数量</label><br>
+      <input type="text" class="form-control" name="stock_number"  value="{{ client.stock_number }}"/>
+    </div>
+    <div class="form-group">
+      <label for="price">售价</label><br>
+      <input type="text" class="form-control" name="price"  value="{{ client.price }}"/>
+    </div>
+    <div class="form-group">
+      <label for="detail">商品详情</label><br>
+      <textarea class="form-control" name="detail">{{ client.detail }}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="buying_tips">购买需知</label><br>
+      <textarea class="form-control" name="buying_tips">{{ client.buying_tips }}</textarea>
+    </div>
+    <input type="hidden" name="status" id="status" value="{% if client.status %}{{ client.status }}{% else %}0{% endif %}"/>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary pull-right" onclick="$('#status').val(0)">
+        {% if client.id %}
+          更新
+        {% else %}
+          创建
+        {% endif %}
+      </button>
+    </div>
+  </form>
+  </div><!-- /.box-body -->
+
+  <div class="box-footer">
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+  $(document).ready(function() {
+    CKEDITOR.replace('buying_tips');
+    CKEDITOR.replace('detail');
+    //设置日期选中
+    $('#activity_begin_date, #activity_end_date').datetimepicker({
+        minView: "hour",
+        format: "yyyy-mm-dd hh:ii",
+        autoclose: true,
+        startDate: "2016-09-10 09:00",
+        language: 'zh-CN',
+        todayHighlight: true,
+    });
+    var select_shipping_info = "{{ client.free_shipping }}"
+    if(select_shipping_info == "" || select_shipping_info == "0")
+    {
+      $('#div_express').hide();
+    }else{
+      $('#div_express').show();
+    }
+    $('[name="free_shipping"]').change(function() {
+      var select_val = $(this).val();
+      if(select_val == 0)
+      {
+        $('#div_express').hide();
+      }else{
+        $('#div_express').show();
+      }
+    });
+  });
+</script>
+{% endblock %}

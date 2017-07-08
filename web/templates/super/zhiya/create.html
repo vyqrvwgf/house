@@ -1,0 +1,89 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+  {% if client.id %}
+  编辑枝桠
+  {% else %}
+  新建枝桠
+  {% endif %}
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-danger">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      {% if client.id %}
+      编辑枝桠
+      {% else %}
+      新建枝桠
+      {% endif %}
+    </h3>
+  </div><!-- /.box-header -->
+  <!-- form start -->
+
+  <div class="box-body">
+    <form role="form" method="POST"
+      {% if not client.id %}
+      action="{% url 'web:zhiya_create' %}"
+      {% else %}
+      action="{% url 'web:zhiya_edit' client.id %}"
+      {% endif %}
+      enctype="multipart/form-data">
+      {% csrf_token %}
+    <div class="form-group">
+      <label for="name">枝桠名称</label><br>
+      <input type="text" class="form-control" name="name"  value="{{ client.name }}"/>
+      {{ error.title_msg|safe }}
+    </div>
+    <div class="form-group">
+      <label for="speaker">讲者</label>
+      <select class="form-control select2" multiple name="speaker">
+        {% for speaker in speakers %}
+          <option value="{{ speaker.id }}" 
+            {% if client.speaker and client.speaker.id == speaker.id %}
+              selected
+            {% endif %}
+          >{{ speaker.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="video_recommended">选择相关枝桠</label>
+      <select class="form-control" name="zhiya_recommended">
+        <option value="">请选择</option>
+        {% for zhiya in zhiyas %}
+          {% if zhiya.id != client.id %}
+            <option value="{{ zhiya.id }}" 
+              {% if client.video_recommended and client.zhiya_recommended.id == zhiya.id %}
+                selected
+              {% endif %}
+            >{{ zhiya.name }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="episodes">总集数</label><br>
+      <input type="number" class="form-control" name="episodes"  value="{{ client.episodes }}"/>
+      {{ error.title_msg|safe }}
+    </div>
+    <div class="form-group">
+      <label for="intro">简介</label>
+      <textarea class="form-control" name="intro" rows="6">{{ client.intro }}</textarea>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary pull-right">
+        {% if client.id %}
+          更新
+        {% else %}
+          创建
+        {% endif %}
+      </button>
+    </div>
+  </form>
+  </div><!-- /.box-body -->
+
+  <div class="box-footer">
+  </div>
+</div>
+{% endblock %}
