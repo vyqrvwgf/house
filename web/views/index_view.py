@@ -11,7 +11,6 @@ from imagestore.qiniu_manager import(
     handle_uploaded_file,
     upload,
     url,
-    get_upload_token
 )
 from settings import(
     UPLOAD_DIR,
@@ -69,13 +68,4 @@ def ckeditor_many_upload(request):
         upload(key, os.path.join(UPLOAD_DIR, key))
         return JsonResponse({'uploaded': 1, 'fileName': key, 'url': url(key)})
 
-
-def uptoken(request):
-    now = datetime.datetime.now()
-    key = now.strftime('%Y%m%d%H%M%S%s')
-
-    token = get_upload_token(key)
-    return HttpResponse(simplejson.dumps({
-        'uptoken': token,
-    }))
 
