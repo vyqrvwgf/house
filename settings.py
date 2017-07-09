@@ -123,6 +123,18 @@ USE_L10N = True
 
 USE_TZ = False
 
+BACK_PAGE_COUNT = 15
+
+# 后台提醒
+FILED_CHECK_MSG = '<b class="error_msg">字段不能为空</b>'
+
+# 过滤不可添加的父级栏目
+COLUMN_NOT_LIST = [
+    # {'id': 1, 'name': '内容服务'},
+]
+# 是否可以创建父栏目
+COLUMN_IS_ADD = True
+COLUMN_IS_EDIT = True
 
 # qiniu
 QINIU_DOMAIN = 'cdn.yixi.tv'
