@@ -138,11 +138,10 @@ COLUMN_IS_ADD = True
 COLUMN_IS_EDIT = True
 
 # qiniu
-QINIU_DOMAIN = 'cdn.yixi.tv'
-QINIU_ACCESS_KEY = 'uugIULr_1sS0ntwh8iSFXATUgiGyeXDyoEB1EbmX'
-QINIU_SECRET_KEY = 'o2Xfvf3qPa9JCqc6XhafBqBGFHf-pXkPfye7RS4A'
-BUCKET_NAME = 'almond'
-
+QINIU_DOMAIN = 'ostx5g0u9.bkt.clouddn.com'
+QINIU_ACCESS_KEY = 'uUpyGla7DTbzVG7BKjgMlsT8QEx0RsFuY8ofxY7r'
+QINIU_SECRET_KEY = 'J0FdHNr6i1PdwlVzoxs-sqR5IeJgqjTFmqbWubuC'
+BUCKET_NAME = 'yueju'
 
 STATIC_URL = '/static/'
 
