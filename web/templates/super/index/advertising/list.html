@@ -35,7 +35,7 @@
               <tr>
                 <td style="vertical-align: middle;"><a href="{% url 'web:advertising_edit' client.id %}">{{ client.id }}</a></td>
                 <td style="vertical-align: middle;"><a href="{% url 'web:advertising_edit' client.id %}">{{ client.name }}</a></td>
-                <td style="vertical-align: middle;"><a href="{{ client.advertising_url }}" title="{{ client.advertising_url }}">{{ client.advertising_url|truncatechars:15 }}</a></td>
+                <td style="vertical-align: middle;"><a href="{{ client.target_url }}" title="{{ client.target_url }}">{{ client.target_url|truncatechars:15 }}</a></td>
                 <td style="vertical-align: middle;">
                   <a href="{{ client.img_url }}" ><img src="{{ client.img_url }}?imageView2/1/w/50/h/50" /></a>
                 </td>

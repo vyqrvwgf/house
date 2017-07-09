@@ -72,7 +72,7 @@ def advertising_create(request):
     if request.method == 'POST':
         error = {}
         name = request.POST.get('name', '')
-        advertising_url = request.POST.get('advertising_url', '')
+        target_url = request.POST.get('target_url', '')
 
         flag = True
         advertising = Advertising()
@@ -84,7 +84,7 @@ def advertising_create(request):
             advertising.name = name
 
         # 进行类型判断
-        advertising.advertising_url = advertising_url
+        advertising.target_url = target_url
 
         if flag:
 
@@ -124,7 +124,7 @@ def advertising_edit(request, advertising_id):
     if request.method == 'POST':
         error = {}
         name = request.POST.get('name', '')
-        advertising_url = request.POST.get('advertising_url', '')
+        target_url = request.POST.get('target_url', '')
 
         flag = True
 
@@ -135,7 +135,7 @@ def advertising_edit(request, advertising_id):
             advertising.name = name
 
         # 进行类型判断
-        advertising.advertising_url = advertising_url
+        advertising.target_url = target_url
 
         if flag:
 
