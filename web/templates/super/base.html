@@ -88,53 +88,99 @@
             <li class="header">
               管理后台
             </li>
-            <li class="treeview {% if module == 'home_page' %}active{% endif %}">
+            <li class="treeview {% if module == 'home' or module == 'advertising' %}active{% endif %}">
               <a href=""><i class="fa fa-home"></i><span>首页管理</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li {% if module == 'home_page' %}class="active" {% endif %}>
+                <li {% if module == 'advertising' %}class="active" {% endif %}>
                   <a href="{% url 'web:advertising_list' %}">
                     <i class="fa fa-circle-o"></i>轮播图管理
                   </a>
                 </li>
               </ul>
             </li>
-            <li {% if module == 'column' %}class="active" {% endif %}>
+            <li {% if module == 'joint_venture' %}class="active" {% endif %}>
               <a href="{% url 'web:column_list' %}">
                 <i class="fa fa-dashboard"></i>
                 <span>栏目管理</span>
               </a>
             </li>
-            <li class="treeview {% if module == 'home' or module == 'user' or module == 'housing' or module == 'wanted_message' or module == 'living_museum' %}active{% endif %}">
-              <a href=""><i class="fa fa-home"></i><span>内容管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+            <li {% if module == 'joint_venture' %}class="active" {% endif %}>
+              <a href="">
+                <i class="fa fa-dashboard"></i>
+                <span>合作企业</span>
+              </a>
+            </li>
+            <li {% if module == 'wanted' %}class="active" {% endif %}>
+              <a href="">
+                <i class="fa fa-dashboard"></i>
+                <span>求租列表</span>
+              </a>
+            </li>
+            <li {% if module == 'listings' %}class="active" {% endif %}>
+              <a href="">
+                <i class="fa fa-dashboard"></i>
+                <span>房源列表</span>
+              </a>
+            </li>
+            <li class="treeview {% if module == 'work_approval' or module == 'authentication' or module == 'wanted_release' or module == 'listings_release' %}active{% endif %}">
+              <a href=""><i class="fa fa-home"></i><span>流程审批</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li {% if module == 'home' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>首页</a>
+                <li {% if module == 'authentication' %}class="active" {% endif %}>
+                  <a href=""><i class="fa fa-circle-o"></i>身份认证</a>
                 </li>
-                <li {% if module == 'user' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>登陆注册</a>
+                <li {% if module == 'wanted_release' %}class="active" {% endif %}>
+                  <a href=""><i class="fa fa-circle-o"></i>求租发布</a>
                 </li>
-                <li {% if module == 'housing' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>房源信息</a>
-                </li>
-                <li {% if module == 'wanted_message' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>求租信息</a>
-                </li>
-                <li {% if module == 'living_museum' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>生活馆</a>
+                <li {% if module == 'listings_release' %}class="active" {% endif %}>
+                  <a href=""><i class="fa fa-circle-o"></i>房源发布</a>
                 </li>
               </ul>
             </li>
-            <li {% if module == 'feedback' %}class="active" {% endif %}>
+            <li class="treeview {% if module == 'information' or module == 'market_feedback' %}active{% endif %}">
+              <a href=""><i class="fa fa-home"></i><span>信息中心</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li {% if module == 'market_feedback' %}class="active" {% endif %}>
+                  <a href=""><i class="fa fa-circle-o"></i>市场反馈</a>
+                </li>
+              </ul>
+            </li>
+            <li {% if module == 'activity' %}class="active" {% endif %}>
               <a href="">
                 <i class="fa fa-dashboard"></i>
-                <span>意见反馈</span>
+                <span>活动管理</span>
               </a>
             </li>
-            <li {% if module == 'manage' %}class="active" {% endif %}>
+            <li {% if module == 'bill' %}class="active" {% endif %}>
               <a href="">
                 <i class="fa fa-dashboard"></i>
-                <span>管理员</span>
+                <span>财务管理</span>
               </a>
+            </li>
+            <li {% if module == 'join' %}class="active" {% endif %}>
+              <a href="">
+                <i class="fa fa-dashboard"></i>
+                <span>合作管理</span>
+              </a>
+            </li>
+            <li class="treeview {% if module == 'settings' or module == 'sms' or module == 'feedback' or module == 'joint_venture_account' or module == 'operating' or module == 'permissions' %}active{% endif %}">
+              <a href=""><i class="fa fa-home"></i><span>系统管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li {% if module == 'sms' %}class="active" {% endif %}>
+                  <a href=""><i class="fa fa-circle-o"></i>短信</a>
+                </li>
+                <li {% if module == 'feedback' %}class="active" {% endif %}>
+                  <a href=""><i class="fa fa-circle-o"></i>意见反馈</a>
+                </li>
+                <li {% if module == 'joint_venture_account' %}class="active" {% endif %}>
+                  <a href=""><i class="fa fa-circle-o"></i>合作企业管理员</a>
+                </li>
+                <li {% if module == 'operating' %}class="active" {% endif %}>
+                  <a href=""><i class="fa fa-circle-o"></i>系统管理员</a>
+                </li>
+                <li {% if module == 'permissions' %}class="active" {% endif %}>
+                  <a href=""><i class="fa fa-circle-o"></i>权限组</a>
+                </li>
+              </ul>
             </li>
           </ul><!-- /.sidebar-menu -->
         </section>
