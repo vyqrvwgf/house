@@ -88,100 +88,152 @@
             <li class="header">
               管理后台
             </li>
+            {% if 'home' in request.session.menu_str or 'advertising' in request.session.menu_str %}
             <li class="treeview {% if module == 'home' or module == 'advertising' %}active{% endif %}">
               <a href=""><i class="fa fa-home"></i><span>首页管理</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
+                {% if 'advertising' in request.session.menu_str %}
                 <li {% if module == 'advertising' %}class="active" {% endif %}>
                   <a href="{% url 'web:advertising_list' %}">
                     <i class="fa fa-circle-o"></i>轮播图管理
                   </a>
                 </li>
+                {% endif %}
               </ul>
             </li>
-            <li {% if module == 'joint_venture' %}class="active" {% endif %}>
+            {% endif %}
+            {% if 'column' in request.session.menu_str %}
+            <li {% if module == 'column' %}class="active" {% endif %}>
               <a href="{% url 'web:column_list' %}">
                 <i class="fa fa-dashboard"></i>
                 <span>栏目管理</span>
               </a>
             </li>
-            <li {% if module == 'joint_venture' %}class="active" {% endif %}>
+            {% endif %}
+<!--             <li {% if module == 'joint_venture' %}class="active" {% endif %}>
               <a href="">
                 <i class="fa fa-dashboard"></i>
-                <span>合作企业</span>
+                <span>服务商管理</span>
               </a>
-            </li>
+            </li> -->
+            {% if 'wanted' in request.session.menu_str %}
             <li {% if module == 'wanted' %}class="active" {% endif %}>
               <a href="">
                 <i class="fa fa-dashboard"></i>
                 <span>求租列表</span>
               </a>
             </li>
+            {% endif %}
+
+            {% if 'listings' in request.session.menu_str %}
             <li {% if module == 'listings' %}class="active" {% endif %}>
               <a href="">
                 <i class="fa fa-dashboard"></i>
                 <span>房源列表</span>
               </a>
             </li>
+            {% endif %}
+
+            {% if 'work_approval' in request.session.menu_str or 'authentication' in request.session.menu_str or 'wanted_release' in request.session.menu_str or 'listings_release' in request.session.menu_str %}
             <li class="treeview {% if module == 'work_approval' or module == 'authentication' or module == 'wanted_release' or module == 'listings_release' %}active{% endif %}">
               <a href=""><i class="fa fa-home"></i><span>流程审批</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
+                {% if 'authentication' in request.session.menu_str %}
                 <li {% if module == 'authentication' %}class="active" {% endif %}>
                   <a href=""><i class="fa fa-circle-o"></i>身份认证</a>
                 </li>
+                {% endif %}
+                {% if 'wanted_release' in request.session.menu_str %}
                 <li {% if module == 'wanted_release' %}class="active" {% endif %}>
                   <a href=""><i class="fa fa-circle-o"></i>求租发布</a>
                 </li>
+                {% endif %}
+                {% if 'listings_release' in request.session.menu_str %}
                 <li {% if module == 'listings_release' %}class="active" {% endif %}>
                   <a href=""><i class="fa fa-circle-o"></i>房源发布</a>
                 </li>
+                {% endif %}
               </ul>
             </li>
+            {% endif %}
+
+            {% if 'information' in request.session.menu_str or 'market_feedback' in request.session.menu_str %}
             <li class="treeview {% if module == 'information' or module == 'market_feedback' %}active{% endif %}">
               <a href=""><i class="fa fa-home"></i><span>信息中心</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li {% if module == 'market_feedback' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>市场反馈</a>
-                </li>
+                {% if 'market_feedback' in request.session.menu_str %}
+                  <li {% if module == 'market_feedback' %}class="active" {% endif %}>
+                    <a href=""><i class="fa fa-circle-o"></i>市场反馈</a>
+                  </li>
+                {% endif %}
               </ul>
             </li>
+            {% endif %}
+
+            {% if 'activity' in request.session.menu_str %}
             <li {% if module == 'activity' %}class="active" {% endif %}>
               <a href="">
                 <i class="fa fa-dashboard"></i>
                 <span>活动管理</span>
               </a>
             </li>
+            {% endif %}
+
+            {% if 'bill' in request.session.menu_str %}
             <li {% if module == 'bill' %}class="active" {% endif %}>
               <a href="">
                 <i class="fa fa-dashboard"></i>
                 <span>财务管理</span>
               </a>
             </li>
+            {% endif %}
+
+            {% if 'join' in request.session.menu_str %}
             <li {% if module == 'join' %}class="active" {% endif %}>
               <a href="">
                 <i class="fa fa-dashboard"></i>
-                <span>合作管理</span>
+                <span>企业中心</span>
               </a>
             </li>
+            {% endif %}
+
+            {% if 'settings' in request.session.menu_str or 'sms' in request.session.menu_str or 'feedback' in request.session.menu_str or 'joint_venture_account' in request.session.menu_str or 'operating' in request.session.menu_str or 'permissions' in request.session.menu_str %}
             <li class="treeview {% if module == 'settings' or module == 'sms' or module == 'feedback' or module == 'joint_venture_account' or module == 'operating' or module == 'permissions' %}active{% endif %}">
-              <a href=""><i class="fa fa-home"></i><span>系统管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="">
+                <i class="fa fa-home"></i>
+                <span>系统管理</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
               <ul class="treeview-menu">
+                {% if 'sms' in request.session.menu_str %}
                 <li {% if module == 'sms' %}class="active" {% endif %}>
                   <a href=""><i class="fa fa-circle-o"></i>短信</a>
                 </li>
+                {% endif %}
+                {% if 'feedback' in request.session.menu_str %}
                 <li {% if module == 'feedback' %}class="active" {% endif %}>
                   <a href=""><i class="fa fa-circle-o"></i>意见反馈</a>
                 </li>
+                {% endif %}
+                {% if 'joint_venture_account' in request.session.menu_str %}
                 <li {% if module == 'joint_venture_account' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>合作企业管理员</a>
+                  <a href="{% url 'web:venture_manage_list' %}"><i class="fa fa-circle-o"></i>合作企业管理员</a>
                 </li>
+                {% endif %}
+                {% if 'operating' in request.session.menu_str %}
                 <li {% if module == 'operating' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>系统管理员</a>
+                  <a href="{% url 'web:operating_list' %}"><i class="fa fa-circle-o"></i>系统管理员</a>
                 </li>
+                {% endif %}
+                {% if 'permissions' in request.session.menu_str %}
                 <li {% if module == 'permissions' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>权限组</a>
+                  <a href="{% url 'web:permissions_list' %}"><i class="fa fa-circle-o"></i>权限组</a>
                 </li>
+                {% endif %}
               </ul>
             </li>
+            {% endif %}
+
           </ul><!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->
@@ -236,7 +288,7 @@
     <script src="/static/kikkik/dist/js/app.min.js"></script>
     <script type="text/javascript">
     $(".select2").select2({
-      tags: true,
+      tags: false,
       theme: "classic"
     });
       function skip_page(){

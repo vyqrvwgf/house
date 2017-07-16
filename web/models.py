@@ -108,9 +108,7 @@ class Profile(BaseModel):
         return self.user
 
     def avatar_url(self):
-        if not self.avatar:
-            avatar_url = ''
-        elif 'http' in self.avatar:
+        if 'http' in self.avatar:
             avatar_url = self.avatar
         else:
             avatar_url = url(self.avatar)

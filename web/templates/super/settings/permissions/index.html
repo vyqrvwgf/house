@@ -1,14 +1,14 @@
 {% extends 'super/base.html' %}
 
 {% block pageheader %}
-管理员管理
+权限组
 {% endblock %}
 
 {% block mainbody %}
-<div class="box box-danger">
+<div class="box box-primary">
   <div class="box-header with-border">
     <h3 class="box-title">
-      管理员管理
+      权限组
     </h3>
     <div class="box-tools">
     </div>
@@ -16,28 +16,26 @@
 
   <div class="box-body">
     <div style="margin-bottom:15px;">
-      <a href="{% url 'web:manage_create' %}" class="btn btn-info">新建</a>
+      <a class="btn btn-info" href="{% url 'web:permissions_create' %}">新建</a>
     </div>
     <div class="row">
       <div class="col-md-12">
         <table class="table table-bordered table-striped">
           <tbody>
             <tr>
-              <th style="width: 10px">#</th>
-              <th>账号</th>
-              <th>创建时间</th>
+              <th>#</th>
+              <th>名称</th>
+              <th>菜单</th>
               <th>操作</th>
             </tr>
-            {% for client in clients %}
-              <tr>
-                <td style="vertical-align: middle;">{% if client.username != 'admin' %}<a href="{% url 'web:manage_edit' client.id %}">{% endif %}{{ client.id }}{% if client.username != 'admin' %}</a>{% endif %}</td>
-                <td style="vertical-align: middle;">{% if client.username != 'admin' %}<a href="{% url 'web:manage_edit' client.id %}">{% endif %}{{ client.username }}{% if client.username != 'admin' %}</a>{% endif %}</td>
-                <td style="vertical-align: middle;">{{ client.date_joined }}</td>
+            {% for c in clients %}
+              <tr role="row">
+                <td style="vertical-align: middle;">{{ c.id }}</td>
+                <td style="vertical-align: middle;">{{ c.name }}</td>
+                <td style="vertical-align: middle;">{{ c.menu_name_str }}</td>
                 <td style="vertical-align: middle;">
-                  {% if client.username != 'admin' %}
-                    <a class="btn btn-info" href="{% url 'web:manage_edit' client.id %}">编辑</a>
-                     {% if client.username != user.username %}<a class="btn btn-danger" href="{% url 'web:manage_delete' client.id %}" onclick="return confirm('确认删除管理员吗?')">删除</a>{% endif %}
-                  {% endif %}
+                  <a class="btn btn-info" href="{% url 'web:permissions_edit' c.id %}?page={{page}}">编辑</a>
+                  <a class="btn btn-danger" href="{% url 'web:permissions_delete' c.id %}?page={{page}}" onclick="return confirm('确认删除吗?')">删除</a>
                 </td>
               </tr>
             {% endfor %}

@@ -69,3 +69,20 @@ def ckeditor_many_upload(request):
         return JsonResponse({'uploaded': 1, 'fileName': key, 'url': url(key)})
 
 
+@csrf_exempt
+def ckeditor_upload(request):
+    if request.FILES:
+        checkNum = request.GET.get('CKEditorFuncNum')
+
+        upload_img = request.FILES['upload']
+        new_file_name = get_no_repeat_s() + '.jpg'
+
+        fh = open(UPLOAD_DIR + '/' + new_file_name, 'wb')
+        fh.write(upload_img.read())
+        fh.close()
+        upload(new_file_name, os.path.join(UPLOAD_DIR, new_file_name))
+        picture_url = url(new_file_name)
+        # 上传图片到qiniu
+        return HttpResponse("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction(\
+            '" + checkNum + "','" + picture_url + "','')</script>")
+
