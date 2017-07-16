@@ -19,6 +19,7 @@ def upload(key, localpath):
     key = os.path.join(BUCKET_NAME, key)
     token = q.upload_token(BUCKET_NAME, key)
     ret, info = put_file(token, key, localpath)
+    print info
     # 删除本地存在的文件
     if os.path.exists(localpath):
         os.remove(localpath)

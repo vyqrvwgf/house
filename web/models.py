@@ -167,6 +167,65 @@ class Column(BaseModel):
         return url(self.cover)
 
 
+class Infrastructure(BaseModel):
+
+    class Meta(object):
+        verbose_name = '基础设施'
+        verbose_name_plural = '基础设施'
+
+    name = models.CharField(max_length=128, verbose_name='名称')
+    order_no = models.IntegerField(default=0, verbose_name='排序号')
+    cover = models.CharField(max_length=1024, default='', blank=True, verbose_name="图片")
+
+    def cover_url(self):
+        return url(self.cover)
+
+
+class HousingResources(BaseModel):
+
+    class Meta(object):
+        verbose_name = '房源发布'
+        verbose_name_plural = '房源发布'
+
+    infrastructure = models.ManyToManyField(Infrastructure, verbose_name="基础设施")
+    cover = models.CharField(max_length=1024, default='', blank=True, verbose_name="图片")
+    hall = models.CharField(max_length=1024, default='', blank=True, verbose_name="大厅图片")
+    peripheral = models.TextField(default='', null=True, blank=True, verbose_name='配套设施')
+    content = models.TextField(default='', null=True, blank=True, verbose_name='房屋描述')
+
+    def cover_url(self):
+        return url(self.cover)
+
+    def hall_url(self):
+        return url(self.hall)
+
+
+class HousingPicture(BaseModel):
+
+    class Meta(object):
+        verbose_name = '房屋图片'
+        verbose_name_plural = '房屋图片'
+
+    housing_resources = models.ForeignKey(HousingResources, null=True, blank=True, verbose_name="房源")
+    picture = models.CharField(max_length=1024, default='', blank=True, verbose_name="图片")
+
+    def picture_url(self):
+        return url(self.picture)
+
+
+class Bedroom(BaseModel):
+
+    class Meta(object):
+        verbose_name = '房屋卧室'
+        verbose_name_plural = '房屋卧室'
+
+    housing_resources = models.ForeignKey(HousingResources, null=True, blank=True, verbose_name="房源")
+    cover = models.CharField(max_length=1024, default='', blank=True, verbose_name="图片")
+
+    def cover_url(self):
+        return url(self.cover)
+
+
 class FeedBack(BaseModel):
 
     class Meta(object):
