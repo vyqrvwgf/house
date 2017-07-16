@@ -1,18 +1,12 @@
 # coding: utf-8
 
-SETTING_CONFIG = [
-	{'name': 'course_zeng_song', 'value': '', 'detail': '课程海囤币'},
-	{'name': 'course_diyong_price', 'value': '', 'detail': '课程抵用金额'},
-	{'name': 'goods_zeng_song', 'value': '', 'detail': '商品海囤币'},
-	{'name': 'goods_diyong_price', 'value': '', 'detail': '商品抵用金额'},
-	{'name': 'integral_auto', 'value': '', 'detail': '积分消费'},
-]
+SETTING_CONFIG = []
 
 MENU_LIST = [
              {'module': 'home', 'name': '首页'},
                 {'module': 'advertising', 'name': '轮播图管理', 'parent_module': 'home'},
              {'module': 'column', 'name': '栏目管理'},
-             {'module': 'joint_venture', 'name': '合作企业'},
+             {'module': 'joint_venture', 'name': '服务商管理'},
              {'module': 'wanted', 'name': '求租列表'},
              {'module': 'listings', 'name': '房源列表'},
              {'module': 'work_approval', 'name': '流程审批'},

@@ -7,6 +7,9 @@ from web.views import (
     auth,
     column,
     home,
+    venture_manage,
+    permissions,
+    operating,
 )
 
 # 管理后台
@@ -30,4 +33,22 @@ urlpatterns = [
     url(r'^column/(?P<column_id>\d+)/delete$', column.delete, name='column_delete'),
     url(r'^column/(?P<column_id>\d+)/up/$', column.up, name='column_up'),
     url(r'^column/(?P<column_id>\d+)/down/$', column.down, name='column_down'),
+    # 商家管理员
+    url(r'^venture_manage/list$', venture_manage.venture_manage_list, name='venture_manage_list'),
+    url(r'^venture_manage/create$', venture_manage.venture_manage_create, name='venture_manage_create'),
+    url(r'^venture_manage/(?P<account_id>\d+)/edit$', venture_manage.venture_manage_edit, name='venture_manage_edit'),
+    url(r'^venture_manage/(?P<account_id>\d+)/delete$', venture_manage.venture_manage_delete, name='venture_manage_delete'),
+    # 权限组
+    url(r'^permissions/list$', permissions.permissions_list, name='permissions_list'),
+    url(r'^permissions/create$', permissions.permissions_create, name='permissions_create'),
+    url(r'^permissions/(?P<permissions_id>\d+)/edit$', permissions.permissions_edit, name='permissions_edit'),
+    url(r'^permissions/(?P<permissions_id>\d+)/delete$', permissions.permissions_delete, name='permissions_delete'),
+    # 系统管理员
+    url(r'^operating/list$', operating.operating_list, name='operating_list'),
+    url(r'^operating/create$', operating.operating_create, name='operating_create'),
+    url(r'^operating/(?P<operating_id>\d+)/edit$', operating.operating_edit, name='operating_edit'),
+    url(r'^operating/(?P<operating_id>\d+)/delete$', operating.operating_delete, name='operating_delete'),
+    # 上传文件
+    url(r'^ckeditor_upload$', index_view.ckeditor_upload, name='admin_upload'),
+    url(r'^ckeditor_many_upload$', index_view.ckeditor_many_upload, name='admin_many_upload'),
 ]
