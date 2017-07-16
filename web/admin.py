@@ -5,7 +5,9 @@ from django.contrib.auth.models import User
 from web.models import (
     Profile, AdminLog, Advertising, Column,
     FeedBack, Words, JointVenture, Permissions,
-    JointVentureAccount, Setting, Withdrawal
+    JointVentureAccount, Setting, Withdrawal,
+    Infrastructure, HousingResources, HousingPicture,
+    Bedroom
 )
 
 
@@ -20,4 +22,8 @@ admin.site.register(Permissions)
 admin.site.register(JointVentureAccount)
 admin.site.register(Setting)
 admin.site.register(Withdrawal)
+admin.site.register(Infrastructure)
+admin.site.register(HousingResources)
+admin.site.register(HousingPicture)
+admin.site.register(Bedroom)
 

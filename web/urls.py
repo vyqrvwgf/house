@@ -10,6 +10,7 @@ from web.views import (
     venture_manage,
     permissions,
     operating,
+    infrastructure,
 )
 
 # 管理后台
@@ -33,6 +34,13 @@ urlpatterns = [
     url(r'^column/(?P<column_id>\d+)/delete$', column.delete, name='column_delete'),
     url(r'^column/(?P<column_id>\d+)/up/$', column.up, name='column_up'),
     url(r'^column/(?P<column_id>\d+)/down/$', column.down, name='column_down'),
+    # 基础设施
+    url(r'^infrastructure/list/$', infrastructure.list, name='infrastructure_list'),
+    url(r'^infrastructure/create$', infrastructure.create, name='infrastructure_create'),
+    url(r'^infrastructure/(?P<infrastructure_id>\d+)/edit$', infrastructure.edit, name='infrastructure_edit'),
+    url(r'^infrastructure/(?P<infrastructure_id>\d+)/delete$', infrastructure.delete, name='infrastructure_delete'),
+    url(r'^infrastructure/(?P<infrastructure_id>\d+)/up/$', infrastructure.up, name='infrastructure_up'),
+    url(r'^infrastructure/(?P<infrastructure_id>\d+)/down/$', infrastructure.down, name='infrastructure_down'),
     # 商家管理员
     url(r'^venture_manage/list$', venture_manage.venture_manage_list, name='venture_manage_list'),
     url(r'^venture_manage/create$', venture_manage.venture_manage_create, name='venture_manage_create'),

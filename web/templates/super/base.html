@@ -88,7 +88,7 @@
             <li class="header">
               管理后台
             </li>
-            {% if 'home' in request.session.menu_str or 'advertising' in request.session.menu_str %}
+            {% if 'home' in request.session.menu_str or 'advertising' in request.session.menu_str or 'news' in request.session.menu_str %}
             <li class="treeview {% if module == 'home' or module == 'advertising' %}active{% endif %}">
               <a href=""><i class="fa fa-home"></i><span>首页管理</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
@@ -96,6 +96,14 @@
                 <li {% if module == 'advertising' %}class="active" {% endif %}>
                   <a href="{% url 'web:advertising_list' %}">
                     <i class="fa fa-circle-o"></i>轮播图管理
+                  </a>
+                </li>
+                {% endif %}
+
+                {% if 'news' in request.session.menu_str %}
+                <li {% if module == 'news' %}class="active" {% endif %}>
+                  <a href="">
+                    <i class="fa fa-circle-o"></i>最新资讯
                   </a>
                 </li>
                 {% endif %}
@@ -110,27 +118,29 @@
               </a>
             </li>
             {% endif %}
-<!--             <li {% if module == 'joint_venture' %}class="active" {% endif %}>
-              <a href="">
-                <i class="fa fa-dashboard"></i>
-                <span>服务商管理</span>
-              </a>
-            </li> -->
-            {% if 'wanted' in request.session.menu_str %}
-            <li {% if module == 'wanted' %}class="active" {% endif %}>
-              <a href="">
-                <i class="fa fa-dashboard"></i>
-                <span>求租列表</span>
-              </a>
-            </li>
-            {% endif %}
 
-            {% if 'listings' in request.session.menu_str %}
-            <li {% if module == 'listings' %}class="active" {% endif %}>
-              <a href="">
-                <i class="fa fa-dashboard"></i>
-                <span>房源列表</span>
-              </a>
+            {% if 'rent_house' in request.session.menu_str or 'infrastructure' in request.session.menu_str or 'listings' in request.session.menu_str or 'wanted' in request.session.menu_str %}
+            <li class="treeview {% if module == 'rent_house' or module == 'infrastructure' or module == 'listings' or module == 'wanted' %}active{% endif %}">
+              <a href=""><i class="fa fa-home"></i><span>租房管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                {% if 'infrastructure' in request.session.menu_str %}
+                  <li {% if module == 'infrastructure' %}class="active" {% endif %}>
+                    <a href="{% url 'web:infrastructure_list' %}"><i class="fa fa-circle-o"></i>基础设施</a>
+                  </li>
+                {% endif %}
+
+                {% if 'listings' in request.session.menu_str %}
+                  <li {% if module == 'listings' %}class="active" {% endif %}>
+                    <a href=""><i class="fa fa-circle-o"></i>房源列表</a>
+                  </li>
+                {% endif %}
+
+                {% if 'wanted' in request.session.menu_str %}
+                  <li {% if module == 'wanted' %}class="active" {% endif %}>
+                    <a href=""><i class="fa fa-circle-o"></i>求租列表</a>
+                  </li>
+                {% endif %}
+              </ul>
             </li>
             {% endif %}
 
@@ -157,13 +167,19 @@
             </li>
             {% endif %}
 
-            {% if 'information' in request.session.menu_str or 'market_feedback' in request.session.menu_str %}
+            {% if 'information' in request.session.menu_str or 'market_feedback' in request.session.menu_str or 'complaints' in request.session.menu_str %}
             <li class="treeview {% if module == 'information' or module == 'market_feedback' %}active{% endif %}">
               <a href=""><i class="fa fa-home"></i><span>信息中心</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
                 {% if 'market_feedback' in request.session.menu_str %}
                   <li {% if module == 'market_feedback' %}class="active" {% endif %}>
                     <a href=""><i class="fa fa-circle-o"></i>市场反馈</a>
+                  </li>
+                {% endif %}
+
+                {% if 'complaints' in request.session.menu_str %}
+                  <li {% if module == 'complaints' %}class="active" {% endif %}>
+                    <a href=""><i class="fa fa-circle-o"></i>投诉管理</a>
                   </li>
                 {% endif %}
               </ul>
