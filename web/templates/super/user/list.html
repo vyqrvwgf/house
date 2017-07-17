@@ -60,7 +60,7 @@
               <tr>
                 <td style="vertical-align: middle;">{{ client.user.id }}</td>
                 <td style="vertical-align: middle;">{{ client.nickname }}</td>
-                <td style="vertical-align: middle;"><img src="{{ client.avatar_url }}?imageView2/1/w/50"></td>
+                <td style="vertical-align: middle;"><img src="{{ client.avatar_url }}?imageView2/1/w/50" width="50"></td>
                 <td style="vertical-align: middle;">{{ client.mobile }}</td>
                 <td style="vertical-align: middle;">{{ client.email }}</td>
                 <td style="vertical-align: middle;">{{ client.created_at }}</td>
@@ -73,9 +73,9 @@
                 </td>
                 <td style="vertical-align: middle;">
                     {% if client.is_valid %}
-                      <a class="btn btn-default" href="{% url 'web:user_offline' client.id %}">封禁</a>
+                      <a class="btn btn-default" href="{% url 'web:user_offline' client.id %}?page={{page}}&param_name={{ param_name }}&param_begin_time={{ param_begin_time }}&param_end_time={{ param_end_time }}&param_mobile={{ param_mobile }}&param_email={{ param_email }}&param_status={{ param_status }}">封禁</a>
                     {% else %}
-                      <a class="btn btn-default" href="{% url 'web:user_online' client.id %}">解禁</a>
+                      <a class="btn btn-default" href="{% url 'web:user_online' client.id %}?page={{page}}&param_name={{ param_name }}&param_begin_time={{ param_begin_time }}&param_end_time={{ param_end_time }}&param_mobile={{ param_mobile }}&param_email={{ param_email }}&param_status={{ param_status }}">解禁</a>
                     {% endif %}
                 </td>
               </tr>

@@ -119,6 +119,15 @@
             </li>
             {% endif %}
 
+            {% if 'user' in request.session.menu_str %}
+            <li {% if module == 'user' %}class="active" {% endif %}>
+              <a href="{% url 'web:user_list' %}">
+                <i class="fa fa-dashboard"></i>
+                <span>用户管理</span>
+              </a>
+            </li>
+            {% endif %}
+
             {% if 'rent_house' in request.session.menu_str or 'infrastructure' in request.session.menu_str or 'listings' in request.session.menu_str or 'wanted' in request.session.menu_str %}
             <li class="treeview {% if module == 'rent_house' or module == 'infrastructure' or module == 'listings' or module == 'wanted' %}active{% endif %}">
               <a href=""><i class="fa fa-home"></i><span>租房管理</span> <i class="fa fa-angle-left pull-right"></i></a>

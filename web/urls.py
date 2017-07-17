@@ -11,6 +11,7 @@ from web.views import (
     permissions,
     operating,
     infrastructure,
+    user,
 )
 
 # 管理后台
@@ -34,6 +35,12 @@ urlpatterns = [
     url(r'^column/(?P<column_id>\d+)/delete$', column.delete, name='column_delete'),
     url(r'^column/(?P<column_id>\d+)/up/$', column.up, name='column_up'),
     url(r'^column/(?P<column_id>\d+)/down/$', column.down, name='column_down'),
+    # 用户管理
+    url(r'^user/list/$', user.list, name='user_list'),
+    url(r'^user/(?P<profile_id>\d+)/online/$',
+        user.online, name='user_online'),
+    url(r'^user/(?P<profile_id>\d+)/offline/$',
+        user.offline, name='user_offline'),
     # 基础设施
     url(r'^infrastructure/list/$', infrastructure.list, name='infrastructure_list'),
     url(r'^infrastructure/create$', infrastructure.create, name='infrastructure_create'),
