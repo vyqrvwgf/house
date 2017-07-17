@@ -7,6 +7,7 @@ MENU_LIST = [
                 {'module': 'advertising', 'name': '轮播图管理', 'parent_module': 'home'},
                 {'module': 'news', 'name': '最新资讯', 'parent_module': 'home'},
              {'module': 'column', 'name': '栏目管理'},
+             {'module': 'user', 'name': '用户管理'},
              {'module': 'joint_venture', 'name': '服务商管理'},
              {'module': 'rent_house', 'name': '租房管理'},
                 {'module': 'infrastructure', 'name': '基础设施', 'parent_module': 'rent_house'},
