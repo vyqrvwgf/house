@@ -6,7 +6,7 @@ from django.template import loader
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
-from imagestore.qiniu_manager import(
+from imagestore.qiniu_manager import (
     get_extension,
     handle_uploaded_file,
     upload,
