@@ -90,10 +90,14 @@
             </li>
             {% if 'home' in request.session.menu_str or 'advertising' in request.session.menu_str or 'news' in request.session.menu_str %}
             <li class="treeview {% if module == 'home' or module == 'advertising' %}active{% endif %}">
-              <a href=""><i class="fa fa-home"></i><span>首页管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="">
+                <i class="fa fa-home"></i>
+                <span>首页管理</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
               <ul class="treeview-menu">
                 {% if 'advertising' in request.session.menu_str %}
-                <li {% if module == 'advertising' %}class="active" {% endif %}>
+                <li {% if module == 'advertising' %} class="active" {% endif %}>
                   <a href="{% url 'web:advertising_list' %}">
                     <i class="fa fa-circle-o"></i>轮播图管理
                   </a>
@@ -101,7 +105,7 @@
                 {% endif %}
 
                 {% if 'news' in request.session.menu_str %}
-                <li {% if module == 'news' %}class="active" {% endif %}>
+                <li {% if module == 'news' %} class="active" {% endif %}>
                   <a href="">
                     <i class="fa fa-circle-o"></i>最新资讯
                   </a>

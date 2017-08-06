@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/website/css/base.css">
+    <link rel="stylesheet" href="/static/website/css/index.css">
+    <link rel="stylesheet" href="/static/website/css/swiper.min.css">
+    {% block style %}
+    {% endblock %}
+</head>
+<body {% block bodyclass %}{% endblock %}>
+    <header class="wrap">
+        <div class="banxin welcome">
+            <div class="wel_left fl">
+                <span class="white">欢迎来到租房网！更多房源选择任您挑选！请选择您的位置：</span>
+                <select class="city white" name="city" id="">
+                    <option value="武汉" selected>武汉</option>
+                </select>
+
+            </div>
+            <div class="wel_right fr">
+                <a class="white" href="javascript:void(0)">收藏本站 |</a>
+                <a class="white" href="javascript:void(0)">设为首页 |</a>
+                <a class="white" href="javascript:void(0)">登录 |</a>
+                <a class="white" href="javascript:void(0)">注册 </a>
+            </div>
+        </div>
+    </header>
+    <!--nav begin-->
+    <nav class="wrap">
+        <div class="banxin nav  clearfix">
+            <a class="logo" href="javascript:void(0)"></a>
+            <ul class="nav_items fl">
+                <li class="fl"><a href="javascript:void(0)">首页</a></li>
+                <li class="fl"><a href="javascript:void(0)">房源信息</a></li>
+                <li class="fl"><a href="javascript:void(0)">求租信息</a></li>
+                <li class="fl"><a href="javascript:void(0)">生活馆</a></li>
+                <li class="fl"><a href="javascript:void(0)">注册登录</a></li>
+            </ul>
+            <div class="hot-line fr">
+                <div class="p_number green"><b></b>400-6789-888</div>
+                <div class="p_time fr">看房热线：<span class="green">08:00 - 21:00</span></div>
+            </div>
+        </div>
+    </nav>
+
+    <!--nav end-->
+    {% block container %}
+    {% endblock %}
+
+    <!--footer begin-->
+    <div class="footer wrap">
+        <img src="/static/website/images/footer.png" alt="">
+        <div class="company banxin">
+            <span class="service">SERVICE</span>
+            电话咨询服务电话：<span class="number green">400-1371-365</span>
+            <span class="right">&reg 2017 Zuke</span>
+        </div>
+    </div>
+    <!--footer end-->
+    <script src="//at.alicdn.com/t/font_v99cm781jpn1att9.js"></script>
+    <script src="/static/website/js/jquery-3.2.1.js"></script>
+    <script src="/static/website/js/nav.js"></script>
+    <script src="/static/website/js/swiper.min.js"></script>
+    {% block script %}{% endblock %}
+</body>
+</html>

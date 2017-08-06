@@ -57,7 +57,7 @@ def advertising_list(request):
         clients = paginator.page(paginator.num_pages)
 
     context = {
-        'module': 'homepage',
+        'module': 'advertising',
         'clients': clients,
     }
     return render(request, 'super/index/advertising/list.html', context)
@@ -66,7 +66,7 @@ def advertising_list(request):
 @staff_member_required(login_url='/admin/login')
 def advertising_create(request):
     context = {
-        'module': 'homepage',
+        'module': 'advertising',
     }
 
     if request.method == 'POST':
@@ -118,7 +118,7 @@ def advertising_edit(request, advertising_id):
     advertising = Advertising.objects.filter(id=advertising_id).first()
     context = {
         'client': advertising,
-        'module': 'homepage',
+        'module': 'advertising',
     }
 
     if request.method == 'POST':
