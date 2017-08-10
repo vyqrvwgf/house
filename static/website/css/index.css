@@ -70,17 +70,30 @@
     box-shadow: 0 10px 15px 1px rgba(0,0,0,0.2);
 }
 .banner .b_search .s_keyword{
+    margin: 0 auto;
     display: flex;
     height: 55px;
+    position: relative;
 }
 .banner .b_search .s_keyword .keyword{
     display: inline-block;
-    width: 888px;
+    width: 680px;
     height: 55px;
     padding-left: 20px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     /*color: #999;*/
+}
+.banner .b_search .s_keyword .tenant-landlord{
+    border: none;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    line-height: 55px;
+    padding-right: 14px;
+    background: url(../images/select2.png) no-repeat scroll right center transparent;
+    position: absolute;
+    right: 105px;
 }
 .banner .b_search .s_keyword .s_submit{
     display: inline-block;
@@ -166,15 +179,24 @@
     margin-top: 20px;
     position: relative;
 }
-.suggest .s_submit .sub_pic .picBorder{
-    border: none;
-    width: 408px;
-    height: 230px;
-    background: url("../images/suggest-pic.jpg") no-repeat center #fff;
-    position: absolute;
-    top:  5px;
-    left: -40px;
-    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.3);
+/*.suggest .s_submit .sub_pic .picBorder{*/
+    /*border: none;*/
+    /*width: 408px;*/
+    /*height: 230px;*/
+    /*background: url("../images/suggest-pic.jpg") no-repeat center #fff;*/
+    /*position: absolute;*/
+    /*top:  5px;*/
+    /*left: -40px;*/
+    /*box-shadow: 0 5px 5px 0 rgba(0,0,0,0.3);*/
+/*}*/
+.suggest .s_submit .sub_pic h6{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background-color: #ddd;
+    font-style: normal;
+    color: #000;
+    padding-left: 15px;
 }
 .suggest .s_submit .sub_write{
     text-align: left;

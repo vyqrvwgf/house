@@ -1,0 +1,33 @@
+{% extends 'frontend/base.html' %}
+
+{% block pageheader %}
+首页
+{% endblock %}
+
+{% block container %}
+
+<div class="mask-bg wrap">
+    <img src="/static/website/images/login-bg.jpg" alt="">
+    <div class="login">
+        <h1 class="green" align="center">登陆</h1>
+        <p class="user-name"><input type="text" id="login_code" name="login_code" placeholder="手机号/邮箱"></p>
+        <p class="pwd"><input type="password" id="login_password" name="login_password" placeholder="密码"></p>
+        <div class="register-code clearfix">
+            <div class="fl">
+                <input id="auto-login" type="checkbox">&nbsp<span>三天内自动登陆</span>
+            </div>
+            <div class="fr">
+                <a href="#">立即注册</a>&nbsp
+                <a href="#">忘记密码</a>
+            </div>
+        </div>
+        <p class="submit"><input class="white" type="submit" id="subLogin" name="subLogin" value="登 录" onclick="login();"></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="js/jquery.cookie.js"></script>
+<script src="js/jquery.base64.js"></script>
+<script src="js/05-1-login.js"></script>
+{% endblock %}

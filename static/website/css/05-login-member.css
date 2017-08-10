@@ -33,7 +33,7 @@
 }
 .container .tabs{
     width: 380px;
-    height: 800px;
+    height: 860px;
     border: 1px solid #eee;
     box-shadow: 0 0 10px #ccc;
 }
@@ -66,7 +66,7 @@
 /*列表右侧 begin*/
 .tab_container{
     width: 790px;
-    height: 800px;
+    height: 860px;
     border: 1px solid #eee;
     box-shadow: 0 0 10px #ccc;
 }
@@ -79,10 +79,10 @@
 
 /*tab1 基本信息 begin*/
 .baseinfo{
-    height: 800px;
+    height: 860px;
 }
 .tab_container .tab_content .top{
-    height: 330px;
+    height: 380px;
 }
 .tab_container .tab_content .top p{
     margin-top: 30px;
@@ -93,7 +93,7 @@
     width: 100px;
     text-align: right;
 }
-.tab_container .tab_content .top .user-name,.contact,.bankcard{
+.tab_container .tab_content .top .user-name,.contact,.employe,.promoCode{
     display: inline-block;
     width: 200px;
     height: 24px;
@@ -145,7 +145,7 @@
 
 /*tab2 发布房源 begin*/
 .house-release{
-    height: 2000px;
+    height: 2100px;
 }
 .house-release .house-description{
     margin-left: 30px;
@@ -302,16 +302,17 @@
 .seekRent p{
     margin: 20px 0;
 }
-.seekRent p.checkinDay input[value=text]{
+.seekRent p.checkinDay input{
     display: inline-block;
     width: 110px;
     height: 24px;
+    background-color: #ddd;
     line-height: 26px;
-    border: 1px solid #ddd;
     padding-left: 20px;
 }
 .seekRent p.extraInfo textarea{
     padding:10px;
+    vertical-align: text-top;
 }
 .seekRent p label{
     display: inline-block;

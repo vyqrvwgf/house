@@ -19,7 +19,6 @@ import string
 import logging
 
 
-@staff_member_required(login_url='/admin/login')
 def index(request):
 
     context = {
@@ -28,4 +27,21 @@ def index(request):
 
     return render(request, 'frontend/index.html', context)
 
+
+def register(request):
+
+    context = {
+        'module': 'index',
+    }
+
+    return render(request, 'frontend/register.html', context)
+
+
+def login(request):
+
+    context = {
+        'module': 'index',
+    }
+
+    return render(request, 'frontend/login.html', context)
 
