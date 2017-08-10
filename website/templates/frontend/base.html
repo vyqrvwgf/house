@@ -7,9 +7,11 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/website/css/swiper.min.css">
     <link rel="stylesheet" href="/static/website/css/base.css">
     <link rel="stylesheet" href="/static/website/css/index.css">
-    <link rel="stylesheet" href="/static/website/css/swiper.min.css">
+    <link rel="stylesheet" href="/static/website/css/05-2-registeer.css">
+    <link rel="stylesheet" href="/static/website/css/05-1-login.css">
     {% block style %}
     {% endblock %}
 </head>
@@ -21,13 +23,12 @@
                 <select class="city white" name="city" id="">
                     <option value="武汉" selected>武汉</option>
                 </select>
-
             </div>
             <div class="wel_right fr">
                 <a class="white" href="javascript:void(0)">收藏本站 |</a>
                 <a class="white" href="javascript:void(0)">设为首页 |</a>
-                <a class="white" href="javascript:void(0)">登录 |</a>
-                <a class="white" href="javascript:void(0)">注册 </a>
+                <a class="white" href="{% url 'website:home_login' %}">登录 |</a>
+                <a class="white" href="{% url 'website:home_register' %}">注册 </a>
             </div>
         </div>
     </header>
@@ -36,14 +37,24 @@
         <div class="banxin nav  clearfix">
             <a class="logo" href="javascript:void(0)"></a>
             <ul class="nav_items fl">
-                <li class="fl"><a href="javascript:void(0)">首页</a></li>
-                <li class="fl"><a href="javascript:void(0)">房源信息</a></li>
-                <li class="fl"><a href="javascript:void(0)">求租信息</a></li>
-                <li class="fl"><a href="javascript:void(0)">生活馆</a></li>
-                <li class="fl"><a href="javascript:void(0)">注册登录</a></li>
+                <li class="fl"><a href="/">首页</a></li>
+                <li class="fl">
+                    <a href="javascript:void(0)">房源信息</a>
+                </li>
+                <li class="fl">
+                    <a href="javascript:void(0)">求租信息</a>
+                </li>
+                <li class="fl">
+                    <a href="javascript:void(0)">生活馆</a>
+                </li>
+                <li class="fl">
+                    <a href="{% url 'website:home_register' %}">注册登录</a>
+                </li>
             </ul>
             <div class="hot-line fr">
-                <div class="p_number green"><b></b>400-6789-888</div>
+                <div class="p_number green">
+                    <b></b>400-6789-888
+                </div>
                 <div class="p_time fr">看房热线：<span class="green">08:00 - 21:00</span></div>
             </div>
         </div>
