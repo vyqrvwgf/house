@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="/static/website/css/index.css">
     <link rel="stylesheet" href="/static/website/css/05-2-registeer.css">
     <link rel="stylesheet" href="/static/website/css/05-1-login.css">
+    <link rel="stylesheet" href="/static/website/css/05-login-member.css">
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
     {% block style %}
     {% endblock %}
 </head>
@@ -27,8 +31,14 @@
             <div class="wel_right fr">
                 <a class="white" href="javascript:void(0)">收藏本站 |</a>
                 <a class="white" href="javascript:void(0)">设为首页 |</a>
-                <a class="white" href="{% url 'website:home_login' %}">登录 |</a>
-                <a class="white" href="{% url 'website:home_register' %}">注册 </a>
+                {% if request.session.c_user %}
+                    <a class="white" href="{% url 'website:user_index' %}">{{request.session.c_user.user_name}}
+                    </a>
+                    <a class="white" href="{% url 'website:login_out' %}"> | 注销</a>
+                {% else %}
+                    <a class="white" href="{% url 'website:home_login' %}">登录 |</a>
+                    <a class="white" href="{% url 'website:home_register' %}">注册 </a>
+                {% endif %}
             </div>
         </div>
     </header>
@@ -48,7 +58,11 @@
                     <a href="javascript:void(0)">生活馆</a>
                 </li>
                 <li class="fl">
-                    <a href="{% url 'website:home_register' %}">注册登录</a>
+                {% if request.session.c_user %}
+                    <a href="{% url 'website:user_index' %}">注册登录</a>
+                {% else %}
+                    <a href="{% url 'website:home_login' %}">注册登录</a>
+                {% endif %}
                 </li>
             </ul>
             <div class="hot-line fr">
@@ -75,6 +89,7 @@
     </div>
     <!--footer end-->
     <script src="//at.alicdn.com/t/font_v99cm781jpn1att9.js"></script>
+    <script src="//at.alicdn.com/t/font_ud62gmrxjpu5l8fr.js"></script>
     <script src="/static/website/js/jquery-3.2.1.js"></script>
     <script src="/static/website/js/nav.js"></script>
     <script src="/static/website/js/swiper.min.js"></script>

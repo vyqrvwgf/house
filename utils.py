@@ -3,6 +3,9 @@
 from rest_framework_jwt.settings import api_settings
 from settings import SMS_ACCOUNT_SID, SMS_ACCOUNT_TOKEN, SMS_SUB_ACCOUNT_SID, SMS_TEMPLATE_CODE_ID, SMS_SUB_ACCOUNT_TOKEN, SMS_APP_ID
 from sms import SMSManager
+from django.core.urlresolvers import reverse
+from functools import wraps
+from django.http import HttpResponseRedirect
 
 import random
 import simplejson
@@ -10,6 +13,26 @@ import time
 import math
 import string
 import logging
+import hashlib
+
+def website_check_login(view):
+    @wraps(view)
+    def wrapper(request, *args, **kwargs):
+
+        c_user = request.session.get('c_user', None)
+        if not c_user:
+            return HttpResponseRedirect(reverse('website:home_login'))
+
+        return view(request, *args, **kwargs)
+
+    return wrapper
+
+def md5_create(src):
+    """生成md5字符串
+    """
+    m2 = hashlib.md5()
+    m2.update(src)
+    return m2.hexdigest()
 
 
 def jwt_token_gen(user):
@@ -74,7 +97,7 @@ def send_voice_code(mobile, v_code):
     return data
 
 
-def check_v_code(request, redis_conn, mobile, v_code, v_code_json, expired_minutes):
+def check_v_code(request, redis_conn, mobile, v_code, expired_minutes):
     # 返回值0，1，2，3，0代表验证通过，1代表验证码过期，2代表验证码错误，3代表未发送验证码
     if redis_conn.get('v_code_json'):
         v_data = redis_conn.get('v_code_json')
@@ -90,7 +113,6 @@ def check_v_code(request, redis_conn, mobile, v_code, v_code_json, expired_minut
             return 2
     else:
         return 3
-
 
 def verify_mobile(mobile):
     # 返回值True 代表验证通过

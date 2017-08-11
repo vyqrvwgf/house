@@ -138,12 +138,22 @@ COLUMN_NOT_LIST = [
 COLUMN_IS_ADD = True
 COLUMN_IS_EDIT = True
 
+# redis
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
+REDIS_TIMEOUT = 7*24*60*60
+
+# 加密前缀
+DB_PREFIX = 'house_'
+
 # 云通讯
 SMS_ACCOUNT_SID = '8aaf0708570871f8015721cd332f0e24'
 SMS_ACCOUNT_TOKEN = '4445bda8680142899dc91c43df4a7d99'
 SMS_SUB_ACCOUNT_SID = 'a1eb8b67976611e69b876c92bf2c142d'
 SMS_SUB_ACCOUNT_TOKEN = 'c2c7a073d888513461a4f7439f110951'
 SMS_APP_ID = '8aaf070857dc0e780157e14b3a1c04b2'
+SMS_TEMPLATE_CODE_ID = 125618
 
 # qiniu
 QINIU_DOMAIN = 'ostx5g0u9.bkt.clouddn.com'
@@ -161,7 +171,7 @@ STATICFILES_DIRS = [
 
 UPLOAD_DIR = os.path.join(BASE_DIR, 'static', 'upload')
 
-DOMAIN = ''
+DOMAIN = 'http://119.23.210.215'
 
 # setting_local
 ROOT = os.path.abspath(os.path.dirname(__file__))
