@@ -4,14 +4,20 @@
 用户中心
 {% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" href="/static/website/css/05-4-member.css">
+{% endblock %}
+
 {% block container %}
 
 <div class="user">
-    <img src="/static/website/images/member-bg.jpg" alt="">
+    <img src="/static/website/static/website/images/member-bg.jpg" alt="">
     <div class="user-info banxin clearfix">
         <div class="user-face fl"></div>
         <p class="user-name"><span>{{client.user_name}}</span>,你好！</p>
-        <p class="user-loginTime">您上次登录的时间为：<span>{{client.updated|date:"Y-m-d H:i:s"}}</span></p>
+        <p class="user-loginTime">您上次登录的时间为：
+            <span>{{client.updated|date:"Y-m-d H:i:s"}}</span>
+        </p>
     </div>
 </div>
 
@@ -24,7 +30,7 @@
         <li><a href="#tab3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-03fygl"></use></svg> 房源管理</a></li>
         <li><a href="#tab4"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-04qzfb"></use></svg> 求租发布</a></li>
         <li><a href="#tab5"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-05qzgl"></use></svg> 求租管理</a></li>
-        <li><a href="#tab6"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-06kfgl"></use></svg> 看房管理</a></li>
+        <!-- <li><a href="#tab6"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-06kfgl"></use></svg> 看房管理</a></li> -->
         <li><a href="#tab7"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-07zjgl"></use></svg> 资金管理</a></li>
     </ul>
     <!--右边列表-->
@@ -33,74 +39,26 @@
         <div id="tab1" class="tab_content baseinfo" style="display: block;">
             <h4 class="baseinfo">基本信息</h4>
             <div class="top">
-                <p><label>姓名：</label><input type="text" value="XXX" class="user-name"></p>
+                <p><label>姓名：</label>
+                    <input type="text" value="" class="user-name">
+                </p>
                 <p><label>性别：</label>
-                    <label for="gender1" class="gender"><input type="radio" id="gender1" name="gender" checked>男</label>
-                    <label for="gender2" class="gender"><input type="radio" id="gender2" name="gender">女</label>
+                    <label for="gender1" class="gender">
+                        <input type="radio" id="gender1" name="gender" checked>男
+                    </label>
+                    <label for="gender2" class="gender">
+                        <input type="radio" id="gender2" name="gender">女
+                    </label>
                 </p>
                 <p><label>生日：</label>
-                    <select name="u-b-y" id="u-b-y">
-                        <option value="year" selected>年</option>
-                        <option value="1940">1940</option>
-                        <option value="1941">1941</option>
-                        <option value="1942">1942</option>
-                        <option value="1943">1943</option>
-                        <option value="1944">1944</option>
-                        <option value="1945">1945</option>
-
-                    </select>
-                    <select name="u-b-m" id="u-b-m">
-                        <option value="month" selected>月</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                    </select>
-                    <select name="u-b-d" id="u-b-d">
-                        <option value="day">日</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <option value="24">24</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
-                        <option value="31">31</option>
-                    </select>
+                    <input class="contact birbath" type="text" value="">
                 </p>
-                <p><label>联系方式：</label><input class="contact" type="text" value="13399994444"></p>
-                <p><label>银行卡信息：</label><input class="bankcard" type="text" value="6220 1111 2222 3333"></p>
+                <p><label>联系方式：</label>
+                    <input class="contact" type="text" value="13399994444">
+                </p>
+                <p><label>银行卡信息：</label>
+                    <input class="bankcard" type="text" value="6220 1111 2222 3333">
+                </p>
                 <button type="submit">确认修改</button>
             </div>
             <div class="bottom">
@@ -224,13 +182,13 @@
             </p>
             <h4>基础设施</h4>
             <ul class="surrounding-facilities clearfix">
-                <li><img src="images/01bingxiang.jpg" alt=""><br><label>冰箱</label><br><input type="checkbox" name="surrounding-facilities" value="冰箱"></li>
-                <li><img src="images/02reshuiqi.jpg" alt=""><br><label>热水器</label><br><input type="checkbox" name="surrounding-facilities" value="热水器"></li>
-                <li><img src="images/03-dianshi.jpg" alt=""><br><label>电视</label><br><input type="checkbox" name="surrounding-facilities" value="电视"></li>
-                <li><img src="images/05wifi.jpg" alt=""><br><label>无线网</label><br><input type="checkbox" name="surrounding-facilities" value="无线网"></li>
-                <li><img src="images/07shafa.jpg" alt=""><br><label>沙发</label><br><input type="checkbox" name="surrounding-facilities" value="沙发"></li>
-                <li><img src="images/09chufang.jpg" alt=""><br><label>厨房</label><br><input type="checkbox" name="surrounding-facilities" value="厨房"></li>
-                <li><img src="images/10nuanqi.jpg" alt=""><br><label>暖气</label><br><input type="checkbox" name="surrounding-facilities" value="暖气"></li>
+                <li><img src="/static/website/images/01bingxiang.jpg" alt=""><br><label>冰箱</label><br><input type="checkbox" name="surrounding-facilities" value="冰箱"></li>
+                <li><img src="/static/website/images/02reshuiqi.jpg" alt=""><br><label>热水器</label><br><input type="checkbox" name="surrounding-facilities" value="热水器"></li>
+                <li><img src="/static/website/images/03-dianshi.jpg" alt=""><br><label>电视</label><br><input type="checkbox" name="surrounding-facilities" value="电视"></li>
+                <li><img src="/static/website/images/05wifi.jpg" alt=""><br><label>无线网</label><br><input type="checkbox" name="surrounding-facilities" value="无线网"></li>
+                <li><img src="/static/website/images/07shafa.jpg" alt=""><br><label>沙发</label><br><input type="checkbox" name="surrounding-facilities" value="沙发"></li>
+                <li><img src="/static/website/images/09chufang.jpg" alt=""><br><label>厨房</label><br><input type="checkbox" name="surrounding-facilities" value="厨房"></li>
+                <li><img src="/static/website/images/10nuanqi.jpg" alt=""><br><label>暖气</label><br><input type="checkbox" name="surrounding-facilities" value="暖气"></li>
             </ul>
             <h4>周边配套</h4>
             <p><label>附近公交：</label><input class="bus" type="text" placeholder="公交站、公交路线"></p>
@@ -268,26 +226,26 @@
             <h4 class="house-online">已上架房源</h4>
             <ul class="items-on clearfix">
                 <li class="item">
-                    <img src="images/houseMess.png" alt="">
+                    <img src="/static/website/images/houseMess.png" alt="">
                     <p>房租预算 <strong class="orange">5000-10000</strong></p>
                     <p>地理位置：<span>洪山区</span></p>
-                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a> &nbsp&nbsp&nbsp<a class="orange" href="#">删除</a></p>
+                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a>
                 </li>
 
             </ul>
             <h4 class="house-online">已下架房源</h4>
             <ul class="items-off clearfix">
                 <li class="item">
-                    <img src="images/houseMess.png" alt="">
+                    <img src="/static/website/images/houseMess.png" alt="">
                     <p>房租预算 <strong class="orange">5000-10000</strong></p>
                     <p>地理位置：<span>洪山区</span></p>
-                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">上架</a> &nbsp&nbsp&nbsp<a class="orange" href="#">删除</a></p>
+                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">上架</a>
                 </li>
                 <li class="item">
-                    <img src="images/houseMess.png" alt="">
+                    <img src="/static/website/images/houseMess.png" alt="">
                     <p>房租预算 <strong class="orange">5000-10000</strong></p>
                     <p>地理位置：<span>洪山区</span></p>
-                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">上架</a> &nbsp&nbsp&nbsp<a class="orange" href="#">删除</a></p>
+                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">上架</a>
                 </li>
  
             </ul>
@@ -330,16 +288,16 @@
             <p class="extraInfo"><label><span class="orange">*</span>补充说明：</label><textarea name="extraInfo" id="extraInfo" cols="30" rows="10" placeholder="凡本站会员不限制查看联系方式，请勿在此处添加任何联系方式或地址信息，如若添加信息审核将无法通过。"></textarea></p>
             <h4 class="house-online">基础设施</h4>
             <ul class="surrounding-facilities clearfix">
-                <li><img src="images/01bingxiang.jpg" alt=""><br><label>冰箱</label><br><input type="checkbox" name="surrounding-facilities" value="冰箱"></li>
-                <li><img src="images/02reshuiqi.jpg" alt=""><br><label>热水器</label><br><input type="checkbox" name="surrounding-facilities" value="热水器"></li>
-                <li><img src="images/03-dianshi.jpg" alt=""><br><label>电视</label><br><input type="checkbox" name="surrounding-facilities" value="电视"></li>
-                <li><img src="images/04-kongtiao.jpg" alt=""><br><label>空调</label><br><input type="checkbox" name="surrounding-facilities" value="空调"></li>
-                <li><img src="images/05wifi.jpg" alt=""><br><label>无线网</label><br><input type="checkbox" name="surrounding-facilities" value="无线网"></li>
-                <li><img src="images/06chuang.jpg" alt=""><br><label>床</label><br><input type="checkbox" name="surrounding-facilities" value="床"></li>
-                <li><img src="images/07shafa.jpg" alt=""><br><label>沙发</label><br><input type="checkbox" name="surrounding-facilities" value="沙发"></li>
-                <li><img src="images/08yigui.jpg" alt=""><br><label>衣柜</label><br><input type="checkbox" name="surrounding-facilities" value="衣柜"></li>
-                <li><img src="images/09chufang.jpg" alt=""><br><label>厨房</label><br><input type="checkbox" name="surrounding-facilities" value="厨房"></li>
-                <li><img src="images/10nuanqi.jpg" alt=""><br><label>暖气</label><br><input type="checkbox" name="surrounding-facilities" value="暖气"></li>
+                <li><img src="/static/website/images/01bingxiang.jpg" alt=""><br><label>冰箱</label><br><input type="checkbox" name="surrounding-facilities" value="冰箱"></li>
+                <li><img src="/static/website/images/02reshuiqi.jpg" alt=""><br><label>热水器</label><br><input type="checkbox" name="surrounding-facilities" value="热水器"></li>
+                <li><img src="/static/website/images/03-dianshi.jpg" alt=""><br><label>电视</label><br><input type="checkbox" name="surrounding-facilities" value="电视"></li>
+                <li><img src="/static/website/images/04-kongtiao.jpg" alt=""><br><label>空调</label><br><input type="checkbox" name="surrounding-facilities" value="空调"></li>
+                <li><img src="/static/website/images/05wifi.jpg" alt=""><br><label>无线网</label><br><input type="checkbox" name="surrounding-facilities" value="无线网"></li>
+                <li><img src="/static/website/images/06chuang.jpg" alt=""><br><label>床</label><br><input type="checkbox" name="surrounding-facilities" value="床"></li>
+                <li><img src="/static/website/images/07shafa.jpg" alt=""><br><label>沙发</label><br><input type="checkbox" name="surrounding-facilities" value="沙发"></li>
+                <li><img src="/static/website/images/08yigui.jpg" alt=""><br><label>衣柜</label><br><input type="checkbox" name="surrounding-facilities" value="衣柜"></li>
+                <li><img src="/static/website/images/09chufang.jpg" alt=""><br><label>厨房</label><br><input type="checkbox" name="surrounding-facilities" value="厨房"></li>
+                <li><img src="/static/website/images/10nuanqi.jpg" alt=""><br><label>暖气</label><br><input type="checkbox" name="surrounding-facilities" value="暖气"></li>
             </ul>
             <p class="rentAll"><label><input type="radio" name="rentType"><span class="orange">*</span>整租</label><select name="males" id="males">
                 <option value="男性人数" selected>男性人数</option>
@@ -400,49 +358,32 @@
             <h4 class="house-online">求租</h4>
             <ul class="items-on clearfix">
                 <li class="item">
-                    <img src="images/houseMess.png" alt="">
+                    <img src="/static/website/images/houseMess.png" alt="">
                     <p>房租预算 <strong class="orange">5000-10000</strong></p>
                     <p>地理位置：<span>洪山区</span></p>
-                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a> &nbsp&nbsp&nbsp<a class="orange" href="#">删除</a></p>
+                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a>
                 </li>
                 <li class="item">
-                    <img src="images/houseMess.png" alt="">
+                    <img src="/static/website/images/houseMess.png" alt="">
                     <p>房租预算 <strong class="orange">5000-10000</strong></p>
                     <p>地理位置：<span>洪山区</span></p>
-                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a> &nbsp&nbsp&nbsp<a class="orange" href="#">删除</a></p>
+                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a>
                 </li>
                 <li class="item">
-                    <img src="images/houseMess.png" alt="">
+                    <img src="/static/website/images/houseMess.png" alt="">
                     <p>房租预算 <strong class="orange">5000-10000</strong></p>
                     <p>地理位置：<span>洪山区</span></p>
-                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a> &nbsp&nbsp&nbsp<a class="orange" href="#">删除</a></p>
+                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a>
                 </li>
-                <li class="item">
-                    <img src="images/houseMess.png" alt="">
-                    <p>房租预算 <strong class="orange">5000-10000</strong></p>
-                    <p>地理位置：<span>洪山区</span></p>
-                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a> &nbsp&nbsp&nbsp<a class="orange" href="#">删除</a></p>
-                </li>
-                <li class="item">
-                    <img src="images/houseMess.png" alt="">
-                    <p>房租预算 <strong class="orange">5000-10000</strong></p>
-                    <p>地理位置：<span>洪山区</span></p>
-                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a> &nbsp&nbsp&nbsp<a class="orange" href="#">删除</a></p>
-                </li>
-                <li class="item">
-                    <img src="images/houseMess.png" alt="">
-                    <p>房租预算 <strong class="orange">5000-10000</strong></p>
-                    <p>地理位置：<span>洪山区</span></p>
-                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">下架</a> &nbsp&nbsp&nbsp<a class="orange" href="#">删除</a></p>
-                </li>
+
             </ul>
             <h4 class="house-online">已下架求租</h4>
             <ul class="items-off clearfix">
                 <li class="item">
-                    <img src="images/houseMess.png" alt="">
+                    <img src="/static/website/images/houseMess.png" alt="">
                     <p>房租预算 <strong class="orange">5000-10000</strong></p>
                     <p>地理位置：<span>洪山区</span></p>
-                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">上架</a> &nbsp&nbsp&nbsp<a class="orange" href="#">删除</a></p>
+                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp&nbsp&nbsp <a class="orange" href="#">上架</a>
                 </li>
 
             </ul>
@@ -454,7 +395,7 @@
             <ul class="applyToSee">
                 <li class="item clearfix">
                     <div class="left fl">
-                        <img src="images/houseMess.png" alt="">
+                        <img src="/static/website/images/houseMess.png" alt="">
                         <p>房租预算 <strong class="orange">5000-10000</strong></p>
                         <p>地理位置：<span>洪山区</span></p>
                         <p class="contactNum">联系电话：<span>13344455566</span></p>
@@ -475,7 +416,7 @@
                 </li>
                 <li class="item clearfix">
                     <div class="left fl">
-                        <img src="images/houseMess.png" alt="">
+                        <img src="/static/website/images/houseMess.png" alt="">
                         <p>房租预算 <strong class="orange">5000-10000</strong></p>
                         <p>地理位置：<span>洪山区</span></p>
                         <p class="contactNum">联系电话：<span>13344455566</span></p>
@@ -496,7 +437,7 @@
                 </li>
                 <li class="item clearfix">
                     <div class="left fl">
-                        <img src="images/houseMess.png" alt="">
+                        <img src="/static/website/images/houseMess.png" alt="">
                         <p>房租预算 <strong class="orange">5000-10000</strong></p>
                         <p>地理位置：<span>洪山区</span></p>
                         <p class="contactNum">联系电话：<span>13344455566</span></p>
@@ -536,9 +477,15 @@
 
 {% block script %}
 <!--footer end-->
-<script src="/static/website/js/05-login-member.js"></script>
+<script src="/static/website/js/05-4-member.js"></script>
 <script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script>
-
+  $(function(){
+      $('.birbath').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        autoclose: true,
+        todayBtn: true,
+      });
+  })
 </script>
 {% endblock %}

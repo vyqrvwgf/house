@@ -1,0 +1,78 @@
+.user{
+    width: 100%;
+    min-width: 1200px;
+    height: 220px;
+    box-shadow: 0 0 10px #ccc;
+    position: relative;
+}
+.user img{
+    width: 100%;
+    min-width: 1200px;
+    position: absolute;
+    bottom: 0;
+}
+
+/* 求组信息 item */
+.items{
+    padding: 30px;
+}
+.items .item{
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
+}
+.items .item .left{
+    width: 200px;
+    text-align: center;
+}
+.items .item .left img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+.items .item .left button{
+    width: 120px;
+    height: 32px;
+    font-size: 16px;
+    line-height: 32px;
+    text-align: center;
+    background-color: orange;
+    color: #fff;
+    border-radius: 4px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+.items .item .left .complaint{
+    border:1px solid #999;
+    background-color: #fff;
+    color: #999;
+}
+.items .item .left .complaint:hover{
+    border:1px solid red;
+    background-color: red;
+    color: #fff;
+}
+.items .item .right p{
+    padding: 8px;
+}
+.items .item .right p label{
+    display: inline-block;
+    width: 90px;
+    color: #999;
+}
+.items .surrounding-facilities{
+    padding-top: 10px;
+}
+.items .surrounding-facilities li{
+    float: left;
+    text-align: center;
+    width: 70px;
+    height: 55px;
+}
+.items .surrounding-facilities li img{
+    height: 25px;
+}

@@ -41,12 +41,17 @@ redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 
 
 def index(request):
+	advertising_list = Advertising.objects.filter(
+		is_del=False,
+		is_valid=True
+	).order_by('-order_no')
+	context = {
+		'module': 'index',
+		'advertisings': advertising_list,
+		'advertising_count': len(advertising_list),
+	}
 
-    context = {
-        'module': 'index',
-    }
-
-    return render(request, 'frontend/index.html', context)
+	return render(request, 'frontend/index.html', context)
 
 @csrf_exempt
 def register(request):

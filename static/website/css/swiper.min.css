@@ -173,6 +173,11 @@
 .swiper-pagination {
     position: absolute;
     text-align: center;
+    height: 40px;
+    line-height: 40px;
+    background-color: rgba(0,0,0,0.4);
+    color: #fff;
+    font-size: 16px;
     -webkit-transition: .3s;
     -moz-transition: .3s;
     -o-transition: .3s;
@@ -189,7 +194,7 @@
 }
 
 .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
-    bottom: 10px;
+    bottom: 0;
     left: 0;
     width: 100%
 }

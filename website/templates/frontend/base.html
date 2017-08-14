@@ -7,15 +7,14 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/kikkik/bootstrap/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="/static/website/css/swiper.min.css">
-    <link rel="stylesheet" href="/static/website/css/base.css">
-    <link rel="stylesheet" href="/static/website/css/index.css">
-    <link rel="stylesheet" href="/static/website/css/05-2-registeer.css">
-    <link rel="stylesheet" href="/static/website/css/05-1-login.css">
-    <link rel="stylesheet" href="/static/website/css/05-login-member.css">
     <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
     <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
     <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
+    <link rel="stylesheet" href="/static/admin/plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="/static/website/css/base.css">
+    <link rel="stylesheet" href="/static/website/css/index.css">
     {% block style %}
     {% endblock %}
 </head>
@@ -87,10 +86,15 @@
             <span class="right">&reg 2017 Zuke</span>
         </div>
     </div>
+
     <!--footer end-->
     <script src="//at.alicdn.com/t/font_v99cm781jpn1att9.js"></script>
     <script src="//at.alicdn.com/t/font_ud62gmrxjpu5l8fr.js"></script>
     <script src="/static/website/js/jquery-3.2.1.js"></script>
+    <script src="/static/kikkik/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/kikkik/plugins/iCheck/icheck.min.js"></script>
+    <script src="/static/kikkik/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/static/kikkik/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="/static/website/js/nav.js"></script>
     <script src="/static/website/js/swiper.min.js"></script>
     {% block script %}{% endblock %}
