@@ -31,4 +31,32 @@ function getCookie(){ //获取cookie
         $("#login_password").val($.base64.decode(pwd));
     }
 }
+function login(){
+    var userName = $('#login_code').val();
+    if(userName == ''){
+        alert("请输入用户名。");
+        $('#login_code').select();
+        return;
+    }
+    var userPass = $('#login_password').val();
+    if(userPass == ''){
+        alert("请输入密码。");
+        $('#login_password').select();
+        return;
+    }
 
+
+
+    //判断是否选中复选框，如果选中，添加cookie
+    var checked = document.getElementById("auto-login").checked; //获取“是否记住密码”复选框
+    if(checked) {
+        //添加cookie
+        setCookie();
+        // alert("记住密码登录。");
+        // window.location = "http://www.baidu.com";
+    }
+    // else{
+    //     alert("不记密码登录。");
+    //     window.location = "http://www.baidu.com";
+    // }
+}

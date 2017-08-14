@@ -17,15 +17,21 @@
         <!-- Swiper banner图片部分-->
         <div class="swiper-container clearfix">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><a href="javascript:void(0)"><img src="/static/website/images/banner.jpg" alt=""></a></div>
-                <div class="swiper-slide"><a href="javascript:void(0)"><img src="/static/website/images/banner2.png" alt=""></a></div>
-                <div class="swiper-slide"><a href="javascript:void(0)"><img src="/static/website/images/banner.jpg" alt=""></a></div>
+            {% for a in advertisings %}
+                <div class="swiper-slide">
+                    <a href="javascript:void(0)">
+                        <img src="{{a.img_url}}" alt="">
+                    </a>
+                </div>
+            {% endfor %}
             </div>
             <!-- Add Pagination -->
-            <div class="swiper-pagination"></div>
-            <!-- Add Arrows -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+            {% if advertising_count > 1 %}
+                <div class="swiper-pagination"></div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            {% endif %}
         </div>
 
         <!--搜索-->
@@ -73,8 +79,6 @@
                     <use xlink:href="#icon-open"></use>
                 </svg></a>
             </div>
-
-
         </div>
     </div>
     <!--banner end-->
@@ -150,38 +154,6 @@
             </div>
             <div class="tab-content good">
                 <div class="tabpanel">
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
                     <a href="" class="trig">
                         <img src="/static/website/images/houseMess.png" alt="">
                         <div class="trig_txt">

@@ -1,0 +1,51 @@
+.user{
+    width: 100%;
+    min-width: 1200px;
+    height: 220px;
+    box-shadow: 0 0 10px #ccc;
+    position: relative;
+}
+.user img{
+    width: 100%;
+    min-width: 1200px;
+    position: absolute;
+    bottom: 0;
+}
+.howToFind{
+    padding-top: 30px;
+}
+.howToFind ul{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.howToFind ul li{
+    width: 100px;
+    height: 40px;
+    float: left;
+    line-height: 40px;
+    text-align: center;
+}
+.howToFind ul li a{
+    color: #000;
+}
+.howToFind ul li:hover{
+    border-bottom: 4px solid orange;
+}
+.howToFind ul li.active{
+    border-bottom: 4px solid orange;
+}
+.howToFind ul li:hover a{
+    color: orange;
+}
+.howToFind ul li.active a{
+    color: orange;
+}
+
+.roomlist{
+    background: url("../images/map.png") top left no-repeat;
+    height: 100%;
+    width: 100%;
+    min-height: 600px;
+    min-width: 1200px;
+    margin-bottom: 100px;
+}
