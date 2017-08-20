@@ -21,6 +21,7 @@ urlpatterns = [
     # 登陆注册
     url(r'^login$', auth.login_view, name='admin_login'),
     url(r'^logout$', auth.logout_view, name='admin_logout'),
+    url(r'^uptoken/$', index_view.uptoken, name='admin_uptoken'),
     # 轮播
     url(r'^advertising/list/$', home.advertising_list, name='advertising_list'),
     url(r'^advertising/create$', home.advertising_create, name='advertising_create'),

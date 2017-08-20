@@ -11,7 +11,7 @@
 {% block container %}
 
 <div class="user">
-    <img src="/static/website/static/website/images/member-bg.jpg" alt="">
+    <img src="/static/website/images/member-bg.jpg" alt="">
     <div class="user-info banxin clearfix">
         <div class="user-face fl"></div>
         <p class="user-name"><span>{{client.user_name}}</span>,你好！</p>
@@ -39,10 +39,12 @@
         <div id="tab1" class="tab_content baseinfo" style="display: block;">
             <h4 class="baseinfo">基本信息</h4>
             <div class="top">
-                <p><label>姓名：</label>
+                <p>
+                    <label>姓名：</label>
                     <input type="text" value="" class="user-name">
                 </p>
-                <p><label>性别：</label>
+                <p>
+                    <label>性别：</label>
                     <label for="gender1" class="gender">
                         <input type="radio" id="gender1" name="gender" checked>男
                     </label>
@@ -50,23 +52,40 @@
                         <input type="radio" id="gender2" name="gender">女
                     </label>
                 </p>
-                <p><label>生日：</label>
+                <p>
+                    <label>生日：</label>
                     <input class="contact birbath" type="text" value="">
                 </p>
-                <p><label>联系方式：</label>
-                    <input class="contact" type="text" value="13399994444">
+                <p>
+                    <label>联系方式：</label>
+                    <input class="contact" type="text" value="">
                 </p>
-                <p><label>银行卡信息：</label>
-                    <input class="bankcard" type="text" value="6220 1111 2222 3333">
+                <p>
+                    <label>银行卡信息：</label>
+                    <input class="contact" type="text" value="">
                 </p>
-                <button type="submit">确认修改</button>
             </div>
             <div class="bottom">
-                <p><lable>身份证认证：</lable>654325198501295842/未认证</p>
-                <br><input type="file" id="test-image-file" value="上传身份证正反照片" size="2"><br><br>
+                <p>
+                    <label>身份证号码：</label>
+                    <input class="contact" type="id_card" value="">
+                </p>
+                <p>
+                    <label>认证情况：</label>
+                    未认证
+                </p>
+                <br/>
+                    <!-- <input type="file" id="test-image-file" value="上传身份证正反照片" size="2"> -->
                 <div id="test-image-preview">图片预览</div>
-                <br>
-                <button type="submit">确认上传</button>
+                <br/>
+                    <div class="upload_li upload_li_btn" id="container">
+                        <button id="pickfiles">
+                            <img src="/static/img/add_img.png"/>
+                            <span>上传图片</span>
+                        </button>
+                    </div>
+                <br/>
+                <button type="submit">确认修改</button>
             </div>
         </div>
 
@@ -477,8 +496,12 @@
 
 {% block script %}
 <!--footer end-->
-<script src="/static/website/js/05-4-member.js"></script>
 <script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/static/kikkik/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/kikkik/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="/static/vendor/qiniu.min.js"></script>
+<script type="text/javascript" src="/static/vendor/plupload.full.min.js"></script>
+<script src="/static/website/js/05-4-member.js"></script>
 <script>
   $(function(){
       $('.birbath').datetimepicker({
@@ -486,6 +509,56 @@
         autoclose: true,
         todayBtn: true,
       });
+
+    var uploader = Qiniu.uploader({
+        runtimes: 'html5,flash,html4',    //上传模式,依次退化
+        browse_button: 'pickfiles',       //上传选择的点选按钮，**必需**
+        uptoken_url: '/admin/uptoken/',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+        // uptoken : '', //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
+        unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
+        // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
+        domain: 'http://{{qiniu_domain}}',   //bucket 域名，下载资源时用到，**必需**
+        get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+        container: 'container',           //上传区域DOM ID，默认是browser_button的父元素，
+        max_file_size: '100mb',           //最大文件体积限制
+        max_retries: 3,                   //上传失败最大重试次数
+        dragdrop: true,                   //开启可拖曳上传
+        drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+        chunk_size: '4mb',                //分块上传时，每片的体积
+        auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+        multi_selection: true,           //限制只能上传一个文件
+        init: {
+            'FilesAdded': function(up, files) {
+                plupload.each(files, function(file) {
+                    // 文件添加进队列后,处理相关的事情
+                });
+            },
+            'BeforeUpload': function(up, file) {
+                // 每个文件上传前,处理相关的事情
+            },
+            'UploadProgress': function(up, file) {
+
+            },
+            'FileUploaded': function(up, file, info) {
+                // 每个文件上传成功后,处理相关的事情
+                var res = JSON.parse(info);
+                var img_url = 'http://{{qiniu_domain}}/' + res.key;
+                alert()
+                html = '<li class="upload_li upload_li_img1"><img src="'+img_url+'?imageView2/1/w/160/h/160"/><div class="upload_speed"><span>正在上传</span></div><button type="button"><img src="/static/img/delete_icon.png"/></button><input type="text" class="imgs" name="imgs" style="display: none" value="'+res.key+'"></li>';
+
+
+                $('#container').before(html)
+                upload_over('.upload_li_img1')
+            },
+            'Error': function(up, err, errTip) {
+                //上传出错时,处理相关的事情
+            },
+            'UploadComplete': function() {
+                //队列文件处理完毕后,处理相关的事情
+            },
+        }
+    });
+
   })
 </script>
 {% endblock %}
