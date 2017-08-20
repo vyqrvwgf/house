@@ -12,6 +12,15 @@ from settings import (
     BASE_DIR
 )
 
+from common.upload_manager import UploadManager
+
+upload_manager = UploadManager(
+    BASE_DIR,
+    'qiniu',
+    QINIU_ACCESS_KEY,
+    QINIU_SECRET_KEY,
+)
+
 
 def upload(key, localpath):
     from qiniu import Auth, put_file, set_default
@@ -31,11 +40,16 @@ def url(key):
     else:
         return ''
 
+
 def o_url(key):
     if key:
         return 'http://' + os.path.join(QINIU_DOMAIN, key)
     else:
         return ''
+
+
+def get_upload_token(key):
+    return upload_manager.auth.upload_token(BUCKET_NAME, key=None)
 
 
 def get_extension(filename):

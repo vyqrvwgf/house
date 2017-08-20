@@ -58,9 +58,10 @@
             userPass: userPass
         },
         success: function(res, status){
-            alert(res.error_msg)
             if(!res.error_code){
                 location.href = '{{domain}}'
+            }else{
+                alert(res.error_msg)
             }
         },
         error: function(res, status){

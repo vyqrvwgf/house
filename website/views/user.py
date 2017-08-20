@@ -22,7 +22,8 @@ from utils import(
 
 from settings import (
     DB_PREFIX,
-    DOMAIN
+    DOMAIN,
+    QINIU_DOMAIN
 )
 
 import os
@@ -41,6 +42,7 @@ def index(request):
 	context = {
 		'module': 'index',
 		'client': profile,
+		'qiniu_domain': QINIU_DOMAIN
 	}
 
 	return render(request, 'frontend/user/index.html', context)
