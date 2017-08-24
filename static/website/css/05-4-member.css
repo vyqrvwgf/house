@@ -121,7 +121,8 @@
     padding-left: 36px;
     padding-top: 20px;
 }
-.tab_container .tab_content .bottom button{
+.tab_container .tab_content .bottom .button{
+    display: block;
     width: 120px;
     height: 32px;
     font-size: 16px;

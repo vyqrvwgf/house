@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block style %}
+    <link rel="stylesheet" href="/static/website/css/jquery.datetimepicker.css">
     <link rel="stylesheet" href="/static/website/css/05-4-member.css">
 {% endblock %}
 
@@ -14,7 +15,9 @@
     <img src="/static/website/images/member-bg.jpg" alt="">
     <div class="user-info banxin clearfix">
         <div class="user-face fl"></div>
-        <p class="user-name"><span>{{client.user_name}}</span>,你好！</p>
+        <p class="user-name">
+            <span>{{client.user_name}}</span>,你好！
+        </p>
         <p class="user-loginTime">您上次登录的时间为：
             <span>{{client.updated|date:"Y-m-d H:i:s"}}</span>
         </p>
@@ -38,55 +41,57 @@
         <!--tab1 基本信息-->
         <div id="tab1" class="tab_content baseinfo" style="display: block;">
             <h4 class="baseinfo">基本信息</h4>
-            <div class="top">
-                <p>
-                    <label>姓名：</label>
-                    <input type="text" value="" class="user-name">
-                </p>
-                <p>
-                    <label>性别：</label>
-                    <label for="gender1" class="gender">
-                        <input type="radio" id="gender1" name="gender" checked>男
-                    </label>
-                    <label for="gender2" class="gender">
-                        <input type="radio" id="gender2" name="gender">女
-                    </label>
-                </p>
-                <p>
-                    <label>生日：</label>
-                    <input class="contact birbath" type="text" value="">
-                </p>
-                <p>
-                    <label>联系方式：</label>
-                    <input class="contact" type="text" value="">
-                </p>
-                <p>
-                    <label>银行卡信息：</label>
-                    <input class="contact" type="text" value="">
-                </p>
-            </div>
-            <div class="bottom">
-                <p>
-                    <label>身份证号码：</label>
-                    <input class="contact" type="id_card" value="">
-                </p>
-                <p>
-                    <label>认证情况：</label>
-                    未认证
-                </p>
-                <br/>
-                    <!-- <input type="file" id="test-image-file" value="上传身份证正反照片" size="2"> -->
-                <div id="test-image-preview">图片预览</div>
-                <br/>
-                    <div class="upload_li upload_li_btn" id="container">
-                        <button id="pickfiles">
-                            <img src="/static/img/add_img.png"/>
-                            <span>上传图片</span>
-                        </button>
+            <form method="POST" action="{% url 'website:update_profile' %}" enctype="multipart/form-data" id="form1">
+            {% csrf_token %}
+                <div class="top">
+                    <p>
+                        <label>姓名：</label>
+                        <input type="text" name="user_name" class="user-name" value="{{ client.user_name }}">
+                    </p>
+                    <p>
+                        <label>性别：</label>
+                        <label for="gender1" class="gender">
+                            <input type="radio" id="gender1" name="gender" {% if client.gender == 1 %} checked {% endif %} value="1">男
+                        </label>
+                        <label for="gender2" class="gender">
+                            <input type="radio" id="gender2" name="gender" {% if client.gender == 2 %} checked {% endif %} value="2">女
+                        </label>
+                    </p>
+                    <p>
+                        <label>生日：</label>
+                        <input class="contact birbath" id="datetimepicker" name="birbath" type="text" value="{{ client.birbath|date:'Y-m-d' }}">
+                    </p>
+                    <p>
+                        <label>联系方式：</label>
+                        <input class="contact" name="mobile" type="text" value="{{ client.mobile }}">
+                    </p>
+                    <p>
+                        <label>银行卡信息：</label>
+                        <input class="contact" name="bank_acount" type="text" value="{{ client.bank_acount }}">
+                    </p>
+                </div>
+                <div class="bottom">
+                    <p>
+                        <label>身份证号码：</label>
+                        <input class="contact" type="text" name="id_card" value="{{ client.id_card }}">
+                    </p>
+                    <p>
+                        <label>认证情况：</label>
+                        未认证
+                    </p>
+                    <br/>
+                    <input type="file" id="test-image-file" name="test-image-file" value="上传身份证正反照片" size="2">
+                    <div id="test-image-preview" {% if client.id_card_picture %} style="background-image: url('{{ client.id_card_picture_url  }}?imageView2/1/w/300/h/200')" {% endif %}>
+                        图片预览
                     </div>
-                <br/>
-                <button type="submit">确认修改</button>
-            </div>
+                    {% if client.avatar_url %}
+                        <img src="{{ client.avatar_url }}?imageView2/1/w/300/h/200" width="150">
+                    {% endif %}
+                    <br/>
+                    <input type="hidden" name="c_user_id" value="{{ client.id }}">
+                    <a id="user_info_submit" class="button">确认修改</a>
+                </div>
+            </form>
         </div>
 
         <!--tab2 房源发布-->
@@ -201,13 +206,15 @@
             </p>
             <h4>基础设施</h4>
             <ul class="surrounding-facilities clearfix">
-                <li><img src="/static/website/images/01bingxiang.jpg" alt=""><br><label>冰箱</label><br><input type="checkbox" name="surrounding-facilities" value="冰箱"></li>
-                <li><img src="/static/website/images/02reshuiqi.jpg" alt=""><br><label>热水器</label><br><input type="checkbox" name="surrounding-facilities" value="热水器"></li>
-                <li><img src="/static/website/images/03-dianshi.jpg" alt=""><br><label>电视</label><br><input type="checkbox" name="surrounding-facilities" value="电视"></li>
-                <li><img src="/static/website/images/05wifi.jpg" alt=""><br><label>无线网</label><br><input type="checkbox" name="surrounding-facilities" value="无线网"></li>
-                <li><img src="/static/website/images/07shafa.jpg" alt=""><br><label>沙发</label><br><input type="checkbox" name="surrounding-facilities" value="沙发"></li>
-                <li><img src="/static/website/images/09chufang.jpg" alt=""><br><label>厨房</label><br><input type="checkbox" name="surrounding-facilities" value="厨房"></li>
-                <li><img src="/static/website/images/10nuanqi.jpg" alt=""><br><label>暖气</label><br><input type="checkbox" name="surrounding-facilities" value="暖气"></li>
+            {% for i in infrastructures %}
+                <li>
+                    <img src="{{ i.cover_url }}" alt="">
+                    <br>
+                    <label>{{ i.name }}</label>
+                    <br>
+                    <input type="checkbox" name="surrounding-facilities" value="冰箱">
+                </li>
+            {% endfor %}
             </ul>
             <h4>周边配套</h4>
             <p><label>附近公交：</label><input class="bus" type="text" placeholder="公交站、公交路线"></p>
@@ -223,8 +230,11 @@
             <h4>卧室</h4>
             <div class="bedroom">
                 <h5>卧室</h5>
-                <p><label>面积：</label><input class="area" type="text">&nbsp m³</p>
-                <p>房间配置：
+                <p><label>面积：</label>
+                    <input class="area" type="text">&nbsp m³
+                </p>
+                <p>
+                    房间配置：
                     <label>飘窗 </label><input type="checkbox" name="details">&nbsp&nbsp
                     <label>空调 </label><input type="checkbox" name="details">&nbsp&nbsp
                     <label>床 </label><input type="checkbox" name="details">&nbsp&nbsp
@@ -273,7 +283,8 @@
         <!--tab4 求租发布-->
         <div id="tab4" class="tab_content seekRent" style="display: none;">
             <h4 class="house-online">基础信息</h4>
-            <p><label><span class="orange">*</span>求租地段：</label><select name="rentArea" id="rentArea">
+            <p><label><span class="orange">*</span>求租地段：</label>
+                <select name="rentArea" id="rentArea">
                     <option value="请选择区域" selected>请选择区域</option>
                     <option value="hk">汉口</option>
                     <option value="hs">洪山</option>
@@ -307,18 +318,21 @@
             <p class="extraInfo"><label><span class="orange">*</span>补充说明：</label><textarea name="extraInfo" id="extraInfo" cols="30" rows="10" placeholder="凡本站会员不限制查看联系方式，请勿在此处添加任何联系方式或地址信息，如若添加信息审核将无法通过。"></textarea></p>
             <h4 class="house-online">基础设施</h4>
             <ul class="surrounding-facilities clearfix">
-                <li><img src="/static/website/images/01bingxiang.jpg" alt=""><br><label>冰箱</label><br><input type="checkbox" name="surrounding-facilities" value="冰箱"></li>
-                <li><img src="/static/website/images/02reshuiqi.jpg" alt=""><br><label>热水器</label><br><input type="checkbox" name="surrounding-facilities" value="热水器"></li>
-                <li><img src="/static/website/images/03-dianshi.jpg" alt=""><br><label>电视</label><br><input type="checkbox" name="surrounding-facilities" value="电视"></li>
-                <li><img src="/static/website/images/04-kongtiao.jpg" alt=""><br><label>空调</label><br><input type="checkbox" name="surrounding-facilities" value="空调"></li>
-                <li><img src="/static/website/images/05wifi.jpg" alt=""><br><label>无线网</label><br><input type="checkbox" name="surrounding-facilities" value="无线网"></li>
-                <li><img src="/static/website/images/06chuang.jpg" alt=""><br><label>床</label><br><input type="checkbox" name="surrounding-facilities" value="床"></li>
-                <li><img src="/static/website/images/07shafa.jpg" alt=""><br><label>沙发</label><br><input type="checkbox" name="surrounding-facilities" value="沙发"></li>
-                <li><img src="/static/website/images/08yigui.jpg" alt=""><br><label>衣柜</label><br><input type="checkbox" name="surrounding-facilities" value="衣柜"></li>
-                <li><img src="/static/website/images/09chufang.jpg" alt=""><br><label>厨房</label><br><input type="checkbox" name="surrounding-facilities" value="厨房"></li>
-                <li><img src="/static/website/images/10nuanqi.jpg" alt=""><br><label>暖气</label><br><input type="checkbox" name="surrounding-facilities" value="暖气"></li>
+            {% for i in infrastructures %}
+                <li>
+                    <img src="{{ i.cover_url }}">
+                    <br>
+                    <label>{{ i.name }}</label>
+                    <br>
+                    <input type="checkbox" name="surrounding-facilities" value="冰箱">
+                </li>
+            {% endfor %}
             </ul>
-            <p class="rentAll"><label><input type="radio" name="rentType"><span class="orange">*</span>整租</label><select name="males" id="males">
+            <p class="rentAll">
+                <label>
+                    <input type="radio" name="rentType">
+                    <span class="orange">*</span>整租
+                </label><select name="males" id="males">
                 <option value="男性人数" selected>男性人数</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -497,66 +511,40 @@
 {% block script %}
 <!--footer end-->
 <script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-<script src="/static/kikkik/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
-<script src="/static/kikkik/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript" src="/static/vendor/qiniu.min.js"></script>
 <script type="text/javascript" src="/static/vendor/plupload.full.min.js"></script>
+<script src="/static/website/js/jquery.datetimepicker.full.js"></script>
 <script src="/static/website/js/05-4-member.js"></script>
 <script>
   $(function(){
-      $('.birbath').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        autoclose: true,
-        todayBtn: true,
-      });
+    // $('#birbath').jHsDate();
+    $('#datetimepicker').datetimepicker({
+        lang: 'ch',
+        format: "Y-m-d",      //格式化日期
+        timepicker: false,    //关闭时间选项
+        yearStart: 1940,     //设置最小年份
+        yearEnd: 2020,        //设置最大年份
+        todayButton: false    //关闭选择今天按钮
+    });
 
-    var uploader = Qiniu.uploader({
-        runtimes: 'html5,flash,html4',    //上传模式,依次退化
-        browse_button: 'pickfiles',       //上传选择的点选按钮，**必需**
-        uptoken_url: '/admin/uptoken/',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
-        // uptoken : '', //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
-        unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
-        // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
-        domain: 'http://{{qiniu_domain}}',   //bucket 域名，下载资源时用到，**必需**
-        get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
-        container: 'container',           //上传区域DOM ID，默认是browser_button的父元素，
-        max_file_size: '100mb',           //最大文件体积限制
-        max_retries: 3,                   //上传失败最大重试次数
-        dragdrop: true,                   //开启可拖曳上传
-        drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
-        chunk_size: '4mb',                //分块上传时，每片的体积
-        auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
-        multi_selection: true,           //限制只能上传一个文件
-        init: {
-            'FilesAdded': function(up, files) {
-                plupload.each(files, function(file) {
-                    // 文件添加进队列后,处理相关的事情
-                });
-            },
-            'BeforeUpload': function(up, file) {
-                // 每个文件上传前,处理相关的事情
-            },
-            'UploadProgress': function(up, file) {
+    $('#user_info_submit').click(function(){
 
-            },
-            'FileUploaded': function(up, file, info) {
-                // 每个文件上传成功后,处理相关的事情
-                var res = JSON.parse(info);
-                var img_url = 'http://{{qiniu_domain}}/' + res.key;
-                alert()
-                html = '<li class="upload_li upload_li_img1"><img src="'+img_url+'?imageView2/1/w/160/h/160"/><div class="upload_speed"><span>正在上传</span></div><button type="button"><img src="/static/img/delete_icon.png"/></button><input type="text" class="imgs" name="imgs" style="display: none" value="'+res.key+'"></li>';
+        $.ajax({
+            url:'/user/update_profile',
+            type: 'POST',
+            data: new FormData($('#form1')[0]),
+            processData: false,
+            contentType: false
+        }).done(function(res){
+            console.log(res)
+            alert(res.error_msg);
+            if (res.error_code == 0) {
+                return;
+            }
+        }).fail(function(res){
 
+        });
 
-                $('#container').before(html)
-                upload_over('.upload_li_img1')
-            },
-            'Error': function(up, err, errTip) {
-                //上传出错时,处理相关的事情
-            },
-            'UploadComplete': function() {
-                //队列文件处理完毕后,处理相关的事情
-            },
-        }
     });
 
   })
