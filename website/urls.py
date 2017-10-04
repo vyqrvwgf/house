@@ -16,6 +16,7 @@ urlpatterns = [
 
     # 用户
     url(r'^user$', user.index, name='user_index'),
+    url(r'^hr_create$', user.housing_resource_create, name='housing_resource_create'),
     url(r'^user/update_profile$', user.update_profile, name='update_profile'),
     url(r'^login_out$', user.login_out, name='login_out'),
 ]

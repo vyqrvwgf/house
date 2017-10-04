@@ -15,7 +15,6 @@ from web.models import(
     Profile,
     Infrastructure
 )
-
 from imagestore.qiniu_manager import(
     get_extension,
     handle_uploaded_file,
@@ -53,15 +52,37 @@ def index(request):
 		is_valid=True
 	).order_by('-order_no')
 
-	
+
 	context = {
 		'module': 'index',
+		'sub_module': 'user_index',
 		'client': profile,
 		'infrastructures': infrastructures,
 		'qiniu_domain': QINIU_DOMAIN,
 	}
 
 	return render(request, 'frontend/user/index.html', context)
+
+
+@website_check_login
+def housing_resource_create(request):
+	c_user = request.session.get('c_user', None)
+	profile = Profile.objects.filter(is_del=False, pk=c_user['id']).first()
+	infrastructures = Infrastructure.objects.filter(
+		is_del=False,
+		is_valid=True
+	).order_by('-order_no')
+
+
+	context = {
+		'module': 'index',
+		'sub_module': 'housing_resource_create',
+		'client': profile,
+		'infrastructures': infrastructures,
+		'qiniu_domain': QINIU_DOMAIN,
+	}
+
+	return render(request, 'frontend/user/housing_resource_create.html', context)
 
 
 @website_check_login

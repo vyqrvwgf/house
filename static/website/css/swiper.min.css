@@ -134,6 +134,7 @@
     background-size: 27px 44px;
     background-position: center;
     background-repeat: no-repeat
+    box-shadow: 0 10px 15px 1px rgba(0,0,0,0.2);
 }
 
 .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {

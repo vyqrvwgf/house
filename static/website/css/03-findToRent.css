@@ -1,3 +1,78 @@
+/*筛选条件 begin*/
+.panel-filter{
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+/* 区域位置 */
+.container{
+    height: auto;
+    margin: 0 auto;
+}
+.container .tabs,.tab_content .service_tabs{
+    height: 40px;
+    line-height: 40px;
+}
+.container .tabs li,.tab_content .service_tabs li{
+    float: left;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.container .tabs li a{
+    color: #000;
+}
+.container .tabs li a:hover,.tab_content .service_tabs li:hover{
+    color: #0bb8a5;
+}
+.container .tabs li.active a,.tab_content .service_tabs li.active{
+    color: #0bb8a5;
+}
+.tab_container{
+    width: 100px;
+    height: 50px;
+    background-color: #0bb8a5;
+}
+.district_container{
+    padding-left: 55px;
+}
+
+/*其他筛选*/
+.row.roommate{
+    display: none;
+}
+.row ul li{
+    height: 32px;
+    line-height: 32px;
+    float: left;
+    margin-left:10px;
+    cursor: pointer;
+    vertical-align: baseline;
+
+}
+.row ul li:nth-child(n+2):hover{
+    color: #0bb8a5;
+}
+.row ul li.active{
+    color: #0bb8a5;
+}
+.price .self-pricing{
+    height: 32px;
+    line-height: 32px;
+}
+.price .self-pricing input{
+    display: inline-block;
+    width: 60px;
+    border: 1px solid #ddd;
+}
+.price .self-pricing button{
+    background-color: transparent;
+    color: #0bb8a5;
+    cursor: pointer;
+}
+/*筛选条件 end*/
+
+
+/*筛选结果列表 begin*/
 .user{
     width: 100%;
     min-width: 1200px;
@@ -14,13 +89,13 @@
 
 /* 求组信息 item */
 .items{
-    padding: 30px;
+    padding-top: 30px;
 }
 .items .item{
     width: 100%;
     height: auto;
-    padding: 30px;
-    margin-bottom: 30px;
+    padding: 10px;
+    margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 2px;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.1);
