@@ -187,10 +187,46 @@ class HousingResources(BaseModel):
         verbose_name = '房源发布'
         verbose_name_plural = '房源发布'
 
+    LEASE_CHOICES = (
+        (0, '整租'),
+        (1, '合租')
+    )
+
+    DEPOSIT_CHOICES = (
+        (0, '押一付三'),
+        (1, '押一付一')
+    )
+
+    DIRECTION_CHOICES = (
+        (0, '东'),
+        (1, '南'),
+        (2, '西'),
+        (3, '北'),
+    )
+
+    SITTING_ROOM_CHOICES = (
+        (0, '有'),
+        (1, '无'),
+    )
+
     infrastructure = models.ManyToManyField(Infrastructure, verbose_name="基础设施")
     cover = models.CharField(max_length=1024, default='', blank=True, verbose_name="图片")
     hall = models.CharField(max_length=1024, default='', blank=True, verbose_name="大厅图片")
     peripheral = models.TextField(default='', null=True, blank=True, verbose_name='配套设施')
+    lease = models.IntegerField(choices=LEASE_CHOICES, default=0, verbose_name='租赁方式')
+    deposit = models.IntegerField(choices=DEPOSIT_CHOICES, default=0, verbose_name='押付方式')
+    direction = models.IntegerField(choices=DIRECTION_CHOICES, default=0, verbose_name='楼层朝向')
+    sitting_room = models.IntegerField(choices=SITTING_ROOM_CHOICES, default=0, verbose_name='有无客厅')
+    sitting_room_area = models.FloatField(default=0, blank=True, verbose_name="客厅面积")
+    sitting_room_complete = models.CharField(max_length=1024, default='', blank=True, verbose_name="客厅配套")
+    layer = models.IntegerField(default=0, verbose_name='层数')
+    total_layer = models.IntegerField(default=0, verbose_name='总层数')
+    category = models.CharField(max_length=1024, default='', blank=True, verbose_name="房屋类型")
+    community = models.CharField(max_length=1024, default='', blank=True, verbose_name="小区名称")
+    address = models.CharField(max_length=1024, default='', blank=True, verbose_name="详细地址")
+    bus = models.CharField(max_length=1024, default='', blank=True, verbose_name="公交")
+    subway = models.CharField(max_length=1024, default='', blank=True, verbose_name="地铁")
+    buy = models.CharField(max_length=1024, default='', blank=True, verbose_name="购物")
     content = models.TextField(default='', null=True, blank=True, verbose_name='房屋描述')
 
     def cover_url(self):
@@ -220,6 +256,8 @@ class Bedroom(BaseModel):
         verbose_name_plural = '房屋卧室'
 
     housing_resources = models.ForeignKey(HousingResources, null=True, blank=True, verbose_name="房源")
+    area = models.FloatField(default=0, blank=True, verbose_name="面积")
+    complete = models.CharField(max_length=1024, default='', blank=True, verbose_name="配套")
     cover = models.CharField(max_length=1024, default='', blank=True, verbose_name="图片")
 
     def cover_url(self):

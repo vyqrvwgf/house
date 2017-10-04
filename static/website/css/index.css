@@ -38,6 +38,11 @@
 }
 .swiper-container a{
     font-size: 0;
+    display: inline-block;
+    width: 1200px;
+}
+.swiper-container a img{
+    width: 100%;
 }
 .swiper-slide {
     text-align: center;
@@ -210,6 +215,7 @@
     height: 160px;
     width: 388px;
     padding: 10px;
+    resize: none;
 }
 .suggest .s_submit .sub_write button{
     width: 100%;

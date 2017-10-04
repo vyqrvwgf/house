@@ -5,23 +5,23 @@
     $(document).ready(function() {
 
         //Default Action
-        $(".tab_content").hide(); //Hide all content
-        $("ul.tabs li:first").addClass("active").show(); //Activate first tab
-        $(".tab_content:first").show(); //Show first tab content
-
-        //On Click Event
-        $("ul.tabs li").click(function() {
-            $("ul.tabs li").removeClass("active"); //Remove any "active" class
-            $(this).addClass("active"); //Add "active" class to selected tab
-            $(".tab_content").hide(); //Hide all tab content
-            var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
-            $(activeTab).fadeIn(); //Fade in the active content
-            var newHeight = $(activeTab).height();
-            console.log(newHeight);
-            $(".tab_container").css("height",newHeight);
-            $(".tabs").css("height",newHeight);
-            return false;
-        });
+        // $(".tab_content").hide(); //Hide all content
+        // $("ul.tabs li:first").addClass("active").show(); //Activate first tab
+        // $(".tab_content:first").show(); //Show first tab content
+        //
+        // //On Click Event
+        // $("ul.tabs li").click(function() {
+        //     $("ul.tabs li").removeClass("active"); //Remove any "active" class
+        //     $(this).addClass("active"); //Add "active" class to selected tab
+        //     $(".tab_content").hide(); //Hide all tab content
+        //     var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+        //     $(activeTab).fadeIn(); //Fade in the active content
+        //     var newHeight = $(activeTab).height();
+        //     console.log(newHeight);
+        //     $(".tab_container").css("height",newHeight);
+        //     $(".tabs").css("height",newHeight);
+        //     return false;
+        // });
 
 
 
@@ -50,6 +50,30 @@
             // 以DataURL的形式读取文件:
             reader.readAsDataURL(file);
         });
+        
+        // 确认修改
+        document.querySelector(".modify").onclick = function () {
+            document.querySelector(".modify-success span").innerHTML = getNowFormatDate();
+            document.querySelector(".modify-success").style.display = "block";
+        };
+
+        function getNowFormatDate() {
+            var date = new Date();
+            var seperator1 = "-";
+            var seperator2 = ":";
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                + " " + date.getHours() + seperator2 + date.getMinutes()
+                + seperator2 + date.getSeconds();
+            return currentdate;
+        }
 
 
         //tab2-发布房源
@@ -69,9 +93,8 @@
         var roomHeight = $('.bedroom').height();
         $('.addBedroom').click(function () {
             var newBedroom = document.createElement('div');
-            console.log(newBedroom);
             newBedroom.className = 'bedroom';
-            newBedroom.innerHTML = '<h5>卧室</h5><p><label>面积：</label><input class="area" type="text">&nbsp m³</p><p>房间配置：<label>飘窗 </label><input type="checkbox" name="details">&nbsp&nbsp<label>空调 </label><input type="checkbox" name="details">&nbsp&nbsp<label>床 </label><input type="checkbox" name="details">&nbsp&nbsp<label>书桌 </label><input type="checkbox" name="details">&nbsp&nbsp<label>衣柜 </label><input type="checkbox" name="details">&nbsp&nbsp<label>沙发 </label><input type="checkbox" name="details">&nbsp&nbsp<label>卫生间 </label><input type="checkbox" name="details"></p><span class="close">X</span>';
+            newBedroom.innerHTML = '<h5>卧室</h5><p><label>面积：</label><input class="area" type="text">&nbsp m³</p><p>房间配置：<label>飘窗 </label><input type="checkbox" name="details">&nbsp&nbsp<label>空调 </label><input type="checkbox" name="details">&nbsp&nbsp<label>床 </label><input type="checkbox" name="details">&nbsp&nbsp<label>书桌 </label><input type="checkbox" name="details">&nbsp&nbsp<label>衣柜 </label><input type="checkbox" name="details">&nbsp&nbsp<label>沙发 </label><input type="checkbox" name="details">&nbsp&nbsp<label>独立卫生间 </label><input type="checkbox" name="details"></p><span class="close">X</span>';
             $('.addBedroom').before(newBedroom);
             $(".tab_container").css("height",$(".tab_container").height() + roomHeight);
             $(".tabs").css("height",$(".tab_container").height());
@@ -132,7 +155,7 @@
             }
         };
 
-        // tab6 房源管理
+        // tab5 求租发布
         $(function () {
             var wjx_none = "☆";
             var wjx_sel = "★";
@@ -163,6 +186,8 @@
             })
 
         });
+
+
 
     });
 

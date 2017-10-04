@@ -1,4 +1,10 @@
 /**
+ * Created by Administrator on 2017/9/13 0013.
+ */
+/**
+ * Created by Administrator on 2017/9/11 0011.
+ */
+/**
  * Created by Administrator on 2017/8/8 0008.
  */
 $(document).ready(function() {
@@ -12,7 +18,7 @@ $(document).ready(function() {
     //初始化 区域范围列表
     //Default Action
     $(".s_tab_content").hide(); //Hide all content
-    $("ul.service_tabs li:nth-child(2)").addClass("active").show(); //Activate first tab
+    $("ul.service_tabs li:nth-child(1)").addClass("active").show(); //Activate first tab
     $(".s_tab_content:first").show(); //Show first tab content
 
     //On Click Event
@@ -30,9 +36,8 @@ $(document).ready(function() {
         $(".s_tab_content").hide(); //Hide all content
         var newContent = $(activeTab).find("ul").find("li:nth-child(2)").find("a").attr("href"); //Show first tab content
         $(newContent).show();
-        console.log(newContent);
         $("ul.service_tabs li").removeClass("active");
-        $("ul.service_tabs li:nth-child(2)").addClass("active").show(); //Activate first tab
+        $("ul.service_tabs li:nth-child(1)").addClass("active").show(); //Activate first tab
 
 
 
@@ -43,7 +48,6 @@ $(document).ready(function() {
             $(this).addClass("active"); //Add "active" class to selected tab
             $(".s_tab_content").hide(); //Hide all tab content
             var activeTab2 = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
-            console.log(activeTab2);
             $(activeTab2).fadeIn(); //Fade in the active content
             return false;
         });
@@ -61,4 +65,19 @@ $(document).ready(function() {
         $(activeTab2).fadeIn(); //Fade in the active content
         return false;
     });
+
+
+    //其他筛选条件
+    filter("price");
+    filter("structure");
+    filter("wayToRent");
+    filter("roommate");
+
 });
+
+function filter(list) {
+    $("."+list+" ul li").click(function () {
+        $("."+list+" ul li").removeClass("active"); //Remove any "active" class
+        $(this).addClass("active"); //Add "active" class to selected tab
+    });
+}

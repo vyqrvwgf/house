@@ -7,15 +7,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>{% block title %}{% endblock %}</title>
-    <!-- <link rel="stylesheet" href="/static/kikkik/bootstrap/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="/static/kikkik/bootstrap/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="/static/website/css/swiper.min.css">
-    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
-    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
-    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
     <link rel="stylesheet" href="/static/admin/plugins/select2/select2.min.css">
     <link rel="stylesheet" href="/static/website/css/base.css">
-    <link rel="stylesheet" href="/static/website/css/index.css">
     {% block style %}
     {% endblock %}
 </head>
@@ -45,7 +38,9 @@
     <!--nav begin-->
     <nav class="wrap">
         <div class="banxin nav  clearfix">
-            <a class="logo" href="javascript:void(0)"></a>
+            <a class="logo fl" href="javascript:void(0)">
+                <img src="/static/website/images/LOGO.png" alt="">
+            </a>
             <ul class="nav_items fl">
                 <li class="fl"><a href="/">首页</a></li>
                 <li class="fl">
@@ -89,13 +84,9 @@
     </div>
 
     <!--footer end-->
-    <script src="//at.alicdn.com/t/font_v99cm781jpn1att9.js"></script>
-    <script src="//at.alicdn.com/t/font_ud62gmrxjpu5l8fr.js"></script>
+    <script src="//at.alicdn.com/t/font_ydrr42zlcvea5rk9.js"></script>
     <script src="/static/website/js/jquery-3.2.1.js"></script>
-    <script src="/static/kikkik/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/static/kikkik/plugins/iCheck/icheck.min.js"></script>
     <script src="/static/website/js/nav.js"></script>
-    <script src="/static/website/js/swiper.min.js"></script>
     {% block script %}
     {% endblock %}
 </body>

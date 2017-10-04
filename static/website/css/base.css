@@ -31,7 +31,7 @@ body {
     font-family: "微软雅黑";
     background: #FFFFFF;
 }
-.clearfix::after{
+.clearfix::before,.clearfix::after{
     content: "";
     height: 0;
     line-height: 0;
@@ -46,7 +46,7 @@ a {
     text-decoration: none;
 }
 
-.fl {
+.fl{
     float: left;
 }
 .fr {
@@ -83,7 +83,7 @@ header.wrap{
     font-size: 12px;
     background-color: #0bb8a5;
     vertical-align:top;
-    padding-left: 208px;
+    padding-left: 147px;
 }
 
 .welcome .city{
@@ -104,30 +104,32 @@ header.wrap{
 /*nav begin*/
 
 .nav {
-    height: 90px;
+    height: 115px;
     position: relative;
     background-color: #fff;
 }
+
 .nav .logo{
-    width: 188px;
-    height: 165px;
+    width: 90px;
+    height: 115px;
     display: inline-block;
-    background:  url('../images/sprite.png') no-repeat 0 0  #0bb8a5;
-    background-origin: content-box;
-    padding: 40px 0 0 37px;
+    padding-top: 5px;
     position: absolute;
     z-index: 1000;
     top: 0;
     left: 0;
 }
+.nav .logo img{
+    width: 100%;
+}
 .nav .nav_items{
     width: 450px;
-    margin-left: 295px;
+    margin-left: 120px;
 
 }
 .nav .nav_items li{
     width: 90px;
-    height: 90px;
+    height: 80px;
     text-align: center;
     padding-top: 45px;
 }
@@ -143,10 +145,9 @@ header.wrap{
     cursor: pointer;
 }
 .nav .hot-line{
-    padding-top: 20px;
+    padding-top: 30px;
 }
 .nav .hot-line .p_number{
-    width:204px;
     height:26px;
     font: normal bold 24px/26px "微软雅黑";
 }
@@ -192,4 +193,28 @@ header.wrap{
     bottom: 0;
     color: #999;
     font-size: 12px;
+}
+
+/* 翻页 */
+.pagination ul{
+    margin: 20px auto;
+}
+.pagination ul li{
+    float: left;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.pagination ul li:hover,.pagination ul li.active{
+    background-color: #0bb8a5;
+}
+.pagination ul li a{
+    color: #000;
+}
+.pagination ul li:hover a,.pagination ul li.active a{
+    color: #fff;
 }
