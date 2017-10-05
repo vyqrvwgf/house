@@ -156,7 +156,7 @@ SMS_APP_ID = '8aaf070857dc0e780157e14b3a1c04b2'
 SMS_TEMPLATE_CODE_ID = 125618
 
 # qiniu
-QINIU_DOMAIN = 'ostx5g0u9.bkt.clouddn.com'
+QINIU_DOMAIN = 'oxaoo4ur4.bkt.clouddn.com'
 QINIU_ACCESS_KEY = 'uUpyGla7DTbzVG7BKjgMlsT8QEx0RsFuY8ofxY7r'
 QINIU_SECRET_KEY = 'J0FdHNr6i1PdwlVzoxs-sqR5IeJgqjTFmqbWubuC'
 BUCKET_NAME = 'yueju'
