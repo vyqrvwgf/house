@@ -144,7 +144,7 @@
         };
         inp.onblur = function () {
             console.log(11);
-            var reg1 = /^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])\d{8}$/;
+            var reg1 = /^(13[0-9]|15[0|3|6|7|8|9]|18[0-9])\d{8}$/;
             if(reg1.test(inp.value)){
                 //3、符合个给一个样式，不符合给另一个样式
                 inp.style.color = "green";

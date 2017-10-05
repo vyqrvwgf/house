@@ -52,7 +52,6 @@ def index(request):
 		is_valid=True
 	).order_by('-order_no')
 
-
 	context = {
 		'module': 'index',
 		'sub_module': 'user_index',
@@ -61,7 +60,7 @@ def index(request):
 		'qiniu_domain': QINIU_DOMAIN,
 	}
 
-	return render(request, 'frontend/user/index.html', context)
+	return render(request, 'frontend/user/05-4-member01.html', context)
 
 
 @website_check_login
@@ -82,7 +81,7 @@ def housing_resource_create(request):
 		'qiniu_domain': QINIU_DOMAIN,
 	}
 
-	return render(request, 'frontend/user/housing_resource_create.html', context)
+	return render(request, 'frontend/user/05-4-member02.html', context)
 
 
 @website_check_login
@@ -94,30 +93,57 @@ def login_out(request):
 
 
 @csrf_exempt
+def update_avatar(request):
+	c_user_id = request.POST.get('c_user_id', '')
+	avatar = request.POST.get('avatar', '')
+
+	try:
+		profile = Profile.objects.filter(is_del=False, pk=c_user_id).first()
+		profile.avatar = avatar
+
+		profile.save()
+
+	except Exception as e:
+		logging.error(e)
+		return JsonResponse({
+			'error_code': 1,
+			'error_msg': '修改失败',
+		})
+
+	return JsonResponse({
+		'error_code': 0,
+		'error_msg': '修改成功',
+	})
+
+
+@csrf_exempt
 def update_profile(request):
 	c_user_id = request.POST.get('c_user_id', '')
 	user_name = request.POST.get('user_name', '')
 	gender = request.POST.get('gender', '')
-	birbath = request.POST.get('birbath', '')
+	birbath = request.POST.get('jHsDateInput', '')
 	mobile = request.POST.get('mobile', '')
-	bank_acount = request.POST.get('bank_acount', '')
+	# bank_acount = request.POST.get('bank_acount', '')
 	id_card = request.POST.get('id_card', '')
+	promo_code = request.POST.get('promo_code', '')
+	employe = request.POST.get('employe', '')
 
 	try:
 		profile = Profile.objects.filter(is_del=False, pk=c_user_id).first()
 		profile.user_name = user_name
-
 		profile.gender = gender
+		birbath = datetime.datetime.strptime(birbath, "%Y-%m-%d")
 		profile.birbath = birbath
 		profile.mobile = mobile
-		profile.bank_acount = bank_acount
+		# profile.bank_acount = bank_acount
+		profile.promo_code = promo_code
+		profile.employe = employe
 		profile.id_card = id_card
 
 		if request.FILES:
 			if request.FILES.get('test-image-file', None):
 				# 上传图片
 				id_card_picture = request.FILES['test-image-file']
-
 				ts = int(time.time())
 				ext = get_extension(id_card_picture.name)
 				key = 'id_card_picture_{}.{}'.format(ts, ext)

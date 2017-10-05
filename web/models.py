@@ -72,6 +72,11 @@ class Profile(BaseModel):
         (2, '女')
     )
 
+    CARD_CHOICES = (
+        (0, '未认证'),
+        (1, '已认证')
+    )
+
     user = models.ForeignKey(User, default=None, blank=True, null=True, verbose_name='用户')
     email = models.CharField(max_length=128, default='', blank=True, verbose_name='邮箱')
     user_name = models.CharField(max_length=128, default='', verbose_name='姓名')
@@ -83,14 +88,17 @@ class Profile(BaseModel):
     gender = models.IntegerField(choices=GENDER_CHOICES, default=1, verbose_name='性别')
     age = models.IntegerField(default=0, verbose_name='年龄')
     id_card = models.CharField(max_length=128, default='', blank=True, verbose_name='身份证信息')
+    id_card_status = models.IntegerField(choices=CARD_CHOICES, default=1, verbose_name='身份认证信息')
     bank_acount = models.CharField(max_length=128, default='', blank=True, verbose_name='银行卡信息')
     id_card_picture = models.CharField(max_length=255, default='', blank=True, verbose_name='身份证')
     mobile = models.CharField(max_length=16, default='', blank=True, verbose_name='手机')
     avatar = models.CharField(max_length=300, default='', null=True, blank=True, verbose_name='头像')
-    birbath = models.DateTimeField(default=datetime.datetime.now, verbose_name="生日")
+    birbath = models.DateField(default=datetime.date.today, verbose_name="生日")
     wx_unionid = models.CharField(max_length=300, default='', blank=True, verbose_name="微信id")
     weibo_uid = models.CharField(max_length=300, default='', blank=True, verbose_name="微博id")
     qq_uid = models.CharField(max_length=300, default='', blank=True, verbose_name="qqid")
+    promo_code = models.CharField(max_length=300, default='', blank=True, verbose_name="动态码")
+    employe = models.CharField(max_length=300, default='', blank=True, verbose_name="工作单位")
 
     def get_user(self):
         try:
