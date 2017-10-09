@@ -161,6 +161,11 @@ QINIU_ACCESS_KEY = 'uUpyGla7DTbzVG7BKjgMlsT8QEx0RsFuY8ofxY7r'
 QINIU_SECRET_KEY = 'J0FdHNr6i1PdwlVzoxs-sqR5IeJgqjTFmqbWubuC'
 BUCKET_NAME = 'yueju'
 
+# ping++
+API_KEY = 'sk_live_DKyPiDvnn1qTeDyzPK98W1e5'
+APP_ID = 'app_SOGGKKPaLafDq1aH'
+
+
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

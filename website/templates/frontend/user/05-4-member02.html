@@ -47,7 +47,7 @@
             </a>
         </li>
         <li {% if sub_module == 'housing_resource' %} class="active" {% endif %}>
-            <a href="">
+            <a href="{% url 'website:housing_resources' %}">
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-03fygl"></use>
                 </svg> 房源管理
@@ -93,50 +93,51 @@
     <div class="tab_container fr">
         <!--tab2 房源发布-->
         <div id="tab2" class="tab_content house-release clearfix">
-            <form action="" method="POST" target="" accept-charset="UTF-8" ectype="application/x-www-form-urlencoded" autocomplete="off" novalidate>
+            <form method="POST" action="{% url 'website:housing_resource_create' %}" enctype="multipart/form-data" id="form1">
+            {% csrf_token %}
             <h4>房源描述</h4><br>
-                <textarea class="house-description" name="house-description" id="house-description" cols="50" rows="10" placeholder="请输入房源描述"></textarea><br><br>
+                <textarea class="house-description" name="content" id="house-description" cols="50" rows="10" placeholder="请输入房源描述"></textarea><br><br>
                 <h4>房源详情</h4>
                 <p>
                     <label>租赁方式：</label>
-                    <select name="leasing-method" id="leasing-method">
-                        <option value="整租">整租</option>
-                        <option value="合租">合租</option>
+                    <select name="leasing-method" id="leasing-method" name="lease">
+                        <option value="">整租</option>
+                        <option value="1">合租</option>
                     </select>
                 </p>
                 <p>
                     <label>房屋类型：</label>
-                    <input class="house-type" name="house-type" id="house-type" type="text" placeholder="例如：2室1厅   独立卫生间   精装修">
+                    <input class="house-type" name="category" id="house-type" type="text" placeholder="例如：2室1厅   独立卫生间   精装修">
                 </p>
                 <p>
                     <label>押付方式：</label>
-                    押 <select name="cashPledge" id="cashPledge">
-                    <option value="1">0.5</option>
+                    押 <select name="bet" id="cashPledge">
+                    <option value="0.5">0.5</option>
                     <option value="1">1</option>
-                    <option value="1">1.5</option>
-                    <option value="1">2</option>
-                    <option value="1">2.5</option>
-                    <option value="1">3</option>
+                    <option value="1.5">1.5</option>
+                    <option value="2">2</option>
+                    <option value="2.5">2.5</option>
+                    <option value="3">3</option>
                 </select>
-                    付 <select name="cashRent" id="cashRent">
-                    <option value="1">0.5</option>
+                    付 <select name="pay" id="cashRent">
+                    <option value="0.5">0.5</option>
                     <option value="1">1</option>
-                    <option value="1">1.5</option>
-                    <option value="1">2</option>
-                    <option value="1">2.5</option>
-                    <option value="1">3</option>
+                    <option value="1.5">1.5</option>
+                    <option value="2">2</option>
+                    <option value="2.5">2.5</option>
+                    <option value="3">3</option>
                 </select> (月份)
                 </p>
                 <p>
                     <label>楼层朝向：</label>
-                    <select name="floor-orientation" id="floor-orientation">
-                        <option value="1">东</option>
+                    <select name="direction" id="floor-orientation">
+                        <option value="0">东</option>
                         <option value="1">南</option>
-                        <option value="1">西</option>
-                        <option value="1">北</option>
+                        <option value="2">西</option>
+                        <option value="3">北</option>
                     </select>
                     <label>楼层数</label>
-                    <select name="floor-number" id="floor-number">
+                    <select name="layer" id="floor-number">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -171,7 +172,7 @@
                         <option value="32">32</option>
                     </select>
                     <label>总层数</label>
-                    <select name="total-floors" id="total-floors">
+                    <select name="total_layer" id="total-floors">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -208,11 +209,11 @@
                 </p>
                 <p>
                     <label>所在小区：</label>
-                    <input class="district" name="district" id="district" type="text" placeholder="输入小区名字">
+                    <input class="district" name="community" id="district" type="text" placeholder="输入小区名字">
                 </p>
                 <p class="address">
                     <label>详细地址：</label>
-                    <input class="addr" name="addr" id="addr" type="text" placeholder="具体街道地址">
+                    <input class="addr" name="address" id="addr" type="text" placeholder="具体街道地址">
                 </p>
                 <h4>基础设施</h4>
                 <ul class="surrounding-facilities clearfix">
@@ -222,20 +223,23 @@
                         <br>
                         <label>{{ i.name }}</label>
                         <br>
-                        <input type="checkbox" name="infrastructure" value="">
+                        <input type="checkbox" name="infrastructures" value="{{ i.id }}">
                     </li>
                 {% endfor %}
                 </ul>
                 <h4>周边配套</h4>
-                <p><label>附近公交：</label><input class="bus" type="text" placeholder="公交站、公交路线"></p>
-                <p><label>附近地铁：</label><input class="tube" type="text" placeholder="地铁站、地铁路线"></p>
-                <p><label>餐饮购物：</label><input class="mall" type="text" placeholder="商场、超市等"></p>
+                <p>
+                    <label>附近公交：</label>
+                    <input class="bus" type="text" placeholder="公交站、公交路线">
+                </p>
+                <p><label>附近地铁：</label><input class="subway" type="text" placeholder="地铁站、地铁路线"></p>
+                <p><label>餐饮购物：</label><input class="buy" type="text" placeholder="商场、超市等"></p>
                 <h4>客厅</h4>
-                <p>有无客厅：<input type="radio" name="livingroom" id="yes"> 有 &nbsp&nbsp<input type="radio" name="livingroom" id="no"> 无</p>
-                <p class="livingArea"><label>面积：</label><input class="area" type="text">&nbsp m³</p>
+                <p>有无客厅：<input type="radio" name="sitting_room" id="yes"> 有 &nbsp&nbsp<input type="radio" name="sitting_room" id="no"> 无</p>
+                <p class="livingArea"><label>面积：</label><input class="area" name="sitting_room_area" type="text">&nbsp m³</p>
                 <p class="livingSet">客厅配置：
-                    <label>阳台 </label><input type="checkbox" name="details">&nbsp&nbsp
-                    <label>飘窗 </label><input type="checkbox" name="details">&nbsp&nbsp
+                    <label>阳台 </label><input type="checkbox" name="sitting_room_complete" value="1">&nbsp;&nbsp;
+                    <label>飘窗 </label><input type="checkbox" name="sitting_room_complete" value="2">&nbsp;&nbsp;
                 </p>
                 <h4>卧室</h4>
                 <div class="bedroom">
@@ -254,12 +258,19 @@
                 </div>
                 <button class="addBedroom" type="button">增加卧室</button>
                 <h4>上传房产证照片</h4>
-                <p><input type="file" class="deedPic" name="deedPic"></p>
-                <div class="photos">+增加图片</div>
+                <p>
+                    <input type="file" class="deedPic" name="deedPic">
+                </p>
+                <div id="container2">
+                    <div class="photos" id="pickfiles2">+增加图片</div>
+                </div>
+                
                 <h4>上传照片</h4>
                 <p><input type="file" class="deedPic" id="deedPic" name="deedPic"></p>
-                <div class="photos">+增加图片</div>
-                <button class="release-pay" type="submit">确定发布并预付费用</button>
+                <div id="container3">
+                    <div class="photos" id="pickfiles3">+增加图片</div>
+                </div>
+                <button class="release-pay" type="button">确定发布并预付费用</button>
             </form>
         </div>
         <div class="backToTop">↑<p>Top</p></div>
@@ -268,12 +279,208 @@
 {% endblock %}
 
 {% block script %}
+<script src="/static/pingpp-js/dist/pingpp.js" type="text/javascript"></script>
 <script src="/static/website/js/05-4-member.js"></script>
+<script src="/static/vendor/qiniu.min.js"></script>
+<script src="/static/vendor/plupload.full.min.js"></script>
 <script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script>
+    $('.release-pay').click(function(){
+        // 字段检查
+
+        $.ajax({
+            url:'/hr_create',
+            type: 'POST',
+            data: new FormData($('#form1')[0]),
+            processData: false,
+            contentType: false
+        }).done(function(res){
+            console.log(res)
+            if (res.error_code == 0) {
+                // 拿到charge对象，调起支付
+                charge_id = res.data.charge_id
+                console.log(charge_id);
+                pingpp.createPayment(charge_id, function(result, err) {
+                    console.log(result);
+                    console.log(err.msg);
+                    console.log(err.extra);
+                });
+
+                window.location.href = ''
+            }else{
+                alert(res.error_msg)
+            }
+        }).fail(function(res){
+
+        });
+
+    });
+
     $(".backToTop").click(function () {
         console.log(11);
         scrollTo(0,0);
     });
+
+        //设置上传信息
+        var uploader1 = Qiniu.uploader({
+            runtimes: 'html5,flash,html4',    //上传模式,依次退化
+            browse_button: 'pickfiles1',       //上传选择的点选按钮，**必需**
+            uptoken_url: '/admin/uptoken/',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+            // uptoken : '', //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
+            unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
+            // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
+            domain: 'http://{{qiniu_domain}}',   //bucket 域名，下载资源时用到，**必需**
+            get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+            container: 'container1',           //上传区域DOM ID，默认是browser_button的父元素，
+            max_file_size: '500mb',           //最大文件体积限制
+            max_retries: 3,                   //上传失败最大重试次数
+            dragdrop: true,                   //开启可拖曳上传
+            drop_element: 'container1',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+            chunk_size: '4mb',                //分块上传时，每片的体积
+            auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+            multi_selection: false,           //限制只能上传一个文件
+            filters : {
+                prevent_duplicates: true,
+                //Specify what files to browse for
+                 mime_types: [
+                  {title : "images files", extensions : "jpeg,png,jpg"},
+                 ]
+            },
+            init: {
+                'FilesAdded': function(up, files) {
+                    plupload.each(files, function(file) {
+                        // 文件添加进队列后,处理相关的事情
+                    });
+                },
+                'BeforeUpload': function(up, file) {
+                    // 每个文件上传前,处理相关的事情
+                    $('#pickfiles1').prev().val("");
+                },
+                'UploadProgress': function(up, file) {
+                   var percent = up.total.percent + '%';
+                   $("#upload_progress").css('width', percent);
+                   $("#upload_progress").text(percent);
+                },
+                'FileUploaded': function(up, file, info) {
+                    // 每个文件上传成功后,处理相关的事情
+                    var res = JSON.parse(info);
+                    key = res.key
+                    console.log(key)
+                    // $('#user_avatar').attr('src', 'http://{{ qiniu_domain }}/' + key)
+                    // $('#pickfiles1').prev().val(key);
+                    // 更新用户的头像
+                    $.ajax({
+                        url:'/user/update_avatar',
+                        type: 'POST',
+                        data: {'avatar': key, 'c_user_id': {{ client.id }} },
+                    }).done(function(res){
+                        console.log(res)
+                        if (res.error_code == 0) {
+                            return;
+                        }
+                    }).fail(function(res){
+
+                    });
+                },
+                'Error': function(up, err, errTip) {
+                    //上传出错时,处理相关的事情
+                },
+                'UploadComplete': function() {
+                    //队列文件处理完毕后,处理相关的事情
+                },
+            }
+        });
+
+    var uploader2 = Qiniu.uploader({
+        runtimes: 'html5,flash,html4',    //上传模式,依次退化
+        browse_button: 'pickfiles2',       //上传选择的点选按钮，**必需**
+        uptoken_url: '/admin/uptoken/',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+        // uptoken : '', //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
+        unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
+        // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
+        domain: 'http://{{ qiniu_domain }}',   //bucket 域名，下载资源时用到，**必需**
+        get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+        container: 'container2',           //上传区域DOM ID，默认是browser_button的父元素，
+        max_file_size: '100mb',           //最大文件体积限制
+        max_retries: 3,                   //上传失败最大重试次数
+        dragdrop: true,                   //开启可拖曳上传
+        drop_element: 'container1',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+        chunk_size: '4mb',                //分块上传时，每片的体积
+        auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+        multi_selection: true,           //限制只能上传一个文件
+        init: {
+            'FilesAdded': function(up, files) {
+                plupload.each(files, function(file) {
+                    // 文件添加进队列后,处理相关的事情
+                });
+            },
+            'BeforeUpload': function(up, file) {
+                // 每个文件上传前,处理相关的事情
+            },
+            'UploadProgress': function(up, file) {
+
+            },
+            'FileUploaded': function(up, file, info) {
+                // 每个文件上传成功后,处理相关的事情
+                var res = JSON.parse(info);
+                var img_url = 'http://{{qiniu_domain}}/'+res.key;
+                html = '<img src="'+img_url+'?imageView2/1/w/160/h/160"/><input type="text" class="imgs1" name="imgs1" style="display: none" value="'+res.key+'">';
+                $('#container2').before(html)
+            },
+            'Error': function(up, err, errTip) {
+                //上传出错时,处理相关的事情
+            },
+            'UploadComplete': function() {
+                //队列文件处理完毕后,处理相关的事情
+            },
+        }
+    });
+
+    var uploader3 = Qiniu.uploader({
+        runtimes: 'html5,flash,html4',    //上传模式,依次退化
+        browse_button: 'pickfiles3',       //上传选择的点选按钮，**必需**
+        uptoken_url: '/admin/uptoken/',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+        // uptoken : '', //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
+        unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
+        // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
+        domain: 'http://{{qiniu_domain}}',   //bucket 域名，下载资源时用到，**必需**
+        get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
+        container: 'container3',           //上传区域DOM ID，默认是browser_button的父元素，
+        max_file_size: '100mb',           //最大文件体积限制
+        max_retries: 3,                   //上传失败最大重试次数
+        dragdrop: true,                   //开启可拖曳上传
+        drop_element: 'container3',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+        chunk_size: '4mb',                //分块上传时，每片的体积
+        auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+        multi_selection: true,           //限制只能上传一个文件
+        init: {
+            'FilesAdded': function(up, files) {
+                plupload.each(files, function(file) {
+                    // 文件添加进队列后,处理相关的事情
+                });
+            },
+            'BeforeUpload': function(up, file) {
+                // 每个文件上传前,处理相关的事情
+            },
+            'UploadProgress': function(up, file) {
+
+            },
+            'FileUploaded': function(up, file, info) {
+                // 每个文件上传成功后,处理相关的事情
+                var res = JSON.parse(info);
+                var img_url = 'http://{{ qiniu_domain }}/'+res.key;
+                html = '<img src="'+img_url+'?imageView2/1/w/160/h/160"/><input type="text" class="imgs2" name="imgs2" style="display: none" value="'+res.key+'">';
+                $('#container3').before(html)
+
+            },
+            'Error': function(up, err, errTip) {
+                //上传出错时,处理相关的事情
+            },
+            'UploadComplete': function() {
+                //队列文件处理完毕后,处理相关的事情
+            },
+        }
+    });
+
 </script>
 {% endblock %}

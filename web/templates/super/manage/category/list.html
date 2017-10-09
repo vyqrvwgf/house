@@ -50,12 +50,12 @@
                   </a>
                 </td>
                 <td style="vertical-align: middle;">
-                    <a class="btn btn-info" href="{% url 'web:category_edit' client.id %}">编辑</a>
-                    <a class="btn btn-danger" href="{% url 'web:category_delete' client.id %}" onclick="return confirm('确认删除分类吗?')">删除</a>
+                    <a class="btn-xs btn-info" href="{% url 'web:category_edit' client.id %}">编辑</a>
+                    <a class="btn-xs btn-danger" href="{% url 'web:category_delete' client.id %}" onclick="return confirm('确认删除分类吗?')">删除</a>
                     {% if client.is_valid %}
-                      <a class="btn btn-default" href="{% url 'web:category_offline' client.id %}">下线</a>
+                      <a class="btn-xs btn-default" href="{% url 'web:category_offline' client.id %}">下线</a>
                     {% else %}
-                      <a class="btn btn-default" href="{% url 'web:category_online' client.id %}">上线</a>
+                      <a class="btn-xs btn-default" href="{% url 'web:category_online' client.id %}">上线</a>
                     {% endif %}
                 </td>
               </tr>

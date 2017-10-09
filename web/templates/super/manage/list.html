@@ -35,7 +35,7 @@
                 <td style="vertical-align: middle;">{{ client.date_joined }}</td>
                 <td style="vertical-align: middle;">
                   {% if client.username != 'admin' %}
-                    <a class="btn btn-info" href="{% url 'web:manage_edit' client.id %}">编辑</a>
+                    <a class="btn-xs btn-info" href="{% url 'web:manage_edit' client.id %}">编辑</a>
                      {% if client.username != user.username %}<a class="btn btn-danger" href="{% url 'web:manage_delete' client.id %}" onclick="return confirm('确认删除管理员吗?')">删除</a>{% endif %}
                   {% endif %}
                 </td>

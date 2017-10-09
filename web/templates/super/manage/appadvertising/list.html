@@ -58,12 +58,12 @@ APP首页弹出管理
                 <td style="vertical-align: middle;">{{ client.end_date }}</td>
                 <td style="vertical-align: middle;">{% if client.is_valid = True %}已发布{% else %}未发布{% endif %}</td>
                 <td style="vertical-align: middle;">
-                    <a class="btn btn-info" href="{% url 'web:appadvertising_edit' client.id %}">编辑</a>
-                    <a class="btn btn-danger" href="{% url 'web:appadvertising_delete' client.id %}" onclick="return confirm('确认删除App首页弹出内容吗?')">删除</a>
+                    <a class="btn-xs btn-info" href="{% url 'web:appadvertising_edit' client.id %}">编辑</a>
+                    <a class="btn-xs btn-danger" href="{% url 'web:appadvertising_delete' client.id %}" onclick="return confirm('确认删除App首页弹出内容吗?')">删除</a>
                     {% if client.is_valid %}
-                      <a class="btn btn-default" href="{% url 'web:appadvertising_offline' client.id %}">下线</a>
+                      <a class="btn-xs btn-default" href="{% url 'web:appadvertising_offline' client.id %}">下线</a>
                     {% else %}
-                      <a class="btn btn-default" href="{% url 'web:appadvertising_online' client.id %}">上线</a>
+                      <a class="btn-xs btn-default" href="{% url 'web:appadvertising_online' client.id %}">上线</a>
                     {% endif %}
                 </td>
               </tr>

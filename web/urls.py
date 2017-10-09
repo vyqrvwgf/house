@@ -12,6 +12,8 @@ from web.views import (
     operating,
     infrastructure,
     user,
+    flush_view,
+    listings
 )
 
 # 管理后台
@@ -22,6 +24,9 @@ urlpatterns = [
     url(r'^login$', auth.login_view, name='admin_login'),
     url(r'^logout$', auth.logout_view, name='admin_logout'),
     url(r'^uptoken/$', index_view.uptoken, name='admin_uptoken'),
+
+    url(r'^flush/setting/$', flush_view.setting, name='flush_setting'),
+
     # 轮播
     url(r'^advertising/list/$', home.advertising_list, name='advertising_list'),
     url(r'^advertising/create$', home.advertising_create, name='advertising_create'),
@@ -49,6 +54,12 @@ urlpatterns = [
     url(r'^infrastructure/(?P<infrastructure_id>\d+)/delete$', infrastructure.delete, name='infrastructure_delete'),
     url(r'^infrastructure/(?P<infrastructure_id>\d+)/up/$', infrastructure.up, name='infrastructure_up'),
     url(r'^infrastructure/(?P<infrastructure_id>\d+)/down/$', infrastructure.down, name='infrastructure_down'),
+    # 房源列表
+    url(r'^listings/list/$', listings.list, name='listings_list'),
+    url(r'^listings/(?P<housingresources_id>\d+)/online$', listings.online, name='listings_online'),
+    url(r'^listings/(?P<housingresources_id>\d+)/offline$', listings.offline, name='listings_offline'),
+    url(r'^listings/(?P<housingresources_id>\d+)/delete$', listings.delete, name='listings_delete'),
+
     # 商家管理员
     url(r'^venture_manage/list$', venture_manage.venture_manage_list, name='venture_manage_list'),
     url(r'^venture_manage/create$', venture_manage.venture_manage_create, name='venture_manage_create'),

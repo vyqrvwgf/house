@@ -1,0 +1,136 @@
+<!--通用top begin -->
+
+{% extends 'frontend/base.html' %}
+
+{% block pageheader %}
+用户中心
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/static/website/css/05-4-member.css">
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
+{% endblock %}
+
+{% block container %}
+
+<div class="user">
+    <img src="/static/website/images/member-bg.jpg" alt="" id="user_avatar">
+    <div class="user-info banxin clearfix">
+        <div class="user-face fl" id="container1" >
+            <a class="avatar" id="pickfiles1">修改头像</a>
+        </div>
+        <p class="user-name grey">你好，<span>{{ client.user_name }}</span>！</p>
+        <p class="user-loginTime grey">上次登录：<span>{{client.updated|date:"Y-m-d H:i:s"}}</span></p>
+        <p class="user-credit grey">租客信用：<span class="green">900/1000</span> <strong class="green">优</strong></p>
+    </div>
+</div>
+
+<div class="container banxin clearfix">
+    <!--左边列表-->
+    <!--左边列表-->
+    <ul class="tabs fl">
+        <h4 align="center">账号管理</h4>
+        <li {% if sub_module == 'user_index' %} class="active" {% endif %}>
+            <a href="{% url 'website:user_index' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-01jbxx"></use>
+                </svg> 基本信息
+            </a>
+        </li>
+        <li {% if sub_module == 'housing_resource_create' %} class="active" {% endif %}>
+            <a href="{% url 'website:housing_resource_create' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-02fbfy"></use>
+                </svg> 房源发布
+            </a>
+        </li>
+        <li {% if sub_module == 'housing_resource' %} class="active" {% endif %}>
+            <a href="{% url 'website:housing_resources' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-03fygl"></use>
+                </svg> 房源管理
+            </a>
+        </li>
+        <li {% if sub_module == 'rent_house_create' %} class="active" {% endif %}>
+            <a href="">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-04qzfb"></use>
+                </svg> 求租发布
+            </a>
+        </li>
+        <li {% if sub_module == 'rent_house' %} class="active" {% endif %}>
+            <a href="">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-05qzgl"></use>
+                </svg> 求租管理
+            </a>
+        </li>
+        <li {% if sub_module == 'look_house' %} class="active" {% endif %}>
+            <a href="">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-06kfgl"></use>
+                </svg> 看房管理
+            </a>
+        </li>
+        <li {% if sub_module == 'bill' %} class="active" {% endif %}>
+            <a href="">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-07zjgl"></use>
+                </svg> 资金管理
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-07zjgl"></use>
+                </svg> 系统消息
+            </a>
+        </li>
+    </ul>
+    <!--右边列表-->
+    <div class="tab_container fr">
+        <!--tab3 房源管理-->
+        <div id="tab3" class="tab_content house-manage"">
+            <h4 class="house-online">已上架房源</h4>
+            <ul class="items-on clearfix">
+            {% for c1 in clients1 %}
+                <li class="item">
+                    <img src="/static/website/images/houseMess.png" alt="">
+                    <p>租金：<strong class="orange">5000-10000</strong></p>
+                    <p>地理位置：<span>{{ c1.address }}</span></p>
+                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp;&nbsp;&nbsp; <a class="orange" href="#">下架</a>
+                    </p>
+                </li>
+            {% endfor %}
+            </ul>
+            <h4 class="house-online">已下架房源</h4>
+            <ul class="items-off clearfix">
+            {% for c2 in clients2 %}
+                <li class="item">
+                    <img src="/static/website/images/houseMess.png" alt="">
+                    <p>房租预算 <strong class="orange">5000-10000</strong></p>
+                    <p>地理位置：<span>{{ c1.address }}</span></p>
+                    <p align="center"><a class="orange" href="#">编辑</a> &nbsp;&nbsp;&nbsp; <a class="orange" href="#">上架</a>
+                    </p>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="backToTop">↑<p>Top</p></div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<!--footer end-->
+<script src="/static/website/js/05-4-member.js"></script>
+<script>
+    $(".backToTop").click(function () {
+        console.log(11);
+        scrollTo(0,0);
+    });
+</script>
+{% endblock %}

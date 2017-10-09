@@ -144,7 +144,9 @@
 
                 {% if 'listings' in request.session.menu_str %}
                   <li {% if module == 'listings' %}class="active" {% endif %}>
-                    <a href=""><i class="fa fa-circle-o"></i>房源列表</a>
+                    <a href="{% url 'web:listings_list' %}">
+                      <i class="fa fa-circle-o"></i>房源列表
+                    </a>
                   </li>
                 {% endif %}
 
