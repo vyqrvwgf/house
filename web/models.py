@@ -217,12 +217,19 @@ class HousingResources(BaseModel):
         (1, '无'),
     )
 
+    STATUS_CHOICES = (
+        (0, '下线'),
+        (1, '上线')
+    )
+
+    user = models.ForeignKey(User, default=None, null=True, blank=True, verbose_name='用户')
     infrastructure = models.ManyToManyField(Infrastructure, verbose_name="基础设施")
     cover = models.CharField(max_length=1024, default='', blank=True, verbose_name="图片")
     hall = models.CharField(max_length=1024, default='', blank=True, verbose_name="大厅图片")
     peripheral = models.TextField(default='', null=True, blank=True, verbose_name='配套设施')
     lease = models.IntegerField(choices=LEASE_CHOICES, default=0, verbose_name='租赁方式')
-    deposit = models.IntegerField(choices=DEPOSIT_CHOICES, default=0, verbose_name='押付方式')
+    bet = models.FloatField(default=0, verbose_name='押')
+    pay = models.FloatField(default=0, verbose_name='付')
     direction = models.IntegerField(choices=DIRECTION_CHOICES, default=0, verbose_name='楼层朝向')
     sitting_room = models.IntegerField(choices=SITTING_ROOM_CHOICES, default=0, verbose_name='有无客厅')
     sitting_room_area = models.FloatField(default=0, blank=True, verbose_name="客厅面积")
@@ -236,12 +243,36 @@ class HousingResources(BaseModel):
     subway = models.CharField(max_length=1024, default='', blank=True, verbose_name="地铁")
     buy = models.CharField(max_length=1024, default='', blank=True, verbose_name="购物")
     content = models.TextField(default='', null=True, blank=True, verbose_name='房屋描述')
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name='状态')
 
     def cover_url(self):
         return url(self.cover)
 
     def hall_url(self):
         return url(self.hall)
+
+    def get_housing_pricturs(self):
+        prictures = []
+        housing_pictures = HousingCertificatePicture.objects.filter(
+            is_del=False,
+            is_valid=True,
+            housing_resources=self
+        )
+        prictures = [h.picture_url() for h in housing_pictures]
+        return prictures
+
+
+class HousingCertificatePicture(BaseModel):
+
+    class Meta(object):
+        verbose_name = '房屋房产证图片'
+        verbose_name_plural = '房屋房产证图片'
+
+    housing_resources = models.ForeignKey(HousingResources, null=True, blank=True, verbose_name="房源")
+    picture = models.CharField(max_length=1024, default='', blank=True, verbose_name="图片")
+
+    def picture_url(self):
+        return url(self.picture)
 
 
 class HousingPicture(BaseModel):
@@ -348,7 +379,41 @@ class Setting(BaseModel):
 
     name = models.CharField(max_length=100, default='', verbose_name="字段")
     value = models.CharField(max_length=100, default='', verbose_name="值")
-    detail = models.CharField(max_length=100, default='', verbose_name="描述")
+    code = models.CharField(max_length=100, default='', verbose_name="code")
+
+
+class HousingResourcesOrder(BaseModel):
+
+    class Meta(object):
+        verbose_name = "发布房源订单"
+        verbose_name_plural = "发布房源订单"
+
+    PAY_CHOICES = (
+        (0, '支付宝PC网站支付'),
+        (1, '微信App支付'),
+        (2, '支付宝移动支付'),
+        (3, '支付宝手机网站支付'),
+    )
+
+    STATUS_CHOICES = (
+        (0, '待下单'),
+        (1, '等待付款'),
+        (2, '付款成功'),
+        (3, '订单取消'),
+        (4, '已完成'),
+        (5, '退款申请中'),
+        (6, '退款中'),
+        (7, '退款成功'),
+    )
+
+    order_num = models.CharField(max_length=128, default='', blank=True, verbose_name="唯一订单号")
+    user = models.ForeignKey(User, default=None, null=True, blank=True, verbose_name='用户')
+    total_fee = models.FloatField(default=0, blank=True, verbose_name="总计金额")
+    real_fee = models.FloatField(default=0, blank=True, verbose_name="实际付款")
+    pay_way = models.IntegerField(choices=PAY_CHOICES, default=0, verbose_name="支付方式")
+    pay_time = models.DateTimeField(auto_now=True, verbose_name="支付时间")
+    charge_id = models.CharField(max_length=300, default='', blank=True, verbose_name="ping++支付id")
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name="状态")
 
 
 class Withdrawal(BaseModel):

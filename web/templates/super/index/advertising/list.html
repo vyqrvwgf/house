@@ -45,8 +45,8 @@
                   <a href="{% url 'web:advertising_down' client.id %}"><i class="fa fa-fw fa-arrow-down"></i></a>
                 </td>
                 <td style="vertical-align: middle;">
-                    <a class="btn btn-info" href="{% url 'web:advertising_edit' client.id %}">编辑</a>
-                    <a class="btn btn-danger" href="{% url 'web:advertising_delete' client.id %}" onclick="return confirm('确认删除轮播图吗?')">删除</a>
+                    <a class="btn-xs btn-info" href="{% url 'web:advertising_edit' client.id %}">编辑</a>
+                    <a class="btn-xs btn-danger" href="{% url 'web:advertising_delete' client.id %}" onclick="return confirm('确认删除轮播图吗?')">删除</a>
                 </td>
               </tr>
             {% endfor %}

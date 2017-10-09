@@ -34,8 +34,8 @@
                 <td style="vertical-align: middle;">{{ c.name }}</td>
                 <td style="vertical-align: middle;">{{ c.menu_name_str }}</td>
                 <td style="vertical-align: middle;">
-                  <a class="btn btn-info" href="{% url 'web:permissions_edit' c.id %}?page={{page}}">编辑</a>
-                  <a class="btn btn-danger" href="{% url 'web:permissions_delete' c.id %}?page={{page}}" onclick="return confirm('确认删除吗?')">删除</a>
+                  <a class="btn-xs btn-info" href="{% url 'web:permissions_edit' c.id %}?page={{page}}">编辑</a>
+                  <a class="btn-xs btn-danger" href="{% url 'web:permissions_delete' c.id %}?page={{page}}" onclick="return confirm('确认删除吗?')">删除</a>
                 </td>
               </tr>
             {% endfor %}

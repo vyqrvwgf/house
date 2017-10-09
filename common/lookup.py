@@ -1,6 +1,12 @@
 # coding: utf-8
 
-SETTING_CONFIG = []
+SETTING_CONFIG = [
+    {
+        'name':'房源发布支付金额',
+        'value':'0',
+        'code':'housing_resources_pay'
+    },
+]
 
 MENU_LIST = [
              {'module': 'home', 'name': '首页'},

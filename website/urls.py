@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^login_out$', user.login_out, name='login_out'),
     # 房源发布
     url(r'^hr_create$', user.housing_resource_create, name='housing_resource_create'),
+    url(r'^housing_resources$', user.housing_resources, name='housing_resources'),
 ]

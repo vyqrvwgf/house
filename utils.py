@@ -14,6 +14,19 @@ import math
 import string
 import logging
 import hashlib
+import uuid
+
+
+def _uuid():
+    uid = str(uuid.uuid1())
+    child_list = uid.split('-')[:-1]
+    return ''.join(child_list)
+
+
+# 产生唯一订单号
+def generate_order_num():
+    return _uuid()
+
 
 def website_check_login(view):
     @wraps(view)

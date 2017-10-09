@@ -71,7 +71,7 @@
                 </td>
                 <td style="vertical-align: middle;">{{ client.created|date:"Y-m-d H:i" }}</td>
                 <td style="vertical-align: middle;">
-                    <a class="btn btn-danger" href="{% url 'web:comment_delete' client.id %}" onclick="return confirm('确认删除评论吗?')">删除</a>
+                    <a class="btn-xs btn-danger" href="{% url 'web:comment_delete' client.id %}" onclick="return confirm('确认删除评论吗?')">删除</a>
                 </td>
               </tr>
             {% endfor %}

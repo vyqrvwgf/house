@@ -73,9 +73,9 @@
                 </td>
                 <td style="vertical-align: middle;">
                     {% if client.is_valid %}
-                      <a class="btn btn-default" href="{% url 'web:user_offline' client.id %}?page={{page}}&param_name={{ param_name }}&param_begin_time={{ param_begin_time }}&param_end_time={{ param_end_time }}&param_mobile={{ param_mobile }}&param_email={{ param_email }}&param_status={{ param_status }}">封禁</a>
+                      <a class="btn-xs btn-default" href="{% url 'web:user_offline' client.id %}?page={{page}}&param_name={{ param_name }}&param_begin_time={{ param_begin_time }}&param_end_time={{ param_end_time }}&param_mobile={{ param_mobile }}&param_email={{ param_email }}&param_status={{ param_status }}">封禁</a>
                     {% else %}
-                      <a class="btn btn-default" href="{% url 'web:user_online' client.id %}?page={{page}}&param_name={{ param_name }}&param_begin_time={{ param_begin_time }}&param_end_time={{ param_end_time }}&param_mobile={{ param_mobile }}&param_email={{ param_email }}&param_status={{ param_status }}">解禁</a>
+                      <a class="btn-xs btn-default" href="{% url 'web:user_online' client.id %}?page={{page}}&param_name={{ param_name }}&param_begin_time={{ param_begin_time }}&param_end_time={{ param_end_time }}&param_mobile={{ param_mobile }}&param_email={{ param_email }}&param_status={{ param_status }}">解禁</a>
                     {% endif %}
                 </td>
               </tr>
