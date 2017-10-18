@@ -175,7 +175,7 @@
                 {% endif %}
                 {% if 'listings_release' in request.session.menu_str %}
                 <li {% if module == 'listings_release' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>房源发布</a>
+                  <a href="{% url 'web:listings_release_list' %}"><i class="fa fa-circle-o"></i>房源发布</a>
                 </li>
                 {% endif %}
               </ul>

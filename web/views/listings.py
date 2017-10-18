@@ -32,7 +32,11 @@ import time
 @staff_member_required(login_url='/admin/login')
 def list(request):
 
-    clients = HousingResources.objects.filter(is_del=False).order_by('-created')
+    clients = HousingResources.objects.filter(
+        is_del=False,
+        is_valid=True,
+        status__in=[1, 2]
+    ).order_by('-created')
 
     paginator = Paginator(clients, BACK_PAGE_COUNT)
     page = request.GET.get('page', '')
@@ -143,7 +147,7 @@ def offline(request, housingresources_id):
 
     client = HousingResources.objects.filter(pk=housingresources_id).first()
     if client:
-        client.status = 0
+        client.status = 1
         client.save()
 
     return HttpResponseRedirect(reverse('web:listings_list')
@@ -156,7 +160,7 @@ def online(request, housingresources_id):
     page = request.GET.get('page', '')
     client = HousingResources.objects.filter(pk=housingresources_id).first()
     if client:
-        client.status = 1
+        client.status = 2
         client.save()
 
     return HttpResponseRedirect(reverse('web:listings_list')

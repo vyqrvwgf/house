@@ -16,6 +16,7 @@ class BaseModelManager(models.Manager):
     def get_queryset(self):
         return super(BaseModelManager, self).get_queryset().filter(is_del=False)
 
+
 class BaseModel(models.Model):
 
     class Meta:
@@ -218,8 +219,15 @@ class HousingResources(BaseModel):
     )
 
     STATUS_CHOICES = (
-        (0, '下线'),
-        (1, '上线')
+        (0, ''),
+        (1, '下线'),
+        (2, '上线'),
+    )
+
+    AUDIT_STATUS_CHOICES = (
+        (0, '待审核'),
+        (1, '审核不通过'),
+        (2, '审核通过'),
     )
 
     user = models.ForeignKey(User, default=None, null=True, blank=True, verbose_name='用户')
@@ -244,6 +252,7 @@ class HousingResources(BaseModel):
     buy = models.CharField(max_length=1024, default='', blank=True, verbose_name="购物")
     content = models.TextField(default='', null=True, blank=True, verbose_name='房屋描述')
     status = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name='状态')
+    audit_status = models.IntegerField(choices=AUDIT_STATUS_CHOICES, default=0, verbose_name='审核状态')
 
     def cover_url(self):
         return url(self.cover)
@@ -260,6 +269,16 @@ class HousingResources(BaseModel):
         )
         prictures = [h.picture_url() for h in housing_pictures]
         return prictures
+
+
+class HousingResourcesComment(BaseModel):
+
+    class Meta(object):
+        verbose_name = '房源审核评论'
+        verbose_name_plural = '房源审核评论'
+
+    housing_resources = models.ForeignKey(HousingResources, null=True, blank=True, verbose_name="房源")
+    content = models.TextField(default='', null=True, blank=True, verbose_name='房屋描述')
 
 
 class HousingCertificatePicture(BaseModel):
