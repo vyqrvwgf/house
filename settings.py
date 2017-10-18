@@ -176,7 +176,7 @@ STATICFILES_DIRS = [
 
 UPLOAD_DIR = os.path.join(BASE_DIR, 'static', 'upload')
 
-DOMAIN = 'http://119.23.210.215'
+DOMAIN = 'http://www.yuejuweb.com'
 
 # setting_local
 ROOT = os.path.abspath(os.path.dirname(__file__))

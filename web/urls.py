@@ -13,7 +13,8 @@ from web.views import (
     infrastructure,
     user,
     flush_view,
-    listings
+    listings,
+    listings_release
 )
 
 # 管理后台
@@ -59,6 +60,9 @@ urlpatterns = [
     url(r'^listings/(?P<housingresources_id>\d+)/online$', listings.online, name='listings_online'),
     url(r'^listings/(?P<housingresources_id>\d+)/offline$', listings.offline, name='listings_offline'),
     url(r'^listings/(?P<housingresources_id>\d+)/delete$', listings.delete, name='listings_delete'),
+
+    # 房源发布
+    url(r'^listings_release/list/$', listings_release.list, name='listings_release_list'),
 
     # 商家管理员
     url(r'^venture_manage/list$', venture_manage.venture_manage_list, name='venture_manage_list'),

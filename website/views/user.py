@@ -121,6 +121,7 @@ def housing_resource_create(request):
 				housing_resources.bus = bus
 				housing_resources.subway = subway
 				housing_resources.buy = buy
+				housing_resources.audit_status = 0
 				housing_resources.sitting_room_area = float(sitting_room_area) if sitting_room_area else 0
 				housing_resources.save()
 				# 获取基础设施
@@ -213,8 +214,9 @@ def housing_resources(request):
 		'module': 'index',
 		'sub_module': 'housing_resource',
 		'client': profile,
-		'clients1': housing_resources.filter(status=1),
-		'clients2': housing_resources.filter(status=0),
+		'clients1': housing_resources.filter(status=2),
+		'clients2': housing_resources.filter(status=1),
+		'clients2': housing_resources.filter(audit_status=0),
 		'qiniu_domain': QINIU_DOMAIN,
 	}
 
