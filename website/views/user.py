@@ -61,6 +61,41 @@ def index(request):
 		is_valid=True
 	).order_by('-order_no')
 
+	if request.method == 'POST':
+		c_user_id = request.POST.get('c_user_id', '')
+		user_name = request.POST.get('user_name', '')
+		gender = request.POST.get('gender', '')
+		birbath = request.POST.get('jHsDateInput', '')
+		mobile = request.POST.get('mobile', '')
+		# bank_acount = request.POST.get('bank_acount', '')
+		id_card = request.POST.get('id_card', '')
+		promo_code = request.POST.get('promo_code', '')
+		employe = request.POST.get('employe', '')
+
+		# try:
+		profile.user_name = user_name
+		profile.gender = gender
+		birbath = datetime.datetime.strptime(birbath, "%Y-%m-%d")
+		profile.birbath = birbath
+		profile.mobile = mobile
+		# profile.bank_acount = bank_acount
+		profile.promo_code = promo_code
+		profile.employe = employe
+		profile.id_card = id_card
+
+		if request.FILES:
+			if request.FILES.get('test-image-file', None):
+				# 上传图片
+				id_card_picture = request.FILES['test-image-file']
+				ts = int(time.time())
+				ext = get_extension(id_card_picture.name)
+				key = 'id_card_picture_{}.{}'.format(ts, ext)
+				handle_uploaded_file(id_card_picture, key)
+				upload(key, os.path.join(UPLOAD_DIR, key))
+				profile.id_card_picture = key
+
+		profile.save()
+
 	context = {
 		'module': 'index',
 		'sub_module': 'user_index',
@@ -267,37 +302,37 @@ def update_profile(request):
 	promo_code = request.POST.get('promo_code', '')
 	employe = request.POST.get('employe', '')
 
-	try:
-		profile = Profile.objects.filter(is_del=False, pk=c_user_id).first()
-		profile.user_name = user_name
-		profile.gender = gender
-		birbath = datetime.datetime.strptime(birbath, "%Y-%m-%d")
-		profile.birbath = birbath
-		profile.mobile = mobile
-		# profile.bank_acount = bank_acount
-		profile.promo_code = promo_code
-		profile.employe = employe
-		profile.id_card = id_card
+	# try:
+	profile = Profile.objects.filter(is_del=False, pk=c_user_id).first()
+	profile.user_name = user_name
+	profile.gender = gender
+	birbath = datetime.datetime.strptime(birbath, "%Y-%m-%d")
+	profile.birbath = birbath
+	profile.mobile = mobile
+	# profile.bank_acount = bank_acount
+	profile.promo_code = promo_code
+	profile.employe = employe
+	profile.id_card = id_card
 
-		if request.FILES:
-			if request.FILES.get('test-image-file', None):
-				# 上传图片
-				id_card_picture = request.FILES['test-image-file']
-				ts = int(time.time())
-				ext = get_extension(id_card_picture.name)
-				key = 'id_card_picture_{}.{}'.format(ts, ext)
-				handle_uploaded_file(id_card_picture, key)
-				upload(key, os.path.join(UPLOAD_DIR, key))
-				profile.id_card_picture = key
+	if request.FILES:
+		if request.FILES.get('test-image-file', None):
+			# 上传图片
+			id_card_picture = request.FILES['test-image-file']
+			ts = int(time.time())
+			ext = get_extension(id_card_picture.name)
+			key = 'id_card_picture_{}.{}'.format(ts, ext)
+			handle_uploaded_file(id_card_picture, key)
+			upload(key, os.path.join(UPLOAD_DIR, key))
+			profile.id_card_picture = key
 
-		profile.save()
+	profile.save()
 
-	except Exception as e:
-		logging.error(e)
-		return JsonResponse({
-			'error_code': 1,
-			'error_msg': '保存失败',
-		})
+	# except Exception as e:
+	# 	logging.error(e)
+	# 	return JsonResponse({
+	# 		'error_code': 1,
+	# 		'error_msg': '保存失败',
+	# 	})
 
 	return JsonResponse({
 		'error_code': 0,

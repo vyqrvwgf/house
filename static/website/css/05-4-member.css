@@ -7,7 +7,6 @@
 }
 .user img{
     width: 100%;
-    min-width: 1200px;
     position: absolute;
     bottom: 0;
 }
@@ -21,9 +20,13 @@
     height: 110px;
     border:1px solid #eee;
     border-radius: 50%;
-    background-image: url("../images/user-face.jpg");
     margin-right: 20px;
     position: relative;
+}
+.user-info .user-face img.avatar-pic{
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
 }
 .user-info .user-face .avatar{
     position: absolute;
@@ -96,6 +99,7 @@
 .tab_container{
     width: 790px;
     min-height: 750px;
+    height: auto;
     border: 1px solid #eee;
     box-shadow: 0 0 10px #ccc;
 }
@@ -107,9 +111,6 @@
 }
 
 /*tab1 基本信息 begin*/
-/*.baseinfo{*/
-    /*height: 860px;*/
-/*}*/
 .tab_container .tab_content .top p{
     margin-top: 30px;
     margin-left: 30px;
@@ -147,7 +148,10 @@
     padding-top: 20px;
     padding-bottom: 20px;
 }
-.tab_container .tab_content .bottom button{
+.tab_container .tab_content .bottom p label{
+    font-weight: 700;
+}
+.tab_container .tab_content .bottom .modify{
     width: 120px;
     height: 32px;
     font-size: 16px;
@@ -159,17 +163,6 @@
     cursor: pointer;
 }
 
-.bottom #test-image-preview{
-    width: 300px;
-    height: 200px;
-    line-height: 200px;
-    text-align: center;
-    color: #999;
-    border: 1px solid #ddd;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-}
 .modify-success{
     width: 700px;
     height: 50px;
@@ -185,7 +178,7 @@
 
 /*tab2 发布房源 begin*/
 .house-release{
-    height: 2100px;
+    height: auto;
 }
 .house-release .house-description{
     margin-left: 30px;
@@ -208,13 +201,16 @@
 .house-release .livingSet{
     margin-bottom: 30px;
 }
-.house-release .house-type,.district,.addr,.bus,.tube,.mall{
+.house-release .house-type,.district,.addr,.bus,.tube,.mall,.house-payment{
     display: inline-block;
     width: 400px;
     height: 24px;
     line-height: 26px;
     border: 1px solid #ddd;
     padding-left: 5px;
+}
+.house-release .house-payment{
+    width: 100px;
 }
 .house-release .surrounding-facilities{
     width: 100%;
@@ -294,8 +290,8 @@
     border: 1px solid #ddd;
     cursor: pointer;
 }
-.house-release .release-pay{
-    width: 300px;
+.release-pay,.release-reserve{
+    width: 100px;
     height: 32px;
     font-size: 16px;
     line-height: 32px;
@@ -303,8 +299,23 @@
     background-color: orange;
     color: #fff;
     border-radius: 4px;
-    margin-left: 244px;
 }
+.release-ways{
+    width: 250px;
+    margin: 30px auto 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.release-reserve{
+    background-color: #0bb8a5;
+}
+#test-image-preview{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
 /*tab2 发布房源 end*/
 
 /*tab3 发布管理 begin*/
@@ -554,6 +565,7 @@
     list-style: none;
     float: left;
     margin-right: 5px;
+    cursor: pointer;
 }
 .applyToSee .item .right .pic-upload-wrap{
     width: 70px;

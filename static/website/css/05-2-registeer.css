@@ -38,8 +38,8 @@
     color: #fff;
 }
 .mask-bg .register .verification-code button.able{
-    width: 194px;
-    height: 50px;
+    width: 170px;
+    height: 40px;
     background-color: orange;
     color: #fff;
     cursor: pointer;
@@ -53,7 +53,7 @@
 }
 .mask-bg .register .wrong{
     color: red;
-    width: 400px;
+    width: 350px;
     height: 15px;
     font-size: 14px;
     margin: -15px auto 20px;

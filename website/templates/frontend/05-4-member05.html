@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>05-4-member</title>
+    <title>05求租发布</title>
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/05-4-member.css">
     <link type="text/css" rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
@@ -36,8 +36,8 @@
 <!--nav begin-->
 <nav class="wrap">
     <div class="banxin nav  clearfix">
-        <a class="logo" href="javascript:void(0)"></a>
-        <ul class="nav_items fl">
+        <a class="logo fl" href="javascript:void(0)"><img src="images/LOGO.png" alt=""></a>
+        <ul class="nav_items fl clearfix">
             <li class="fl"><a href="javascript:void(0)">首页</a></li>
             <li class="fl"><a href="javascript:void(0)">房源信息</a></li>
             <li class="fl"><a href="javascript:void(0)">求租信息</a></li>
@@ -45,8 +45,8 @@
             <li class="fl"><a href="javascript:void(0)">注册登录</a></li>
         </ul>
         <div class="hot-line fr clearfix">
-            <p class="p_number green"><b></b>400-6789-888</p>
-            <p class="p_time" align="right">看房热线：<span class="green">08:00 - 21:00</span></p>
+            <img src="images/QRcode.png" alt="公众号二维码">
+            <p align="center">关注公众号</p>
         </div>
     </div>
 </nav>
@@ -56,7 +56,7 @@
 <div class="user">
     <img src="images/member-bg.jpg" alt="">
     <div class="user-info banxin clearfix">
-        <div class="user-face fl"><a class="avatar"><input type="file">修改头像</a></div>
+        <div class="user-face fl"><img class="avatar-pic" src="images/user-face.jpg" alt=""><a class="avatar"><input type="file">修改头像</a></div>
         <p class="user-name grey">你好，<span>XXX</span>！</p>
         <p class="user-loginTime grey">上次登录：<span>2017-06-22  11:52:00</span></p>
         <p class="user-credit grey">租客信用：<span class="green">900/1000</span> <strong class="green">优</strong></p>
@@ -79,23 +79,23 @@
     <!--右边列表-->
     <div class="tab_container fr">
         <!--tab5 求租发布-->
-        <div id="tab5" class="tab_content seekRent"">
+        <div id="tab5" class="tab_content seekRent">
             <h4 class="house-online">基础信息</h4>
             <form action="" method="POST" target="" accept-charset="UTF-8"
                   ectype="application/x-www-form-urlencoded" autocomplete="off">
-                <p><label><span class="orange ">*</span>求租地段：</label><select name="rentArea" id="rentArea" required>
-                    <option value="请选择区域" selected>请选择区域</option>
-                    <option value="hk">汉口</option>
-                    <option value="hs">洪山</option>
-                    <option value="gg">光谷</option>
-                    <option value="hy">汉阳</option>
-                </select>&nbsp&nbsp
+                <p><label><span class="orange ">*</span>求租地段：</label>
+                    <select name="rentArea" id="rentProvince" required>
+                    <option value="湖北省" selected>湖北省</option>
+                </select>&nbsp;&nbsp;
+                    <select name="rentArea" id="rentCity" required>
+                        <option value="武汉市" selected>武汉市</option>
+                    </select>&nbsp;&nbsp;
                     <select name="rentBlock" id="rentBlock" required>
-                        <option value="请选择地段">请选择地段</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
+                        <option value="wc">武昌区</option>
+                        <option value="hk">汉口区</option>
+                        <option value="hs">洪山区</option>
+                        <option value="gg">光谷区</option>
+                        <option value="hy">汉阳区</option>
                     </select>
                 </p>
                 <p><label><span class="orange">*</span>租金：</label><select name="rent" id="rent" required>
@@ -179,14 +179,15 @@
                 </p>
                 <p class="userName"><label><span class="orange">*</span>姓名</label><input type="text" placeholder="请输入您的名字" required></p>
                 <p class="phoneNum"><label><span class="orange">*</span>手机</label><input id="phoneNum" type="text" placeholder="请输入您的手机" required><button>获取验证码</button></p>
-                <button class="submit" type="submit">发布并预付费用</button>
+                <div class="release-ways">
+                    <button class="release-pay" type="button">确定发布</button>
+                    <button class="release-reserve" type="button">暂时保存</button>
+                </div>
             </form>
         </div>
         <div class="backToTop">↑<p>Top</p></div>
     </div>
 </div>
-
-
 <!--footer begin-->
 <div class="footer wrap">
     <img src="images/footer.png" alt="">
@@ -199,7 +200,7 @@
 <!--footer end-->
 <script src="js/jquery-3.2.1.js"></script>
 <script src="js/nav.js"></script>
-<script src="js/05-4-member.js"></script>
+<script src="js/05-4-member05.js"></script>
 <script src="js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script>
     $(".backToTop").click(function () {
