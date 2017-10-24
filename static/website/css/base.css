@@ -64,6 +64,9 @@ a {
 .grey{
     color: #999999;
 }
+.red{
+    color: red;
+}
 .wrap{
     width: 100%;
 }
@@ -104,7 +107,7 @@ header.wrap{
 /*nav begin*/
 
 .nav {
-    height: 115px;
+    height: 135px;
     position: relative;
     background-color: #fff;
 }
@@ -113,7 +116,7 @@ header.wrap{
     width: 90px;
     height: 115px;
     display: inline-block;
-    padding-top: 5px;
+    padding-top: 10px;
     position: absolute;
     z-index: 1000;
     top: 0;
@@ -144,21 +147,27 @@ header.wrap{
     border-bottom: 6px solid #0bb8a5;
     cursor: pointer;
 }
-.nav .hot-line{
-    padding-top: 30px;
-}
-.nav .hot-line .p_number{
-    height:26px;
-    font: normal bold 24px/26px "微软雅黑";
-}
-.nav .hot-line .p_number b{
+.nav .hot-line img{
+    width: 110px;
     display: inline-block;
-    width: 29px;
-    height: 26px;
-    background: url("../images/sprite.png") no-repeat -127px 0;
-    float: left;
-    margin-right: 6px;
+    font-size: 0;
 }
+.nav .hot-line p{
+    line-height: 1em;
+    margin-bottom: 5px;
+}
+/*.nav .hot-line .p_number{*/
+    /*height:26px;*/
+    /*font: normal bold 24px/26px "微软雅黑";*/
+/*}*/
+/*.nav .hot-line .p_number b{*/
+    /*display: inline-block;*/
+    /*width: 29px;*/
+    /*height: 26px;*/
+    /*background: url("../images/sprite.png") no-repeat -127px 0;*/
+    /*float: left;*/
+    /*margin-right: 6px;*/
+/*}*/
 /*nav end*/
 
 
