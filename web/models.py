@@ -7,7 +7,7 @@ from django.db.models import Count, Sum
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from imagestore.qiniu_manager import url
+from imagestore.qiniu_manager import url, o_url
 
 import datetime
 
@@ -120,7 +120,7 @@ class Profile(BaseModel):
         if 'http' in self.avatar:
             avatar_url = self.avatar
         else:
-            avatar_url = url(self.avatar)
+            avatar_url = o_url(self.avatar)
         return avatar_url
 
     def id_card_picture_url(self):
@@ -236,6 +236,7 @@ class HousingResources(BaseModel):
     hall = models.CharField(max_length=1024, default='', blank=True, verbose_name="大厅图片")
     peripheral = models.TextField(default='', null=True, blank=True, verbose_name='配套设施')
     lease = models.IntegerField(choices=LEASE_CHOICES, default=0, verbose_name='租赁方式')
+    month_rent = models.FloatField(default=0, verbose_name='月租金')
     bet = models.FloatField(default=0, verbose_name='押')
     pay = models.FloatField(default=0, verbose_name='付')
     direction = models.IntegerField(choices=DIRECTION_CHOICES, default=0, verbose_name='楼层朝向')
@@ -243,6 +244,9 @@ class HousingResources(BaseModel):
     sitting_room_area = models.FloatField(default=0, blank=True, verbose_name="客厅面积")
     sitting_room_complete = models.CharField(max_length=1024, default='', blank=True, verbose_name="客厅配套")
     layer = models.IntegerField(default=0, verbose_name='层数')
+    province = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='省')  # 如何多级选择?
+    city = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='市')
+    area = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='区')
     total_layer = models.IntegerField(default=0, verbose_name='总层数')
     category = models.CharField(max_length=1024, default='', blank=True, verbose_name="房屋类型")
     community = models.CharField(max_length=1024, default='', blank=True, verbose_name="小区名称")

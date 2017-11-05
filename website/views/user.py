@@ -52,6 +52,7 @@ import redis
 import logging
 
 
+@csrf_exempt
 @website_check_login
 def index(request):
 	c_user = request.session.get('c_user', None)
@@ -65,7 +66,7 @@ def index(request):
 		c_user_id = request.POST.get('c_user_id', '')
 		user_name = request.POST.get('user_name', '')
 		gender = request.POST.get('gender', '')
-		birbath = request.POST.get('jHsDateInput', '')
+		birbath = request.POST.get('birbath', '')
 		mobile = request.POST.get('mobile', '')
 		# bank_acount = request.POST.get('bank_acount', '')
 		id_card = request.POST.get('id_card', '')
@@ -74,7 +75,8 @@ def index(request):
 
 		# try:
 		profile.user_name = user_name
-		profile.gender = gender
+		if gender:
+			profile.gender = gender
 		birbath = datetime.datetime.strptime(birbath, "%Y-%m-%d")
 		profile.birbath = birbath
 		profile.mobile = mobile
@@ -122,6 +124,7 @@ def housing_resource_create(request):
 		lease = request.POST.get('lease', 0)
 		category = request.POST.get('category', '')
 		bet = request.POST.get('bet', 0)
+		month_rent = request.POST.get('month_rent', 0)
 		pay = request.POST.get('pay', 0)
 		direction = request.POST.get('direction', 0)
 		layer = request.POST.get('layer', 0)
