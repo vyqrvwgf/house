@@ -8,15 +8,18 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <!-- Optional theme -->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/static/website/css/05-4-member.css">
-    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
-    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
-    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
-    <!-- <link rel="stylesheet" href="/static/website/css/jHsDate.css"> -->
     <link rel="stylesheet" href="/static/website/js/dropzone-min/bootStyle.css">
     <script>
         Dropzone.autoDiscover = false;
     </script>
+    <!--图片上传 end-->
+    <link rel="stylesheet" href="/static/website/css/base.css">
+    <link rel="stylesheet" href="/static/website/css/05-4-member.css">
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
+
+    <script src="//at.alicdn.com/t/font_344262_t15uvgtl6elmobt9.js"></script>
 {% endblock %}
 
 {% block container %}
@@ -25,15 +28,14 @@
     <img src="/static/website/images/member-bg.jpg" alt="" id="user_avatar">
     <div class="user-info banxin clearfix">
         <div class="user-face fl" id="container1" >
-            <a class="avatar" id="pickfiles1">修改头像</a>
+            <img class="avatar-pic" src="{{ client.avatar_url }}" alt="">
+            <a class="avatar"><input type="file" id="pickfiles1">修改头像</a>
         </div>
         <p class="user-name grey">你好，<span>{{ client.user_name }}</span>！</p>
         <p class="user-loginTime grey">上次登录：<span>{{client.updated|date:"Y-m-d H:i:s"}}</span></p>
         <p class="user-credit grey">租客信用：<span class="green">900/1000</span> <strong class="green">优</strong></p>
     </div>
 </div>
-
-
 <div class="container banxin clearfix">
     <!--左边列表-->
     <ul class="tabs fl">
@@ -96,6 +98,7 @@
         </li>
     </ul>
 
+    <!--右边列表-->
     <div class="tab_container fr">
 
         <!--tab1 基本信息-->
@@ -103,8 +106,8 @@
         <div id="tab1" class="tab_content baseinfo" style="display: block;">
             <h4 class="baseinfo">基本信息</h4>
             <div class="modify-success">资料于 <span></span> 修改成功!</div>
-            <form method="POST" action="{% url 'website:user_index' %}" enctype="multipart/form-data" id="form1">
-                {% csrf_token %}
+            <form action="{% url 'website:user_index' %}" method="POST" target="" accept-charset="UTF-8"
+                  ectype="application/x-www-form-urlencoded" autocomplete="off" novalidate>
             <div class="top">
                 <p>
                     <label>姓名：</label>
@@ -115,17 +118,19 @@
                     <label for="gender1" class="gender">
                         <input type="radio" id="gender1" name="gender" {% if client.gender == 1 %} checked {% endif %} value="1">男
                     </label>
+
                     <label for="gender2" class="gender">
                         <input type="radio" id="gender2" name="gender" {% if client.gender == 2 %} checked {% endif %} value="2">女
                     </label>
                 </p>
                 <p>
                     <label>生日：</label>
-                    <input class="contact birbath" id="selectDate" name="jHsDateInput" type="text" value="{{ client.birbath|date:'Y-m-d' }}">
+                    <input class="contact birbath" id="selectDate" name="birbath" type="text" value="{{ client.birbath|date:'Y-m-d' }}">
                 </p>
-                <p><label>生日：</label>
+<!--                 <p>
+                    <label>生日：</label>
                     <select name="u-b-y" id="u-b-y">
-                        <option value="" selected>年</option>
+                        <option value="year" selected>年</option>
                         <option value="1940">1940</option>
                         <option value="1941">1941</option>
                         <option value="1942">1942</option>
@@ -254,7 +259,7 @@
                         <option value="30">30</option>
                         <option value="31">31</option>
                     </select>
-                </p>
+                </p> -->
                 <p>
                     <label>联系方式：</label>
                     <input class="contact" id="phoneNum" name="mobile" type="text" value="{{ client.mobile }}">
@@ -283,12 +288,15 @@
 <!--                 <div id="test-image-preview" {% if client.id_card_picture %} style="background-image: url('{{ client.id_card_picture_url  }}?imageView2/1/w/300/h/200')" {% endif %}>
                     图片预览
                 </div> -->
-                {% if client.avatar_url %}
-                    <img src="{{ client.avatar_url }}?imageView2/1/w/300/h/200" width="150">
+                {% if client.id_card_picture %}
+                    <img src="{{ client.id_card_picture_url }}?imageView2/1/w/300/h/200" width="150">
                 {% endif %}
                 <br/>
                 <input type="hidden" name="c_user_id" value="{{ client.id }}">
-                <button id="user_info_submit1" type="submit" class="modify">确认修改</button>
+                <button id="user_info_submit" type="submit" class="modify">确认修改</button>
+            </div>
+                <!--<button type="submit">确认上传</button>-->
+                <!-- <button type="reset" class="modify">确认修改</button> -->
             </div>
             </form>
         </div>
@@ -298,12 +306,14 @@
 {% endblock %}
 
 {% block script %}
+
 <!--footer end-->
-<script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/static/website/js/jquery-3.2.1.js"></script>
 <script src="/static/vendor/qiniu.min.js"></script>
 <script src="/static/vendor/plupload.full.min.js"></script>
+<script src="/static/website/js/nav.js"></script>
 <script src="/static/website/js/05-4-member.js"></script>
-<!-- <script src="/static/website/js/jHsDate.js"></script> -->
+<script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="/static/website/js/dropzone-min/dropzone.min.js"></script>
 <script src="/static/website/js/dropzone-min/bootStyle.js"></script>
 <script>
@@ -314,25 +324,8 @@
 </script>
 <script>
   $(function(){
-    $('#selectDate').jHsDate();
-    $('#user_info_submit').click(function(){
+    // $('#selectDate').jHsDate();
 
-        $.ajax({
-            url:'/user/update_profile',
-            type: 'POST',
-            data: new FormData($('#form1')[0]),
-            processData: false,
-            contentType: false
-        }).done(function(res){
-            console.log(res)
-            if (res.error_code == 0) {
-                return;
-            }
-        }).fail(function(res){
-
-        });
-
-    });
         //设置上传信息
         var uploader1 = Qiniu.uploader({
             runtimes: 'html5,flash,html4',    //上传模式,依次退化
@@ -378,8 +371,8 @@
                     var res = JSON.parse(info);
                     key = res.key
                     console.log(key)
-                    // $('#user_avatar').attr('src', 'http://{{ qiniu_domain }}/' + key)
-                    // $('#pickfiles1').prev().val(key);
+                    $('.avatar-pic').attr('src', 'http://{{ qiniu_domain }}/' + key)
+                    $('#pickfiles1').prev().val(key);
                     // 更新用户的头像
                     $.ajax({
                         url:'/user/update_avatar',
@@ -402,6 +395,9 @@
                 },
             }
         });
-  })
+
+
+    });
 </script>
 {% endblock %}
+
