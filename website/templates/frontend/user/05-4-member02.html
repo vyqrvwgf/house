@@ -215,15 +215,15 @@
                 <p class="address">
                     <label>详细地址：</label>
                     <select name="province">
-                        <option value="0">湖北省</option>
+                        <option value="湖北省">湖北省</option>
                     </select>
                     <select name="city">
-                        <option value="0">武汉市</option>
+                        <option value="武汉市">武汉市</option>
                     </select>
                     <select name="area">
-                        <option value="0">武昌区</option>
-                        <option value="1">洪山区</option>
-                        <option value="2">汉阳区</option>
+                        <option value="武昌区">武昌区</option>
+                        <option value="洪山区">洪山区</option>
+                        <option value="汉阳区">汉阳区</option>
                     </select>
                     <input class="addr" name="address" id="addr" type="text" placeholder="具体街道地址">
                 </p>
@@ -287,7 +287,7 @@
                 </div>
 
                 <div class="release-ways">
-                    <button class="release-pay" type="button">确定发布</button>
+                    <button class="release-pay" type="submit">确定发布</button>
                     <button class="release-reserve" type="button">暂时保存</button>
                 </div>
 
@@ -308,6 +308,30 @@
 <script src="/static/website/js/dropzone-min/dropzone.min.js"></script>
 <script src="/static/website/js/dropzone-min/bootStyle.js"></script>
 <script>
+    // 确认修改
+    document.querySelector(".modify").onclick = function () {
+        document.querySelector(".modify-success span").innerHTML = getNowFormatDate();
+        document.querySelector(".modify-success").style.display = "block";
+    };
+
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+        return currentdate;
+    }
+
     $(".backToTop").click(function () {
         console.log(11);
         scrollTo(0,0);

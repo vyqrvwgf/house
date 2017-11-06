@@ -46,7 +46,7 @@
         </ul>
         <div class="hot-line fr clearfix">
             <img src="images/QRcode.png" alt="公众号二维码">
-            <p align="center">关注公众号</p>
+            <p align="center">联系我们</p>
         </div>
     </div>
 </nav>
@@ -79,144 +79,158 @@
     <!--右边列表-->
     <div class="tab_container fr">
         <!--tab4 来访管理-->
-        <div id="tab4" class="tab_content house-manage"">
+        <div id="tab4" class="tab_content house-reservation">
             <!-- 已预约-待看房 -->
-            <h4>已预约-<span class="orange">待看房</span></h4>
-            <!-- 列表为空时，items 里没有item，内容 “暂时没有记录”；tab7 中同理-->
-            <div class="reservation-undo items">
-                <div class="reservation-item">
-                    <div class="left fl">
-                        <img src="images/commentpic.png" alt="">
-                        <p>租金：<strong class="orange">1200</strong></p>
-                        <p>位置：汉阳区</p>
-                        <p>租客：133 444 55555</p>
-                    </div>
-                    <div class="right fr">
-                        <ul class="house-facilities clearfix">
-                            <li>租赁方式：<span>整租</span></li>
-                            <li>楼层朝向：<span>东</span></li>
-                            <li>押付方式：<span>押一付三</span></li>
-                            <li>房屋类型：<span>三房一厅</span></li>
-                            <li>基础设施：<span>空调、热水器、暖气、厨房、阳台</span></li>
-                            <li>所在小区：<span>中央保利茉莉公馆大宅门</span></li>
-                            <li>详细地址：<span>武汉市蔡甸区中华路4号中山公园</span></li>
-                            <li>预约时间：<strong class="orange">2017-9-9</strong></li>
-                        </ul>
-                        <button type="button">确认看房</button>&nbsp;&nbsp;
-                        <button type="button">取消预约</button>
-                    </div>
-                </div>
+            <div class="h-reservation-booked">
+                <h4>已预约-<span class="orange">待看房</span></h4>
+                <!-- 列表为空时，items 里没有item，内容 “暂时没有记录”；tab7 中同理-->
+                <ul class="reservation-booked items">
+                    <li class="reservation-item">
+                        <div class="left fl">
+                            <img src="images/commentpic.png" alt="">
+                            <p>租金：<strong class="orange">1200</strong></p>
+                            <p>位置：汉阳区</p>
+                            <p>租客：133 444 55555</p>
+                        </div>
+                        <div class="right fr">
+                            <ul class="house-facilities clearfix">
+                                <li>租赁方式：<span>整租</span></li>
+                                <li>楼层朝向：<span>东</span></li>
+                                <li>押付方式：<span>押一付三</span></li>
+                                <li>房屋类型：<span>三房一厅</span></li>
+                                <li>基础设施：<span>空调、热水器、暖气、厨房、阳台</span></li>
+                                <li>所在小区：<span>中央保利茉莉公馆大宅门</span></li>
+                                <li>详细地址：<span>武汉市蔡甸区中华路4号中山公园</span></li>
+                                <li>预约时间：<strong class="orange">2017-9-9</strong></li>
+                            </ul>
+                            <button type="button">确认看房</button>&nbsp;&nbsp;
+                            <button type="button">取消预约</button>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            <!-- / 已预约-待看房 -->
 
             <!-- 预约中-待确认 -->
-            <h4>预约中-<span class="green">待确认</span></h4>
-            <div class="reservation-overdue items">
-                <div class="reservation-item">
-                    <div class="left fl">
-                        <img src="images/commentpic.png" alt="">
-                        <p>租金：<strong class="orange">1200</strong></p>
-                        <p>位置：汉阳区</p>
-                        <p>租客：133 444 55555</p>
-                    </div>
-                    <div class="right fr">
-                        <ul class="house-facilities clearfix">
-                            <li>租赁方式：<span>整租</span></li>
-                            <li>楼层朝向：<span>东</span></li>
-                            <li>押付方式：<span>押一付三</span></li>
-                            <li>房屋类型：<span>三房一厅</span></li>
-                            <li>基础设施：<span>空调、热水器、暖气、厨房、阳台</span></li>
-                            <li>所在小区：<span>中央保利茉莉公馆大宅门</span></li>
-                            <li>详细地址：<span>武汉市蔡甸区中华路4号中山公园</span></li>
-                            <li>预约时间：<strong class="orange">2017-9-9</strong></li>
-                        </ul>
-                        <button type="button">确认预约</button>&nbsp;&nbsp;
-                        <button type="button">拒绝预约</button>
-                    </div>
-                </div>
+            <div class="h-reservation-confirming">
+                <h4>预约中-<span class="green">待确认</span></h4>
+                <ul class="reservation-confirming items">
+                    <li class="reservation-item">
+                        <div class="left fl">
+                            <img src="images/commentpic.png" alt="">
+                            <p>租金：<strong class="orange">1200</strong></p>
+                            <p>位置：汉阳区</p>
+                            <p>租客：133 444 55555</p>
+                        </div>
+                        <div class="right fr">
+                            <ul class="house-facilities clearfix">
+                                <li>租赁方式：<span>整租</span></li>
+                                <li>楼层朝向：<span>东</span></li>
+                                <li>押付方式：<span>押一付三</span></li>
+                                <li>房屋类型：<span>三房一厅</span></li>
+                                <li>基础设施：<span>空调、热水器、暖气、厨房、阳台</span></li>
+                                <li>所在小区：<span>中央保利茉莉公馆大宅门</span></li>
+                                <li>详细地址：<span>武汉市蔡甸区中华路4号中山公园</span></li>
+                                <li>预约时间：<strong class="orange">2017-9-9</strong></li>
+                            </ul>
+                            <button type="button">确认预约</button>&nbsp;&nbsp;
+                            <button type="button">拒绝预约</button>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            <!-- / 预约中-待确认 -->
 
             <!-- 已过期 -->
-            <h4>已过期</h4>
-            <div class="reservation-overdue items">
-                <div class="reservation-item">
-                    <div class="left fl">
-                        <img src="images/commentpic.png" alt="">
-                        <p>租金：<strong class="orange">1200</strong></p>
-                        <p>位置：汉阳区</p>
-                        <p>房东：133 444 55555</p>
-                    </div>
-                    <div class="right fr">
-                        <ul class="house-facilities clearfix">
-                            <li>租赁方式：<span>整租</span></li>
-                            <li>楼层朝向：<span>东</span></li>
-                            <li>押付方式：<span>押一付三</span></li>
-                            <li>房屋类型：<span>三房一厅</span></li>
-                            <li>基础设施：<span>空调、热水器、暖气、厨房、阳台</span></li>
-                            <li>所在小区：<span>中央保利茉莉公馆大宅门</span></li>
-                            <li>详细地址：<span>武汉市蔡甸区中华路4号中山公园</span></li>
-                            <li>预约时间：<strong class="orange">2017-9-9</strong></li>
-                        </ul>
-                        <button type="button">重新预约</button>&nbsp;&nbsp;
-                        <button type="button">删除记录</button>
-                    </div>
-                </div>
+            <div class="h-reservation-overdue">
+                <h4>已过期</h4>
+                <ul class="reservation-overdue items">
+                    <li class="reservation-item">
+                        <div class="left fl">
+                            <img src="images/commentpic.png" alt="">
+                            <p>租金：<strong class="orange">1200</strong></p>
+                            <p>位置：汉阳区</p>
+                            <p>房东：133 444 55555</p>
+                        </div>
+                        <div class="right fr">
+                            <ul class="house-facilities clearfix">
+                                <li>租赁方式：<span>整租</span></li>
+                                <li>楼层朝向：<span>东</span></li>
+                                <li>押付方式：<span>押一付三</span></li>
+                                <li>房屋类型：<span>三房一厅</span></li>
+                                <li>基础设施：<span>空调、热水器、暖气、厨房、阳台</span></li>
+                                <li>所在小区：<span>中央保利茉莉公馆大宅门</span></li>
+                                <li>详细地址：<span>武汉市蔡甸区中华路4号中山公园</span></li>
+                                <li>预约时间：<strong class="orange">2017-9-9</strong></li>
+                            </ul>
+                            <button type="button">重新预约</button>&nbsp;&nbsp;
+                            <button type="button">删除记录</button>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            <!-- / 已过期 -->
 
             <!-- 已看房 -->
-            <h4>已看房</h4>
-            <div class="reservation-done items">
-                <div class="reservation-item">
-                    <div class="left fl">
-                        <img src="images/commentpic.png" alt="">
-                        <p>租金：<strong class="orange">1200</strong></p>
-                        <p>位置：汉阳区</p>
-                        <p>租客：133 444 55555</p>
-                    </div>
-                    <div class="right fr">
-                        <ul class="house-facilities clearfix">
-                            <li>租赁方式：<span>整租</span></li>
-                            <li>楼层朝向：<span>东</span></li>
-                            <li>押付方式：<span>押一付三</span></li>
-                            <li>房屋类型：<span>三房一厅</span></li>
-                            <li>基础设施：<span>空调、热水器、暖气、厨房、阳台</span></li>
-                            <li>所在小区：<span>中央保利茉莉公馆大宅门</span></li>
-                            <li>详细地址：<span>武汉市蔡甸区中华路4号中山公园</span></li>
-                            <li>预约时间：<strong class="orange">2017-9-9</strong></li>
-                        </ul>
-                        <button type="button">评价租客</button>&nbsp;&nbsp;
-                        <button type="button">删除记录</button>
-                    </div>
-                </div>
+            <div class="h-reservation-done">
+                <h4>已看房</h4>
+                <ul class="reservation-done items">
+                    <li class="reservation-item">
+                        <div class="left fl">
+                            <img src="images/commentpic.png" alt="">
+                            <p>租金：<strong class="orange">1200</strong></p>
+                            <p>位置：汉阳区</p>
+                            <p>租客：133 444 55555</p>
+                        </div>
+                        <div class="right fr">
+                            <ul class="house-facilities clearfix">
+                                <li>租赁方式：<span>整租</span></li>
+                                <li>楼层朝向：<span>东</span></li>
+                                <li>押付方式：<span>押一付三</span></li>
+                                <li>房屋类型：<span>三房一厅</span></li>
+                                <li>基础设施：<span>空调、热水器、暖气、厨房、阳台</span></li>
+                                <li>所在小区：<span>中央保利茉莉公馆大宅门</span></li>
+                                <li>详细地址：<span>武汉市蔡甸区中华路4号中山公园</span></li>
+                                <li>预约时间：<strong class="orange">2017-9-9</strong></li>
+                            </ul>
+                            <button type="button">评价租客</button>&nbsp;&nbsp;
+                            <button type="button">删除记录</button>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            <!-- / 已看房 -->
 
             <!-- 已拒绝 -->
-            <h4>已拒绝</h4>
-            <div class="reservation-donedone items">
-                <div class="reservation-item">
-                    <div class="left fl">
-                        <img src="images/commentpic.png" alt="">
-                        <p>租金：<strong class="orange">1200</strong></p>
-                        <p>位置：汉阳区</p>
-                        <p>租客：133 444 55555</p>
-                    </div>
-                    <div class="right fr">
-                        <ul class="house-facilities clearfix">
-                            <li>租赁方式：<span>整租</span></li>
-                            <li>楼层朝向：<span>东</span></li>
-                            <li>押付方式：<span>押一付三</span></li>
-                            <li>房屋类型：<span>三房一厅</span></li>
-                            <li>基础设施：<span>空调、热水器、暖气、厨房、阳台</span></li>
-                            <li>所在小区：<span>中央保利茉莉公馆大宅门</span></li>
-                            <li>详细地址：<span>武汉市蔡甸区中华路4号中山公园</span></li>
-                            <li>预约时间：<strong class="orange">2017-9-9</strong></li>
-                        </ul>
-                        <button type="button">接受预约</button>&nbsp;&nbsp;
-                        <button type="button">删除记录</button>
-                    </div>
-                </div>
+            <div class="h-reservation-donedone">
+                <h4>已拒绝</h4>
+                <ul class="reservation-donedone items">
+                    <li class="reservation-item">
+                        <div class="left fl">
+                            <img src="images/commentpic.png" alt="">
+                            <p>租金：<strong class="orange">1200</strong></p>
+                            <p>位置：汉阳区</p>
+                            <p>租客：133 444 55555</p>
+                        </div>
+                        <div class="right fr">
+                            <ul class="house-facilities clearfix">
+                                <li>租赁方式：<span>整租</span></li>
+                                <li>楼层朝向：<span>东</span></li>
+                                <li>押付方式：<span>押一付三</span></li>
+                                <li>房屋类型：<span>三房一厅</span></li>
+                                <li>基础设施：<span>空调、热水器、暖气、厨房、阳台</span></li>
+                                <li>所在小区：<span>中央保利茉莉公馆大宅门</span></li>
+                                <li>详细地址：<span>武汉市蔡甸区中华路4号中山公园</span></li>
+                                <li>预约时间：<strong class="orange">2017-9-9</strong></li>
+                            </ul>
+                            <button type="button">接受预约</button>&nbsp;&nbsp;
+                            <button type="button">删除记录</button>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            <!-- / 已拒绝 -->
         </div>
-        <div class="backToTop">↑<p>Top</p></div>
     </div>
 </div>
 
@@ -231,6 +245,7 @@
     </div>
 </div>
 <!--footer end-->
+<div class="backToTop">↑<p>Top</p></div>
 <script src="js/jquery-3.2.1.js"></script>
 <script src="js/nav.js"></script>
 <script src="js/05-4-member.js"></script>
