@@ -63,6 +63,8 @@ urlpatterns = [
 
     # 房源发布
     url(r'^listings_release/list/$', listings_release.list, name='listings_release_list'),
+    url(r'^listings_release/(?P<housingresources_id>\d+)/online/$', listings_release.online, name='listings_release_online'),
+    url(r'^listings_release/(?P<housingresources_id>\d+)/offline/$', listings_release.offline, name='listings_release_offline'),
 
     # 商家管理员
     url(r'^venture_manage/list$', venture_manage.venture_manage_list, name='venture_manage_list'),

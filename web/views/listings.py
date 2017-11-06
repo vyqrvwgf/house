@@ -35,7 +35,7 @@ def list(request):
     clients = HousingResources.objects.filter(
         is_del=False,
         is_valid=True,
-        status__in=[1, 2]
+        audit_status=2
     ).order_by('-created')
 
     paginator = Paginator(clients, BACK_PAGE_COUNT)
@@ -169,9 +169,9 @@ def online(request, housingresources_id):
 
 
 @staff_member_required(login_url='/admin/login')
-def delete(request, infrastructure_id):
+def delete(request, housingresources_id):
     page = request.GET.get('page', '')
-    client = Infrastructure.objects.filter(pk=infrastructure_id).first()
+    client = HousingResources.objects.filter(pk=housingresources_id).first()
     if client:
         client.delete()
     return HttpResponseRedirect(reverse('web:listings_list')

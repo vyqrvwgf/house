@@ -4,7 +4,6 @@
     //列表切换
     $(document).ready(function() {
 
-        
         // 确认修改
         document.querySelector(".modify").onclick = function () {
             document.querySelector(".modify-success span").innerHTML = getNowFormatDate();

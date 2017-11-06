@@ -123,6 +123,9 @@ def housing_resource_create(request):
 		content = request.POST.get('content', '')
 		lease = request.POST.get('lease', 0)
 		category = request.POST.get('category', '')
+		province = request.POST.get('province', '')
+		city = request.POST.get('city', '')
+		area = request.POST.get('area', '')
 		bet = request.POST.get('bet', 0)
 		month_rent = request.POST.get('month_rent', 0)
 		pay = request.POST.get('pay', 0)
@@ -141,91 +144,81 @@ def housing_resource_create(request):
 		imgs1 = request.POST.getlist('imgs1', '')
 		imgs2 = request.POST.getlist('imgs2', '')
 
-		try:
-			# 保存房源信息
-			with transaction.atomic():
-				housing_resources = HousingResources()
-				housing_resources.user = profile.get_user()
-				housing_resources.content = content
-				housing_resources.lease = lease
-				housing_resources.category = category
-				housing_resources.bet = bet
-				housing_resources.pay = pay
-				housing_resources.direction = direction
-				housing_resources.layer = layer
-				housing_resources.total_layer = total_layer
-				housing_resources.community = community
-				housing_resources.address = address
-				housing_resources.bus = bus
-				housing_resources.subway = subway
-				housing_resources.buy = buy
-				housing_resources.audit_status = 0
-				housing_resources.sitting_room_area = float(sitting_room_area) if sitting_room_area else 0
-				housing_resources.save()
-				# 获取基础设施
-				infrastructure_list = Infrastructure.objects.filter(pk__in=infrastructures).all()
-				housing_resources.infrastructure = infrastructure_list
+		# try:
+		# 保存房源信息
+		with transaction.atomic():
+			housing_resources = HousingResources()
+			housing_resources.user = profile.get_user()
+			housing_resources.content = content
+			housing_resources.lease = lease
+			housing_resources.category = category
+			housing_resources.province = province
+			housing_resources.category = category
+			housing_resources.category = category
+			housing_resources.bet = bet
+			housing_resources.pay = pay
+			housing_resources.direction = direction
+			housing_resources.layer = layer
+			housing_resources.total_layer = total_layer
+			housing_resources.community = community
+			housing_resources.address = address
+			housing_resources.bus = bus
+			housing_resources.subway = subway
+			housing_resources.buy = buy
+			housing_resources.audit_status = 0
+			housing_resources.sitting_room_area = float(sitting_room_area) if sitting_room_area else 0
+			housing_resources.save()
+			# 获取基础设施
+			infrastructure_list = Infrastructure.objects.filter(pk__in=infrastructures).all()
+			housing_resources.infrastructure = infrastructure_list
 
-				if not sitting_room:
-					housing_resources.sitting_room = 1
+			if not sitting_room:
+				housing_resources.sitting_room = 1
 
-				if type(sitting_room_complete) == list:
-					housing_resources.sitting_room_complete = ','.join(sitting_room_complete)
+			if type(sitting_room_complete) == list:
+				housing_resources.sitting_room_complete = ','.join(sitting_room_complete)
 
-				housing_resources.save()
+			housing_resources.save()
 
-				if type(imgs1) == list:
-					for i in imgs1:
-						HousingCertificatePicture.objects.create(
-							housing_resources=housing_resources,
-							picture=i,
-						)
+			if type(imgs1) == list:
+				for i in imgs1:
+					HousingCertificatePicture.objects.create(
+						housing_resources=housing_resources,
+						picture=i,
+					)
 
-				if type(imgs2) == list:
-					for i in imgs2:
-						HousingPicture.objects.create(
-							housing_resources=housing_resources,
-							picture=i,
-						)
+			if type(imgs2) == list:
+				for i in imgs2:
+					HousingPicture.objects.create(
+						housing_resources=housing_resources,
+						picture=i,
+					)
 
-				# 获取支付的金额
-				setting = Setting.objects.filter(
-					is_del=False,
-					is_valid=True,
-					code='housing_resources_pay'
-				).first()
-				# 创建订单
-				hro = HousingResourcesOrder.objects.create(
-					user=profile.get_user(),
-					order_num=generate_order_num(),
-					total_fee=setting.value,
-					real_fee=setting.value,
-					status=1
-				)
+				# # 获取支付的金额
+				# setting = Setting.objects.filter(
+				# 	is_del=False,
+				# 	is_valid=True,
+				# 	code='housing_resources_pay'
+				# ).first()
+				# # 创建订单
+				# hro = HousingResourcesOrder.objects.create(
+				# 	user=profile.get_user(),
+				# 	order_num=generate_order_num(),
+				# 	total_fee=setting.value,
+				# 	real_fee=setting.value,
+				# 	status=1
+				# )
 
-				subject = u'房源发布'
-				channel = 'alipay_pc_direct'
-				if not hro.pay_way:
-					channel = 'alipay_pc_direct'
+				# subject = u'房源发布'
+				# channel = 'alipay_pc_direct'
+				# if not hro.pay_way:
+				# 	channel = 'alipay_pc_direct'
 
-				client_ip = '127.0.0.1'
-				success_url = DOMAIN + '/hrs'
-				charge_id = create_ping_order(hro.order_num, subject, subject, hro.real_fee, channel, client_ip, success_url=success_url)
-		except Exception as e:
-			logging.error(e)
-			return JsonResponse({
-				'error_code': 1,
-				'error_msg': '创建失败',
-			})
+				# client_ip = '127.0.0.1'
+				# success_url = DOMAIN + '/hrs'
+				# charge_id = create_ping_order(hro.order_num, subject, subject, hro.real_fee, channel, client_ip, success_url=success_url)
 
-		return JsonResponse({
-			'error_code': 0,
-			'error_msg': '创建成功',
-			'data': {
-				'charge_id': charge_id
-			}
-		})
-
+		return HttpResponseRedirect(reverse('website:housing_resources'))
 
 	context = {
 		'module': 'index',
