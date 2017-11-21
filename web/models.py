@@ -190,6 +190,70 @@ class Infrastructure(BaseModel):
         return url(self.cover)
 
 
+class HousingDemand(BaseModel):
+
+    class Meta(object):
+        verbose_name = '求组发布'
+        verbose_name_plural = '求组发布'
+
+    RENT_CHOICES = (
+        (0, '0-500'),
+        (1, '500-1000'),
+        (2, '1000-1500'),
+        (3, '1500-2000'),
+        (4, '2000-2500'),
+        (5, '2500-3000'),
+        (6, '3000-3500'),
+        (7, '3500-4000'),
+        (8, '4000以上')
+    )
+
+    LEASE_CHOICES = (
+        (0, '合租'),
+        (1, '整租')
+    )
+
+    MALE_CHOICES = (
+        (0, '1'),
+        (1, '2'),
+        (2, '3'),
+        (3, '4')
+    )
+
+    FEMALE_CHOICES = (
+        (0, '1'),
+        (1, '2'),
+        (2, '3'),
+        (3, '4')
+    )
+
+    TOTAL_CHOICES = (
+        (0, '1'),
+        (1, '2'),
+        (2, '3'),
+        (3, '4'),
+        (4, '5'),
+        (5, '6')
+    )
+
+    RELATION_CHOICES = (
+        (0, '朋友'),
+        (1, '情侣'),
+        (2, '同学'),
+        (3, '亲戚'),
+        (4, '陌生人'),
+        (5, '其他')
+    )
+
+    rent = models.IntegerField(choices=RENT_CHOICES, default=0, verbose_name='租金')
+    description = models.CharField(max_length=1024, blank=False, default='', verbose_name='补充说明')
+    date = models.DateField(verbose_name='最迟入住日期')
+    infrastructure = models.ManyToManyField(Infrastructure, verbose_name="基础设施")
+    lease = models.IntegerField(choices=LEASE_CHOICES, default=0, verbose_name='租赁方式')
+    name = models.CharField(max_length=32, blank=False, default='', verbose_name='姓名')
+    phone = models.CharField(max_length=11, blank=False, default='', verbose_name='手机')
+
+
 class HousingResources(BaseModel):
 
     class Meta(object):
@@ -228,6 +292,12 @@ class HousingResources(BaseModel):
         (0, '待审核'),
         (1, '审核不通过'),
         (2, '审核通过'),
+    )
+
+    ACCEPT_CHOICES = (
+        (0, '白领'),
+        (1, '学生'),
+        (2, '不限')
     )
 
     user = models.ForeignKey(User, default=None, null=True, blank=True, verbose_name='用户')
