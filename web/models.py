@@ -190,7 +190,7 @@ class Infrastructure(BaseModel):
         return url(self.cover)
 
 
-class HousingDemand(BaseModel):
+class RentHouse(BaseModel):
 
     class Meta(object):
         verbose_name = '求组发布'
@@ -266,7 +266,6 @@ class HousingDemand(BaseModel):
     accept = models.IntegerField(choices=ACCEPT_CHOICES, default=0, null=True, verbose_name='能接受的合租对象')
     name = models.CharField(max_length=32, blank=False, default='', verbose_name='姓名')
     phone = models.CharField(max_length=11, blank=True, default='', verbose_name='手机')
-
 
 class HousingResources(BaseModel):
 
