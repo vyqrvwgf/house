@@ -94,13 +94,13 @@
                 {% csrf_token %}
                 <h4 class="house-online">基础信息</h4>
                     <p><label><span class="orange ">*</span>求租地段：</label>
-                        <select name="rentArea" id="rentProvince" required>
+                        <select name="province" id="province" required>
                         <option value="湖北省" selected>湖北省</option>
                     </select>&nbsp;&nbsp;
-                        <select name="rentArea" id="rentCity" required>
+                        <select name="city" id="city" required>
                             <option value="武汉市" selected>武汉市</option>
                         </select>&nbsp;&nbsp;
-                        <select name="rentBlock" id="rentBlock" required>
+                        <select name="area" id="area" required>
                             <option value="wc">武昌区</option>
                             <option value="hk">汉口区</option>
                             <option value="hs">洪山区</option>
@@ -123,8 +123,8 @@
                         <option value="不限">不限</option>
                     </select>
                     </p>
-                    <p class="checkinDay"><label><span class="orange">*</span>最迟入住时间：</label><input type="text" id="selectDate" readonly="readonly" placeholder="请选择日期" required/></p>
-                    <p class="extraInfo"><label><span class="orange">*</span>补充说明：</label><textarea name="extraInfo" id="extraInfo" cols="30" rows="10" placeholder="凡本站会员不限制查看联系方式，请勿在此处添加任何联系方式或地址信息，如若添加信息审核将无法通过。" required></textarea></p>
+                    <p class="checkinDay"><label><span class="orange">*</span>最迟入住时间：</label><input type="text" name="date" id="date" readonly="readonly" placeholder="请选择日期" required/></p>
+                    <p class="extraInfo"><label><span class="orange">*</span>补充说明：</label><textarea name="description" id="description" cols="30" rows="10" placeholder="凡本站会员不限制查看联系方式，请勿在此处添加任何联系方式或地址信息，如若添加信息审核将无法通过。" required></textarea></p>
                     <h4 class="house-online">基础设施</h4>
                     <ul class="surrounding-facilities clearfix">
                             {% for i in infrastructures %}
@@ -137,14 +137,14 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    <p class="rentAll"><label><input type="radio" name="rentType"><span class="orange">*</span>整租</label><select name="males" id="males">
+                    <p class="rentAll"><label><input type="radio" name="lease"><span class="orange">*</span>整租</label><select name="male_count" id="male_count">
                         <option value="男性人数" selected>男性人数</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
                     </select>
-                        <select name="males" id="females">
+                        <select name="female_count" id="female_count">
                             <option value="女性人数" selected>女性人数</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -161,7 +161,7 @@
                             <option value="4">其他</option>
                         </select>
                     </p>
-                    <p class="rentPart"><label><input type="radio" name="rentType"><span class="orange">*</span>合租</label><select name="totalPeople" id="totalPeople">人数
+                    <p class="rentPart"><label><input type="radio" name="lease"><span class="orange">*</span>合租</label><select name="total_count" id="total_count">人数
                         <option value="总人数" selected>总人数</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -179,15 +179,15 @@
                             <option value="4">陌生人</option>
                             <option value="4">其他</option>
                         </select>
-                        <select name="males" id="acceptable">
+                        <select name="accept" id="accept">
                             <option value="能接受的合租对象" selected>能接受的合租对象</option>
                             <option value="1">学生</option>
                             <option value="2">白领</option>
                             <option value="3">不限</option>
                         </select>
                     </p>
-                    <p class="userName"><label><span class="orange">*</span>姓名</label><input type="text" placeholder="请输入您的名字" required></p>
-                    <p class="phoneNum"><label><span class="orange"></span>手机</label><input id="phoneNum" type="text" placeholder="请输入您的手机">
+                    <p class="userName"><label><span class="orange">*</span>姓名</label><input type="text" name="name" placeholder="请输入您的名字" required></p>
+                    <p class="phoneNum"><label><span class="orange"></span>手机</label><input name="phone" id="phone" type="text" placeholder="请输入您的手机">
                     <div class="release-ways">
                         <button class="release-pay" type="button">确定发布</button>
                         <button class="release-reserve" type="button">暂时保存</button>

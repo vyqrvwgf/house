@@ -268,6 +268,7 @@ def rent_house_create(request):
 		area = request.POST.get('area', '')
 		rent = request.POST.get('rent', '')
 		date = request.POST.get('date', '')
+		description = request.POST.get('description', '')
 		lease = request.POST.get('lease', '')
 		male_count = request.POST.get('male_count', '')
 		female_count = request.POST.get('female_count', '')
@@ -284,6 +285,7 @@ def rent_house_create(request):
 			rent_house.area = area
 			rent_house.rent = rent
 			rent_house.date = date
+			rent_house.description = description
 			rent_house.lease = lease
 			rent_house.male_count = male_count
 			rent_house.female_count = female_count
