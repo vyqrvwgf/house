@@ -15,6 +15,7 @@ from web.models import(
     Profile,
     Infrastructure,
     HousingResources,
+	HousingDemand,
     Infrastructure,
     HousingCertificatePicture,
     HousingPicture,
@@ -230,6 +231,25 @@ def housing_resource_create(request):
 
 	return render(request, 'frontend/user/05-4-member02.html', context)
 
+
+@website_check_login
+def housing_demand_create(request):
+	c_user = request.session.get('c_user', None)
+	profile = Profile.objects.filter(is_del=False, pk=c_user['id']).first()
+	infrastructures = Infrastructure.objects.filter(
+		is_del=False,
+		is_valid=True
+	).order_by('-order_no')
+
+	if request.method == 'POST':
+		province = request.POST.get('province', '')
+		city = request.POST.get('city', '')
+		area = request.POST.get('area', '')
+		rent = request.POST.get('rent', '')
+		date = request.POST.get('date', '')
+		lease = request.POST.get('lease', '')
+		name = request.POST.get('name', '')
+		phone = request.POST.get('phone', '')
 
 @website_check_login
 def housing_resources(request):

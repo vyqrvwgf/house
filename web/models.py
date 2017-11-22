@@ -236,6 +236,12 @@ class HousingDemand(BaseModel):
         (5, '6')
     )
 
+    ACCEPT_CHOICES = (
+        (0, '白领'),
+        (1, '学生'),
+        (2, '不限')
+    )
+
     RELATION_CHOICES = (
         (0, '朋友'),
         (1, '情侣'),
@@ -247,11 +253,19 @@ class HousingDemand(BaseModel):
 
     rent = models.IntegerField(choices=RENT_CHOICES, default=0, verbose_name='租金')
     description = models.CharField(max_length=1024, blank=False, default='', verbose_name='补充说明')
+    province = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='省')
+    city = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='市')
+    area = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='区')
     date = models.DateField(verbose_name='最迟入住日期')
     infrastructure = models.ManyToManyField(Infrastructure, verbose_name="基础设施")
     lease = models.IntegerField(choices=LEASE_CHOICES, default=0, verbose_name='租赁方式')
+    male_count = models.IntegerField(choices=MALE_CHOICES, default=0, null=True, verbose_name='男性人数')
+    female_count = models.IntegerField(choices=FEMALE_CHOICES, default=0, null=True, verbose_name='女性人数')
+    relationship = models.IntegerField(choices=RELATION_CHOICES, default=0, null=True, verbose_name='关系')
+    total_count = models.IntegerField(choices=TOTAL_CHOICES, default=0, null=True, verbose_name='总人数')
+    accept = models.IntegerField(choices=ACCEPT_CHOICES, default=0, null=True, verbose_name='能接受的合租对象')
     name = models.CharField(max_length=32, blank=False, default='', verbose_name='姓名')
-    phone = models.CharField(max_length=11, blank=False, default='', verbose_name='手机')
+    phone = models.CharField(max_length=11, blank=True, default='', verbose_name='手机')
 
 
 class HousingResources(BaseModel):
