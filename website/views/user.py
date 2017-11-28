@@ -15,6 +15,7 @@ from web.models import(
     Profile,
     Infrastructure,
     HousingResources,
+	RentHouse,
     Infrastructure,
     HousingCertificatePicture,
     HousingPicture,
@@ -374,8 +375,6 @@ def housing_resource_edit(request, housing_resources_id):
 
 	return render(request, 'frontend/user/05-4-member02.html', context)
 
-
-
 @website_check_login
 def housing_resources(request):
 	c_user = request.session.get('c_user', None)
@@ -399,6 +398,63 @@ def housing_resources(request):
 
 	return render(request, 'frontend/user/05-4-member03.html', context)
 
+@website_check_login
+def rent_house_create(request):
+	c_user = request.session.get('c_user', None)
+	profile = Profile.objects.filter(is_del=False, pk=c_user['id']).first()
+	infrastructures = Infrastructure.objects.filter(
+		is_del=False,
+		is_valid=True
+	).order_by('-order_no')
+
+	if request.method == 'POST':
+		province = request.POST.get('province', '')
+		city = request.POST.get('city', '')
+		area = request.POST.get('area', '')
+		rent = request.POST.get('rent', '')
+		date = request.POST.get('date', '')
+		description = request.POST.get('description', '')
+		lease = request.POST.get('lease', '')
+		male_count = request.POST.get('male_count', '')
+		female_count = request.POST.get('female_count', '')
+		relationship = request.POST.get('relationship')
+		total_count = request.POST.get('total_count', '')
+		accept = request.POST.get('accept')
+		name = request.POST.get('name', '')
+		phone = request.POST.get('phone', '')
+
+		with transaction.atomic():
+			rent_house = RentHouse()
+			rent_house.province = province
+			rent_house.city = city
+			rent_house.area = area
+			rent_house.rent = rent
+			rent_house.date = date
+			rent_house.description = description
+			rent_house.lease = lease
+			rent_house.male_count = male_count
+			rent_house.female_count = female_count
+			rent_house.relationship = relationship
+			rent_house.total_count = total_count
+			rent_house.accept = accept
+			rent_house.name = name
+			rent_house.phone = phone
+			rent_house.save()
+
+			infrastructure_list = Infrastructure.objects.filter(pk__in=infrastructures).all()
+			rent_house.infrastructure = infrastructure_list
+			rent_house.save()
+
+			return HttpResponseRedirect(reverse('website:rent_house'))
+
+	context = {
+		"module": "index",
+		'sub_module': 'housing_resource_create',
+		'client': profile,
+		'infrastructures': infrastructures
+	}
+
+	return  render(request, 'frontend/user/05-4-member05.html', context)
 
 @website_check_login
 def login_out(request):

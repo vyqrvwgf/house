@@ -1,0 +1,239 @@
+{% extends 'frontend/base.html' %}
+
+{% block pageheader %}
+用户中心
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/static/website/css/05-4-member.css">
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
+{% endblock %}
+
+{% block container %}
+<div class="user">
+    <img src="/static/website/images/member-bg.jpg" alt="" id="user_avatar">
+    <div class="user-info banxin clearfix">
+        <div class="user-face fl" id="container1" >
+            <img class="avatar-pic" src="{{ client.avatar_url }}" alt="">
+            <a class="avatar"><input type="file" id="pickfiles1">修改头像</a>
+        </div>
+        <p class="user-name grey">你好，<span>{{ client.user_name }}</span>！</p>
+        <p class="user-loginTime grey">上次登录：<span>{{client.updated|date:"Y-m-d H:i:s"}}</span></p>
+        <p class="user-credit grey">租客信用：<span class="green">900/1000</span> <strong class="green">优</strong></p>
+    </div>
+</div>
+
+<div class="container banxin clearfix">
+    <!--左边列表-->
+    <ul class="tabs fl">
+        <h4 align="center">账号管理</h4>
+        <li {% if sub_module == 'user_index' %} class="active" {% endif %}>
+            <a href="{% url 'website:user_index' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-01jbxx"></use>
+                </svg> 基本信息
+            </a>
+        </li>
+        <li {% if sub_module == 'housing_resource_create' %} class="active" {% endif %}>
+            <a href="{% url 'website:housing_resource_create' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-02fbfy"></use>
+                </svg> 房源发布
+            </a>
+        </li>
+        <li {% if sub_module == 'housing_resource' %} class="active" {% endif %}>
+            <a href="{% url 'website:housing_resources' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-03fygl"></use>
+                </svg> 房源管理
+            </a>
+        </li>
+        <li {% if sub_module == 'rent_house_create' %} class="active" {% endif %}>
+            <a href="">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-04qzfb"></use>
+                </svg> 求租发布
+            </a>
+        </li>
+        <li {% if sub_module == 'rent_house' %} class="active" {% endif %}>
+            <a href="">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-05qzgl"></use>
+                </svg> 求租管理
+            </a>
+        </li>
+        <li {% if sub_module == 'look_house' %} class="active" {% endif %}>
+            <a href="">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-06kfgl"></use>
+                </svg> 看房管理
+            </a>
+        </li>
+        <li {% if sub_module == 'bill' %} class="active" {% endif %}>
+            <a href="">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-07zjgl"></use>
+                </svg> 资金管理
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-07zjgl"></use>
+                </svg> 系统消息
+            </a>
+        </li>
+    </ul>
+    <!--右边列表-->
+    <div class="tab_container fr">
+        <!--tab5 求租发布-->
+        <div id="tab5" class="tab_content seekRent">    
+            <form method="POST" action="{% url 'website:rent_house_create' %}" enctype="multipart/form-data" id="form1">
+                {% csrf_token %}
+                <h4 class="house-online">基础信息</h4>
+                    <p><label><span class="orange ">*</span>求租地段：</label>
+                        <select name="province" id="province" required>
+                        <option value="湖北省" selected>湖北省</option>
+                    </select>&nbsp;&nbsp;
+                        <select name="city" id="city" required>
+                            <option value="武汉市" selected>武汉市</option>
+                        </select>&nbsp;&nbsp;
+                        <select name="area" id="area" required>
+                            <option value="wc">武昌区</option>
+                            <option value="hk">汉口区</option>
+                            <option value="hs">洪山区</option>
+                            <option value="gg">光谷区</option>
+                            <option value="hy">汉阳区</option>
+                        </select>
+                    </p>
+                    <p><label><span class="orange">*</span>租金：</label><select name="rent" id="rent" required>
+                        <option value="请选择租金">请选择租金</option>
+                        <option value="0-500">0-500</option>
+                        <option value="500-1000">500-1000</option>
+                        <option value="1000-1500">1000-1500</option>
+                        <option value="1500-2000">1500-2000</option>
+                        <option value="2000-2500">2000-2500</option>
+                        <option value="2000-2500">2000-2500</option>
+                        <option value="2500-3000">2500-3000</option>
+                        <option value="3000-3500">3000-3500</option>
+                        <option value="3500-4000">3500-4000</option>
+                        <option value="4000以上">4000以上</option>
+                        <option value="不限">不限</option>
+                    </select>
+                    </p>
+                    <p class="checkinDay"><label><span class="orange">*</span>最迟入住时间：</label><input type="text" name="date" id="date" readonly="readonly" placeholder="请选择日期" required/></p>
+                    <p class="extraInfo"><label><span class="orange">*</span>补充说明：</label><textarea name="description" id="description" cols="30" rows="10" placeholder="凡本站会员不限制查看联系方式，请勿在此处添加任何联系方式或地址信息，如若添加信息审核将无法通过。" required></textarea></p>
+                    <h4 class="house-online">基础设施</h4>
+                    <ul class="surrounding-facilities clearfix">
+                            {% for i in infrastructures %}
+                            <li>
+                                <img src="{{ i.cover_url }}" alt="">
+                                <br>
+                                <label>{{ i.name }}</label>
+                                <br>
+                                <input type="checkbox" name="infrastructures" value="{{ i.id }}">
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <p class="rentAll"><label><input type="radio" name="lease"><span class="orange">*</span>整租</label><select name="male_count" id="male_count">
+                        <option value="男性人数" selected>男性人数</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                        <select name="female_count" id="female_count">
+                            <option value="女性人数" selected>女性人数</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        <select name="relationship" id="relationship">
+                            <option value="关系" selected>关系</option>
+                            <option value="1">朋友</option>
+                            <option value="2">情侣</option>
+                            <option value="3">同学</option>
+                            <option value="3">亲戚</option>
+                            <option value="4">陌生人</option>
+                            <option value="4">其他</option>
+                        </select>
+                    </p>
+                    <p class="rentPart"><label><input type="radio" name="lease"><span class="orange">*</span>合租</label><select name="total_count" id="total_count">人数
+                        <option value="总人数" selected>总人数</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                        <select name="relationship" id="relationship2">
+                            <option value="关系" selected>关系</option>
+                            <option value="1">朋友</option>
+                            <option value="2">情侣</option>
+                            <option value="3">同学</option>
+                            <option value="3">亲戚</option>
+                            <option value="4">陌生人</option>
+                            <option value="4">其他</option>
+                        </select>
+                        <select name="accept" id="accept">
+                            <option value="能接受的合租对象" selected>能接受的合租对象</option>
+                            <option value="1">学生</option>
+                            <option value="2">白领</option>
+                            <option value="3">不限</option>
+                        </select>
+                    </p>
+                    <p class="userName"><label><span class="orange">*</span>姓名</label><input type="text" name="name" placeholder="请输入您的名字" required></p>
+                    <p class="phoneNum"><label><span class="orange"></span>手机</label><input name="phone" id="phone" type="text" placeholder="请输入您的手机">
+                    <div class="release-ways">
+                        <button class="release-pay" type="button">确定发布</button>
+                        <button class="release-reserve" type="button">暂时保存</button>
+                    </div>
+            </form>
+        </div>
+        <div class="backToTop">↑<p>Top</p></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/static/pingpp-js/dist/pingpp.js" type="text/javascript"></script>
+<script src="/static/vendor/plupload.full.min.js"></script>
+<script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/static/website/js/05-4-member05.js"></script>
+<script src="/static/website/js/dropzone-min/dropzone.min.js"></script>
+<script src="/static/website/js/dropzone-min/bootStyle.js"></script>
+<script>
+    // 确认修改
+    document.querySelector(".modify").onclick = function () {
+        document.querySelector(".modify-success span").innerHTML = getNowFormatDate();
+        document.querySelector(".modify-success").style.display = "block";
+    };
+
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+        return currentdate;
+    }
+
+    $(".backToTop").click(function () {
+        console.log(11);
+        scrollTo(0,0);
+    });
+</script>
+{% endblock %}
