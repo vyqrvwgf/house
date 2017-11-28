@@ -357,6 +357,18 @@ class HousingResources(BaseModel):
         prictures = [h.picture_url() for h in housing_pictures]
         return prictures
 
+    @property
+    def bedrooms(self):
+        '''获取卧室
+        '''
+        return Bedroom.obs.get_queryset().filter(housing_resources=self)
+
+    @property
+    def bedroom_count(self):
+        '''获取卧室数量
+        '''
+        return Bedroom.obs.get_queryset().filter(housing_resources=self).count()
+
 
 class HousingResourcesComment(BaseModel):
 
