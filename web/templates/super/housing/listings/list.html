@@ -49,7 +49,7 @@
                 <td style="vertical-align: middle;">{{ c.get_status_display }}</td>
                 <td style="vertical-align: middle;">
                     <!-- <a class="btn btn-info" href="{% url 'web:infrastructure_edit' c.id %}">编辑</a> -->
-                    {% if not c.status %}
+                    {% if not c.status or c.status == 1 %}
                       <a class="btn-xs btn-success" href="{% url 'web:listings_online' c.id %}?page={{page}}">上线</a>
                     {% else %}
                       <a class="btn-xs btn-success" href="{% url 'web:listings_offline' c.id %}?page={{page}}">下线</a>
