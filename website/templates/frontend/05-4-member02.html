@@ -94,26 +94,27 @@
         <div id="tab2" class="tab_content house-release clearfix">
             <form action="" method="POST" target="" accept-charset="UTF-8" ectype="application/x-www-form-urlencoded" autocomplete="off" novalidate>
             <h4>房源描述</h4><br>
-                <textarea class="house-description" name="house-description" id="house-description" cols="50" rows="10" placeholder="请输入房源描述"></textarea><br><br>
+                <textarea class="house-description" name="content" id="house-description" cols="50" rows="10" placeholder="请输入房源描述"></textarea>
+                <br><br>
                 <h4>房源详情</h4>
                 <p>
                     <label>租赁方式：</label>
-                    <select name="leasing-method" id="leasing-method">
+                    <select name="lease" id="leasing-method">
                         <option value="整租">整租</option>
                         <option value="合租">合租</option>
                     </select>
                 </p>
                 <p>
                     <label>房屋类型：</label>
-                    <input class="house-type" name="house-type" id="house-type" type="text" placeholder="例如：2室1厅   独立卫生间   精装修">
+                    <input class="house-type" name="category" id="house-type" type="text" placeholder="例如：2室1厅   独立卫生间   精装修">
                 </p>
                 <p>
                     <label>每月租金：</label>
-                    <input class="house-payment" name="house-type" type="text" placeholder="月租">元
+                    <input class="house-payment" name="month_rent" type="text" placeholder="月租">元
                 </p>
                 <p>
                     <label>押付方式：</label>
-                    押 <select name="cashPledge" id="cashPledge">
+                    押 <select name="bet" id="cashPledge">
                     <option value="1">0.5</option>
                     <option value="1">1</option>
                     <option value="1">1.5</option>
@@ -121,7 +122,7 @@
                     <option value="1">2.5</option>
                     <option value="1">3</option>
                 </select>
-                    付 <select name="cashRent" id="cashRent">
+                    付 <select name="pay" id="cashRent">
                     <option value="1">0.5</option>
                     <option value="1">1</option>
                     <option value="1">1.5</option>
@@ -132,14 +133,14 @@
                 </p>
                 <p>
                     <label>楼层朝向：</label>
-                    <select name="floor-orientation" id="floor-orientation">
+                    <select name="direction" id="floor-orientation">
                         <option value="1">东</option>
                         <option value="1">南</option>
                         <option value="1">西</option>
                         <option value="1">北</option>
                     </select>
                     <label>楼层数</label>
-                    <select name="floor-number" id="floor-number">
+                    <select name="layer" id="floor-number">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -174,7 +175,7 @@
                         <option value="32">32</option>
                     </select>
                     <label>总层数</label>
-                    <select name="total-floors" id="total-floors">
+                    <select name="total_layer" id="total-floors">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -215,18 +216,18 @@
                 </p>
                 <p class="address">
                     <label>详细地址：</label>
-                    <select name="">
+                    <select name="province">
                         <option value="0">湖北省</option>
                     </select>
-                    <select name="">
+                    <select name="city">
                         <option value="0">武汉市</option>
                     </select>
-                    <select name="">
+                    <select name="area">
                         <option value="0">武昌区</option>
                         <option value="1">洪山区</option>
                         <option value="2">汉阳区</option>
                     </select>
-                    <input class="addr" name="addr" id="addr" type="text" placeholder="具体街道地址">
+                    <input class="addr" name="address" id="addr" type="text" placeholder="具体街道地址">
                 </p>
                 <h4>基础设施</h4>
                 <ul class="surrounding-facilities clearfix">
@@ -274,9 +275,9 @@
                     <div class="col-lg-7">
                         <!-- The fileinput-button span is used to style the file input field as button -->
                         <span class="btn btn-success fileinput-button">
-                <i class="glyphicon glyphicon-plus"></i>
-                <span>增加图片</span>
-            </span>
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>增加图片</span>
+                        </span>
                         <button type="button" class="btn btn-primary start">
                             <i class="glyphicon glyphicon-upload"></i>
                             <span>开始上传</span>
@@ -321,10 +322,9 @@
                     </div>
                 </div>
                 <div class="release-ways">
-                    <button class="release-pay" type="button">确定发布</button>
+                    <button class="release-pay" type="button">提交审核</button>
                     <button class="release-reserve" type="button">暂时保存</button>
                 </div>
-
             </form>
         </div>
         <div class="backToTop">↑<p>Top</p></div>

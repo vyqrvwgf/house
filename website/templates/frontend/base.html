@@ -8,14 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="/static/admin/plugins/select2/select2.min.css">
-
     <link rel="stylesheet" href="/static/website/css/base.css">
     {% block style %}
     {% endblock %}
 </head>
 <body {% block bodyclass %}{% endblock %}>
     <header class="wrap">
-        <div class="banxin welcome">
+        <div class="banxin welcome clearfix">
             <div class="wel_left fl">
                 <span class="white">欢迎来到租房网！更多房源选择任您挑选！请选择您的位置：</span>
                 <select class="city white" name="city" id="">
