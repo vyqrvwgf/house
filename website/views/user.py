@@ -470,9 +470,9 @@ def rent_house(request):
 		'module': 'index',
 		'sub_module': 'rent_house',
 		'client': profile,
-		'clients1': housing_resources.filter(status=2),
-		'clients2': housing_resources.filter(status=1),
-		'clients2': housing_resources.filter(audit_status=0),
+		'clients1': rent_house.filter(status=2),
+		'clients2': rent_house.filter(status=1),
+		'clients2': rent_house.filter(audit_status=0),
 	}
 
 	return render(request, 'frontend/user/05-4-member03.html', context)
