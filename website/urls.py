@@ -22,4 +22,7 @@ urlpatterns = [
     # 房源发布
     url(r'^hr_create$', user.housing_resource_create, name='housing_resource_create'),
     url(r'^housing_resources$', user.housing_resources, name='housing_resources'),
+    # 求租发布
+    url(r'^rent_house_create$', user.rent_house_create, name='rent_house_create'),
+    url(r'^rent_house$', user.rent_house, name='rent_house'),
 ]
