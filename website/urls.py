@@ -20,7 +20,8 @@ urlpatterns = [
     url(r'^user/update_avatar$', user.update_avatar, name='update_avatar'),
     url(r'^login_out$', user.login_out, name='login_out'),
     # 房源发布
-    url(r'^hr_create$', user.housing_resource_create, name='housing_resource_create'),
+    url(r'^housing_resources/create$', user.housing_resource_create, name='housing_resource_create'),
+    url(r'^housing_resources/(?P<housing_resources_id>\d+)/edit$', user.housing_resource_edit, name='housing_resource_edit'),
     url(r'^housing_resources$', user.housing_resources, name='housing_resources'),
     # 求租发布
     url(r'^rent_house_create$', user.rent_house_create, name='rent_house_create'),
