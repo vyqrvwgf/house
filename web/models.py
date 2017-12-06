@@ -251,6 +251,19 @@ class RentHouse(BaseModel):
         (5, '其他')
     )
 
+    STATUS_CHOICES = (
+        (0, ''),
+        (1, '下线'),
+        (2, '上线'),
+    )
+
+    AUDIT_STATUS_CHOICES = (
+        (0, '待审核'),
+        (1, '审核不通过'),
+        (2, '审核通过'),
+    )
+
+    user = models.ForeignKey(User, default=None, null=True, blank=True, verbose_name='用户')
     rent = models.IntegerField(choices=RENT_CHOICES, default=0, verbose_name='租金')
     description = models.CharField(max_length=1024, blank=False, default='', verbose_name='补充说明')
     province = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='省')
@@ -266,6 +279,8 @@ class RentHouse(BaseModel):
     accept = models.IntegerField(choices=ACCEPT_CHOICES, default=0, null=True, verbose_name='能接受的合租对象')
     name = models.CharField(max_length=32, blank=False, default='', verbose_name='姓名')
     phone = models.CharField(max_length=11, blank=True, default='', verbose_name='手机')
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name='状态')
+    audit_status = models.IntegerField(choices=AUDIT_STATUS_CHOICES, default=0, verbose_name='审核状态')
 
 class HousingResources(BaseModel):
 

@@ -449,12 +449,33 @@ def rent_house_create(request):
 
 	context = {
 		"module": "index",
-		'sub_module': 'housing_resource_create',
+		'sub_module': 'rent_house_create',
 		'client': profile,
 		'infrastructures': infrastructures
 	}
 
 	return  render(request, 'frontend/user/05-4-member05.html', context)
+
+@website_check_login
+def rent_house(request):
+	c_user = request.session.get('c_user', None)
+	profile = Profile.objects.filter(is_del=False, pk=c_user['id']).first()
+	rent_house = RentHouse.objects.filter(
+		is_del=False,
+		is_valid=True,
+		user=profile.get_user()
+	).order_by('-created')
+
+	context = {
+		'module': 'index',
+		'sub_module': 'rent_house',
+		'client': profile,
+		'clients1': rent_house.filter(status=2),
+		'clients2': rent_house.filter(status=1),
+		'clients2': rent_house.filter(audit_status=0),
+	}
+
+	return render(request, 'frontend/user/05-4-member03.html', context)
 
 @website_check_login
 def login_out(request):
