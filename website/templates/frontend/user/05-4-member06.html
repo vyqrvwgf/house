@@ -52,14 +52,14 @@
             </a>
         </li>
         <li {% if sub_module == 'rent_house_create' %} class="active" {% endif %}>
-            <a href="">
+            <a href="{% url 'website:rent_house_create' %}">
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-04qzfb"></use>
                 </svg> 求租发布
             </a>
         </li>
         <li {% if sub_module == 'rent_house' %} class="active" {% endif %}>
-            <a href="">
+            <a href="{% url 'website:rent_house' %}">
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-05qzgl"></use>
                 </svg> 求租管理
