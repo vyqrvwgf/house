@@ -464,8 +464,8 @@ def rent_house_edit(request, rent_house_id):
         is_del=False,
         is_valid=True
     ).order_by('-order_no')
-    rent_house = RentHouse.objects.get(pk=rent_house_id)
 
+    rent_house = RentHouse.objects.get(pk=rent_house_id)
     if request.method == 'POST':
         province = request.POST.get('province', '')
         city = request.POST.get('city', '')
@@ -483,7 +483,6 @@ def rent_house_edit(request, rent_house_id):
         phone = request.POST.get('phone', '')
 
         with transaction.atomic():
-            rent_house = RentHouse()
             rent_house.province = province
             rent_house.city = city
             rent_house.area = area
