@@ -123,7 +123,7 @@
                         <option value="不限">不限</option>
                     </select>
                     </p>
-                    <p class="checkinDay"><label><span class="orange">*</span>最迟入住时间：</label><input type="text" name="date" id="date" readonly="readonly" placeholder="请选择日期" required/></p>
+                    <p class="checkinDay"><label><span class="orange">*</span>最迟入住时间：</label><input type="text" name="date" id="selectDate" readonly="readonly" placeholder="请选择日期" required/></p>
                     <p class="extraInfo"><label><span class="orange">*</span>补充说明：</label><textarea name="description" id="description" cols="30" rows="10" placeholder="凡本站会员不限制查看联系方式，请勿在此处添加任何联系方式或地址信息，如若添加信息审核将无法通过。" required></textarea></p>
                     <h4 class="house-online">基础设施</h4>
                     <ul class="surrounding-facilities clearfix">
@@ -189,8 +189,7 @@
                     <p class="userName"><label><span class="orange">*</span>姓名</label><input type="text" name="name" placeholder="请输入您的名字" required></p>
                     <p class="phoneNum"><label><span class="orange"></span>手机</label><input name="phone" id="phone" type="text" placeholder="请输入您的手机">
                     <div class="release-ways">
-                        <button class="release-pay" type="button">确定发布</button>
-                        <button class="release-reserve" type="button">暂时保存</button>
+                        <button class="release-pay" type="button">提交审核</button>
                     </div>
             </form>
         </div>
@@ -206,6 +205,48 @@
 <script src="/static/website/js/05-4-member05.js"></script>
 <script src="/static/website/js/dropzone-min/dropzone.min.js"></script>
 <script src="/static/website/js/dropzone-min/bootStyle.js"></script>
+<script>
+$(document).ready(function () {
+
+    function completeHandler(res){
+        alert(res.error_msg)
+        if (!res.error_code) {
+            location.href = '{% url "website:housing_resources" %}'
+        }
+    }
+
+    function errorHandler(err){
+        alert('提交失败')
+    }
+
+    $('.release-pay').on('click', function(){
+        var formData = new FormData($('form')[0]);
+        $.ajax({
+          url: '{% url "website:rent_house_create" %}', 
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: completeHandler,
+          error: errorHandler,     
+        });
+    })
+
+    //tab2-发布房源
+    //基础设施选择
+    var SetLis = $("#tab2 .surrounding-facilities").find("li");
+    for(var i = 0;i < SetLis.length;i++){
+        $(SetLis[i]).click(function () {
+            var box = $(this).find('input');
+            if(box.attr('checked') === 'checked'){
+                box.removeAttr('checked');
+            }else{
+                box.attr('checked','true');
+            }
+        });
+    }
+});
+</script>
 <script>
     // 确认修改
     document.querySelector(".modify").onclick = function () {
