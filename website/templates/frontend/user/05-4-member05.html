@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block style %}
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/static/website/js/dropzone-min/bootStyle.css">
+    <link rel="stylesheet" href="/static/website/css/base.css">
     <link rel="stylesheet" href="/static/website/css/05-4-member.css">
     <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
     <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
@@ -205,13 +209,16 @@
 <script src="/static/website/js/05-4-member05.js"></script>
 <script src="/static/website/js/dropzone-min/dropzone.min.js"></script>
 <script src="/static/website/js/dropzone-min/bootStyle.js"></script>
+    <script src="/static/website/js/jquery-3.2.1.js"></script>
+<script src="/static/website/js/nav.js"></script>
+
 <script>
 $(document).ready(function () {
 
     function completeHandler(res){
         alert(res.error_msg)
         if (!res.error_code) {
-            location.href = '{% url "website:housing_resources" %}'
+            location.href = '{% url "website:rent_house" %}'
         }
     }
 
