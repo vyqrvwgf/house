@@ -40,6 +40,34 @@ import logging
 redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 
 
+@csrf_exempt
+def upload_file(request):
+
+    print 'update_file'
+    # try:
+    if request.FILES.get('test-image-file', None):
+        # 上传图片
+        id_card_picture = request.FILES['test-image-file']
+        ts = int(time.time())
+        ext = get_extension(id_card_picture.name)
+        key = 'id_card_picture_{}.{}'.format(ts, ext)
+        handle_uploaded_file(id_card_picture, key)
+        upload(key, os.path.join(UPLOAD_DIR, key))
+        profile.id_card_picture = key
+
+    # except Exception as e:
+    #   logging.error(e)
+    #   return JsonResponse({
+    #       'error_code': 1,
+    #       'error_msg': '保存失败',
+    #   })
+
+    return JsonResponse({
+        'error_code': 0,
+        'error_msg': '保存成功',
+    })
+
+
 def index(request):
 	advertising_list = Advertising.objects.filter(
 		is_del=False,

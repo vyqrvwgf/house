@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^$', home.index, name='home_index'),
     url(r'^register$', home.register, name='home_register'),
     url(r'^login$', home.login, name='home_login'),
+    url(r'^upload_file$', home.upload_file, name='upload_file'),
 
     # 用户
     url(r'^user$', user.index, name='user_index'),

@@ -10,7 +10,7 @@ from django.db import transaction
 from django.http import HttpResponseRedirect, JsonResponse
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
-from web.models import(
+from web.models import (
     Advertising,
     Profile,
     Infrastructure,
