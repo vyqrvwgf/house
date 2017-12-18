@@ -42,9 +42,7 @@
                 <td style="vertical-align: middle;">押{{ c.bet }}付{{ c.pay }}</td>
                 <td style="vertical-align: middle;">{{ c.community }}</td>
                 <td style="vertical-align: middle;">
-                {% for p in c.get_housing_pricturs %}
-                  <img src="{{ p }}" width="50" height="50" />
-                {% endfor %}
+                  <img src="{{ c.cover_url }}" width="50" height="50" />
                 </td>
                 <td style="vertical-align: middle;">{{ c.get_audit_status_display }}</td>
                 <td style="vertical-align: middle;">

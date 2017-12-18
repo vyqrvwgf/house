@@ -251,13 +251,55 @@
                 <button class="addBedroom" type="button">增加卧室</button>
                 <h4>上传房产证照片</h4>
                 <p><input type="file" class="deedPic" id="test-image-file" name="deedPic"></p>
+                {% if not housing_resources %}
                 <div class="photos" id="test-image-preview">图片预览</div>
+                {% else %}
+                <img src="{{ housing_resources.cover_url }}" width="200">
+                {% endif %}
                 <h4>上传照片</h4>
-                <span class="btn btn-success fileinput-button">
+<!--                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
                     <span>选择图片</span>
-                    <input id="fileupload" type="file" name="files[]" multiple>
-                </span>
+                    <input id="fileupload" type="file" name="files[]" data-url="/upload_file" multiple>
+                </span> -->
+                <div id="actions" class="row">
+                    <div class="col-lg-7">
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>增加图片</span>
+                        </span>
+                    </div>
+                </div>
+                <p class="red">（默认第一张为房源封面）</p>
+                <div class="table table-striped files" id="previews">
+                    <div id="template" class="file-row">
+                        <!-- This is used as the file preview template -->
+                        <div>
+                            <span class="preview"><img data-dz-thumbnail /></span>
+                        </div>
+                        <div>
+                            <p class="name" data-dz-name></p>
+                            <strong class="error text-danger" data-dz-errormessage></strong>
+                        </div>
+                        <div>
+                            <p class="size" data-dz-size></p>
+                            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary start">
+                                <i class="glyphicon glyphicon-upload"></i>
+                                <span>上传</span>
+                            </button>
+                            <button data-dz-remove class="btn btn-warning cancel">
+                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                <span>取消</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <br>
                 <br>
                 <!-- The global progress bar -->
@@ -265,13 +307,9 @@
                     <div class="progress-bar progress-bar-success"></div>
                 </div>
 
-<!--            <div id="actions" class="row">
-                    <p>
-                        <input type="file" class="deedPic" id="test-image-file" name="cover">
-                    </p>
-                </div> -->
                 <div class="release-ways">
                     <input type="hidden" name="bedroom_count" id="bedroom_count" {% if housing_resources %} value="{{ housing_resources.bedroom_count }}" {% else %} value="0" {% endif %}>
+                    <input type="hidden" name="bedroom_files" id="bedroom_files" value="">
                     <button class="release-pay" type="button">提交审核</button>
 <!--                <button class="release-reserve" type="button">暂时保存</button> -->
                 </div>
@@ -295,23 +333,21 @@
 <script src="/static/website/js/jquery.iframe-transport.js"></script>
 <!-- The basic File Upload plugin -->
 <script src="/static/website/js/jquery.fileupload.js"></script>
-
 <script>
 $(document).ready(function () {
 
    $('#fileupload').fileupload({
-        url: '{% url "website:upload_file" %}',
         dataType: 'json',
-        add: function (e, data) {
-            data.context = $('<button/>').text('Upload')
-                .appendTo(document.body)
-                .click(function () {
-                    $(this).replaceWith($('<p/>').text('Uploading...'));
-                    data.submit();
-                });
-        },
+        // add: function (e, data) {
+        //     alert(data)
+        // },
         done: function (e, data) {
-            data.context.text('Upload finished.');
+            if (!data.error_code) {
+                
+
+            }else{
+                alert(data.error_msg)
+            }
         }
     });
 

@@ -331,6 +331,7 @@ class HousingResources(BaseModel):
     user = models.ForeignKey(User, default=None, null=True, blank=True, verbose_name='用户')
     infrastructure = models.ManyToManyField(Infrastructure, verbose_name="基础设施")
     cover = models.CharField(max_length=1024, default='', blank=True, verbose_name="图片")
+    house_pcover = models.CharField(max_length=1024, default='', blank=True, verbose_name="房产证")
     hall = models.CharField(max_length=1024, default='', blank=True, verbose_name="大厅图片")
     peripheral = models.TextField(default='', null=True, blank=True, verbose_name='配套设施')
     lease = models.IntegerField(choices=LEASE_CHOICES, default=0, verbose_name='租赁方式')
@@ -362,15 +363,8 @@ class HousingResources(BaseModel):
     def hall_url(self):
         return url(self.hall)
 
-    def get_housing_pricturs(self):
-        prictures = []
-        housing_pictures = HousingCertificatePicture.objects.filter(
-            is_del=False,
-            is_valid=True,
-            housing_resources=self
-        )
-        prictures = [h.picture_url() for h in housing_pictures]
-        return prictures
+    def house_pcover_url(self):
+        return url(self.house_pcover)
 
     @property
     def bedrooms(self):
@@ -393,19 +387,6 @@ class HousingResourcesComment(BaseModel):
 
     housing_resources = models.ForeignKey(HousingResources, null=True, blank=True, verbose_name="房源")
     content = models.TextField(default='', null=True, blank=True, verbose_name='房屋描述')
-
-
-class HousingCertificatePicture(BaseModel):
-
-    class Meta(object):
-        verbose_name = '房屋房产证图片'
-        verbose_name_plural = '房屋房产证图片'
-
-    housing_resources = models.ForeignKey(HousingResources, null=True, blank=True, verbose_name="房源")
-    picture = models.CharField(max_length=1024, default='', blank=True, verbose_name="图片")
-
-    def picture_url(self):
-        return url(self.picture)
 
 
 class HousingPicture(BaseModel):

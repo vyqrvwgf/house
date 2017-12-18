@@ -11,7 +11,14 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from web.models import(
     Advertising,
-    Profile
+    Profile,
+    HousingResources,
+)
+
+from imagestore.qiniu_manager import (
+	get_extension,
+	handle_uploaded_file,
+	upload
 )
 
 from utils import(
@@ -24,6 +31,7 @@ from settings import (
     REDIS_PORT,
     REDIS_DB,
     DB_PREFIX,
+    UPLOAD_DIR,
     DOMAIN
 )
 
@@ -43,18 +51,17 @@ redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 @csrf_exempt
 def upload_file(request):
 
-    print 'update_file'
+    keys = ''
     # try:
-    if request.FILES.get('test-image-file', None):
+    if request.FILES.get('file', None):
+    	file = request.FILES.get('file', None)
         # 上传图片
-        id_card_picture = request.FILES['test-image-file']
+        id_card_picture = file
         ts = int(time.time())
         ext = get_extension(id_card_picture.name)
         key = 'id_card_picture_{}.{}'.format(ts, ext)
         handle_uploaded_file(id_card_picture, key)
         upload(key, os.path.join(UPLOAD_DIR, key))
-        profile.id_card_picture = key
-
     # except Exception as e:
     #   logging.error(e)
     #   return JsonResponse({
@@ -65,6 +72,9 @@ def upload_file(request):
     return JsonResponse({
         'error_code': 0,
         'error_msg': '保存成功',
+        'data': {
+        	'key': key
+        }
     })
 
 
@@ -73,9 +83,12 @@ def index(request):
 		is_del=False,
 		is_valid=True
 	).order_by('-order_no')
+
+	housingresources_list = HousingResources.obs.get_queryset()
 	context = {
 		'module': 'index',
 		'advertisings': advertising_list,
+		'housingresources_list': housingresources_list,
 		'advertising_count': len(advertising_list),
 	}
 
