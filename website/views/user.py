@@ -426,6 +426,7 @@ def rent_house_create(request):
 		# try:
 		with transaction.atomic():
 			rent_house = RentHouse()
+			rent_house.user = profile.get_user()
 			rent_house.province = province
 			rent_house.city = city
 			rent_house.area = area
@@ -527,6 +528,8 @@ def rent_house(request):
 		is_valid=True,
 		user=profile.get_user()
 	).order_by('-created')
+	# rent_house = RentHouse.objects.all()
+	# all_rent_house = RentHouse.objects.all()
 
 	context = {
 		'module': 'index',
