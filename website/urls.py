@@ -13,7 +13,6 @@ urlpatterns = [
     url(r'^$', home.index, name='home_index'),
     url(r'^register$', home.register, name='home_register'),
     url(r'^login$', home.login, name='home_login'),
-    url(r'^upload_file$', home.upload_file, name='upload_file'),
 
     # 用户
     url(r'^user$', user.index, name='user_index'),
@@ -25,6 +24,7 @@ urlpatterns = [
     url(r'^housing_resources/(?P<housing_resources_id>\d+)/edit$', user.housing_resource_edit, name='housing_resource_edit'),
     url(r'^housing_resources$', user.housing_resources, name='housing_resources'),
     # 求租发布
-    url(r'^rent_house_create$', user.rent_house_create, name='rent_house_create'),
+    url(r'^rent_house/create$', user.rent_house_create, name='rent_house_create'),
+    url(r'^rent_house/(?P<rent_house_id>\d+)/edit$', user.rent_house_edit, name='rent_house_edit'),
     url(r'^rent_house$', user.rent_house, name='rent_house'),
 ]

@@ -424,32 +424,34 @@ def rent_house_create(request):
 		province = request.POST.get('province', '')
 		city = request.POST.get('city', '')
 		area = request.POST.get('area', '')
-		rent = request.POST.get('rent', '')
+		rent = request.POST.get('rent', 0)
 		date = request.POST.get('date', '')
 		description = request.POST.get('description', '')
-		lease = request.POST.get('lease', '')
-		male_count = request.POST.get('male_count', '')
-		female_count = request.POST.get('female_count', '')
-		relationship = request.POST.get('relationship')
-		total_count = request.POST.get('total_count', '')
-		accept = request.POST.get('accept')
+		lease = request.POST.get('lease', 0)
+		male_count = request.POST.get('male_count', 0)
+		female_count = request.POST.get('female_count', 0)
+		relationship = request.POST.get('relationship', 0)
+		total_count = request.POST.get('total_count', 0)
+		accept = request.POST.get('accept', 0)
 		name = request.POST.get('name', '')
 		phone = request.POST.get('phone', '')
 
+		# try:
 		with transaction.atomic():
 			rent_house = RentHouse()
+			rent_house.user = profile.get_user()
 			rent_house.province = province
 			rent_house.city = city
 			rent_house.area = area
 			rent_house.rent = rent
-			rent_house.date = date
+			rent_house.date = date	
 			rent_house.description = description
 			rent_house.lease = lease
-			rent_house.male_count = male_count
-			rent_house.female_count = female_count
-			rent_house.relationship = relationship
-			rent_house.total_count = total_count
-			rent_house.accept = accept
+			# rent_house.male_count = male_count
+			# rent_house.female_count = female_count
+			# rent_house.relationship = relationship
+			# rent_house.total_count = total_count
+			# rent_house.accept = accept
 			rent_house.name = name
 			rent_house.phone = phone
 			rent_house.save()
@@ -458,7 +460,10 @@ def rent_house_create(request):
 			rent_house.infrastructure = infrastructure_list
 			rent_house.save()
 
-			return HttpResponseRedirect(reverse('website:rent_house'))
+		# except Exception as e:
+		# 	return JsonResponse({'error_code': 1, 'error_msg': '提交审核失败'})
+			
+		return JsonResponse({'error_code': 0, 'error_msg': '提交审核成功'})
 
 	context = {
 		"module": "index",
@@ -536,10 +541,12 @@ def rent_house(request):
 		is_valid=True,
 		user=profile.get_user()
 	).order_by('-created')
+	# rent_house = RentHouse.objects.all()
+	# all_rent_house = RentHouse.objects.all()
 
 	context = {
 		'module': 'index',
-		'sub_module': 'rent_house',
+		'sub_module': 'housing_resource',
 		'client': profile,
 		'clients1': rent_house.filter(status=2),
 		'clients2': rent_house.filter(audit_status=0),

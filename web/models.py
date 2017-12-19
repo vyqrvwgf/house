@@ -193,8 +193,8 @@ class Infrastructure(BaseModel):
 class RentHouse(BaseModel):
 
     class Meta(object):
-        verbose_name = '求组发布'
-        verbose_name_plural = '求组发布'
+        verbose_name = '求租发布'
+        verbose_name_plural = '求租发布'
 
     RENT_CHOICES = (
         (0, '0-500'),
@@ -205,7 +205,8 @@ class RentHouse(BaseModel):
         (5, '2500-3000'),
         (6, '3000-3500'),
         (7, '3500-4000'),
-        (8, '4000以上')
+        (8, '4000以上'),
+        (9, '不限')
     )
 
     LEASE_CHOICES = (
@@ -265,19 +266,19 @@ class RentHouse(BaseModel):
 
     user = models.ForeignKey(User, default=None, null=True, blank=True, verbose_name='用户')
     rent = models.IntegerField(choices=RENT_CHOICES, default=0, verbose_name='租金')
-    description = models.CharField(max_length=1024, blank=False, default='', verbose_name='补充说明')
+    description = models.CharField(max_length=1024, blank=True, default='', verbose_name='补充说明')
     province = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='省')
     city = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='市')
     area = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='区')
-    date = models.DateField(verbose_name='最迟入住日期')
+    date = models.CharField(max_length=32, default='', blank=True, null=True, verbose_name='最迟入住日期')
     infrastructure = models.ManyToManyField(Infrastructure, verbose_name="基础设施")
     lease = models.IntegerField(choices=LEASE_CHOICES, default=0, verbose_name='租赁方式')
-    male_count = models.IntegerField(choices=MALE_CHOICES, default=0, null=True, verbose_name='男性人数')
-    female_count = models.IntegerField(choices=FEMALE_CHOICES, default=0, null=True, verbose_name='女性人数')
-    relationship = models.IntegerField(choices=RELATION_CHOICES, default=0, null=True, verbose_name='关系')
-    total_count = models.IntegerField(choices=TOTAL_CHOICES, default=0, null=True, verbose_name='总人数')
-    accept = models.IntegerField(choices=ACCEPT_CHOICES, default=0, null=True, verbose_name='能接受的合租对象')
-    name = models.CharField(max_length=32, blank=False, default='', verbose_name='姓名')
+    male_count = models.IntegerField(choices=MALE_CHOICES, default=0, null=True, blank=True, verbose_name='男性人数')
+    female_count = models.IntegerField(choices=FEMALE_CHOICES, default=0, null=True, blank=True, verbose_name='女性人数')
+    relationship = models.IntegerField(choices=RELATION_CHOICES, default=0, null=True, blank=True, verbose_name='关系')
+    total_count = models.IntegerField(choices=TOTAL_CHOICES, default=0, null=True, blank=True, verbose_name='总人数')
+    accept = models.IntegerField(choices=ACCEPT_CHOICES, default=0, null=True, blank=True, verbose_name='能接受的合租对象')
+    name = models.CharField(max_length=32, blank=True, default='', verbose_name='姓名')
     phone = models.CharField(max_length=11, blank=True, default='', verbose_name='手机')
     status = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name='状态')
     audit_status = models.IntegerField(choices=AUDIT_STATUS_CHOICES, default=0, verbose_name='审核状态')
