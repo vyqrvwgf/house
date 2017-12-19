@@ -3,18 +3,12 @@
  */
 //tab5-房源发布
 //日历
-// $(document).ready(function () {
-//     $('#selectDate').datepicker({
-//         dateFormat: 'yy-mm-dd',
-//         monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
-//     });
-// });
-
-
+$(document).ready(function () {
     $('#selectDate').datepicker({
         dateFormat: 'yy-mm-dd',
         monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
     });
+});
 
 //基础设施
 var SettingLis = $("#tab5 .surrounding-facilities").find("li");
