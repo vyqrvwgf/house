@@ -10,14 +10,13 @@ from django.db import transaction
 from django.http import HttpResponseRedirect, JsonResponse
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
-from web.models import(
+from web.models import (
     Advertising,
     Profile,
     Infrastructure,
     HousingResources,
 	RentHouse,
     Infrastructure,
-    HousingCertificatePicture,
     HousingPicture,
     HousingResourcesOrder,
     Setting,
@@ -143,9 +142,8 @@ def housing_resource_create(request):
 		sitting_room = request.POST.get('sitting_room', '')
 		sitting_room_area = request.POST.get('sitting_room_area', '')
 		sitting_room_complete = request.POST.getlist('sitting_room_complete', '')
-		imgs1 = request.POST.getlist('imgs1', '')
-		imgs2 = request.POST.getlist('imgs2', '')
 		bedroom_count = request.POST.get('bedroom_count', 0)
+		bedroom_files = request.POST.get('bedroom_files', '')
 
 		# try:
 		# 保存房源信息
@@ -181,19 +179,27 @@ def housing_resource_create(request):
 
 			housing_resources.save()
 
-			if type(imgs1) == list:
-				for i in imgs1:
-					HousingCertificatePicture.objects.create(
-						housing_resources=housing_resources,
-						picture=i,
-					)
-
-			if type(imgs2) == list:
-				for i in imgs2:
+			if bedroom_files:
+				bedroom_files = bedroom_files.rstrip(',').split(',')
+				for index, b in enumerate(bedroom_files):
+					if not index:
+						housing_resources.cover = b
 					HousingPicture.objects.create(
 						housing_resources=housing_resources,
-						picture=i,
+						picture=b,
 					)
+
+			if request.FILES:
+				if request.FILES.get('deedPic', None):
+					# 上传图片
+					id_card_picture = request.FILES['deedPic']
+					ts = int(time.time())
+					ext = get_extension(id_card_picture.name)
+					key = 'id_card_picture_{}.{}'.format(ts, ext)
+					handle_uploaded_file(id_card_picture, key)
+					upload(key, os.path.join(UPLOAD_DIR, key))
+					housing_resources.house_pcover = key
+					housing_resources.save()
 
 			# 存储卧室信息
 			for i in range(1,int(bedroom_count)):
@@ -277,9 +283,8 @@ def housing_resource_edit(request, housing_resources_id):
 		sitting_room = request.POST.get('sitting_room', '')
 		sitting_room_area = request.POST.get('sitting_room_area', '')
 		sitting_room_complete = request.POST.getlist('sitting_room_complete', '')
-		imgs1 = request.POST.getlist('imgs1', '')
-		imgs2 = request.POST.getlist('imgs2', '')
 		bedroom_count = request.POST.get('bedroom_count', 0)
+		bedroom_files = request.POST.get('bedroom_files', '')
 
 		# try:
 		# 保存房源信息
@@ -314,19 +319,28 @@ def housing_resource_edit(request, housing_resources_id):
 
 			housing_resources.save()
 
-			if type(imgs1) == list:
-				for i in imgs1:
-					HousingCertificatePicture.objects.create(
-						housing_resources=housing_resources,
-						picture=i,
-					)
-
-			if type(imgs2) == list:
-				for i in imgs2:
+			if bedroom_files:
+				HousingPicture.objects.filter(housing_resources=housing_resources).delete()
+				bedroom_files = bedroom_files.rstrip(',').split(',')
+				for index, b in enumerate(bedroom_files):
+					if not index:
+						housing_resources.cover = b
 					HousingPicture.objects.create(
 						housing_resources=housing_resources,
-						picture=i,
+						picture=b,
 					)
+
+			if request.FILES:
+				if request.FILES.get('deedPic', None):
+					# 上传图片
+					id_card_picture = request.FILES['deedPic']
+					ts = int(time.time())
+					ext = get_extension(id_card_picture.name)
+					key = 'id_card_picture_{}.{}'.format(ts, ext)
+					handle_uploaded_file(id_card_picture, key)
+					upload(key, os.path.join(UPLOAD_DIR, key))
+					housing_resources.house_pcover = key
+					housing_resources.save()
 
 			# 存储卧室信息
 			for i in range(1,int(bedroom_count)):
@@ -337,7 +351,6 @@ def housing_resource_edit(request, housing_resources_id):
 					area=areai,
 					complete=','.join(detailsi),
 				)
-
 				# 获取支付的金额
 				# setting = Setting.objects.filter(
 				# 	is_del=False,

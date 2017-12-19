@@ -14,6 +14,13 @@
     <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
     <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
     <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
+    <link rel="stylesheet" href="/static/website/css/jquery.fileupload.css">
+    <style type="text/css">
+        .bar {
+            height: 18px;
+            background: green;
+        }
+    </style>
 {% endblock %}
 
 {% block container %}
@@ -244,8 +251,17 @@
                 <button class="addBedroom" type="button">增加卧室</button>
                 <h4>上传房产证照片</h4>
                 <p><input type="file" class="deedPic" id="test-image-file" name="deedPic"></p>
+                {% if not housing_resources %}
                 <div class="photos" id="test-image-preview">图片预览</div>
+                {% else %}
+                <img src="{{ housing_resources.cover_url }}" width="200">
+                {% endif %}
                 <h4>上传照片</h4>
+<!--                 <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>选择图片</span>
+                    <input id="fileupload" type="file" name="files[]" data-url="/upload_file" multiple>
+                </span> -->
                 <div id="actions" class="row">
                     <div class="col-lg-7">
                         <!-- The fileinput-button span is used to style the file input field as button -->
@@ -253,19 +269,12 @@
                             <i class="glyphicon glyphicon-plus"></i>
                             <span>增加图片</span>
                         </span>
-                        <button type="button" class="btn btn-primary start">
-                            <i class="glyphicon glyphicon-upload"></i>
-                            <span>开始上传</span>
-                        </button>
-                        <button type="button" class="btn btn-warning cancel">
-                            <i class="glyphicon glyphicon-ban-circle"></i>
-                            <span>取消上传</span>
-                        </button>
                     </div>
                 </div>
                 <p class="red">（默认第一张为房源封面）</p>
                 <div class="table table-striped files" id="previews">
                     <div id="template" class="file-row">
+                        <!-- This is used as the file preview template -->
                         <div>
                             <span class="preview"><img data-dz-thumbnail /></span>
                         </div>
@@ -274,7 +283,13 @@
                             <strong class="error text-danger" data-dz-errormessage></strong>
                         </div>
                         <div>
-                            <button class="btn btn-primary start">
+                            <p class="size" data-dz-size></p>
+                            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary start">
                                 <i class="glyphicon glyphicon-upload"></i>
                                 <span>上传</span>
                             </button>
@@ -282,23 +297,19 @@
                                 <i class="glyphicon glyphicon-ban-circle"></i>
                                 <span>取消</span>
                             </button>
-                            <button data-dz-remove class="btn btn-danger delete">
-                                <i class="glyphicon glyphicon-trash"></i>
-                                <span>删除</span>
-                            </button>
                         </div>
                     </div>
                 </div>
+                <br>
+                <br>
+                <!-- The global progress bar -->
+                <div id="progress" class="progress">
+                    <div class="progress-bar progress-bar-success"></div>
+                </div>
 
-
-
-<!--                 <div id="actions" class="row">
-                    <p>
-                        <input type="file" class="deedPic" id="test-image-file" name="cover">
-                    </p>
-                </div> -->
                 <div class="release-ways">
                     <input type="hidden" name="bedroom_count" id="bedroom_count" {% if housing_resources %} value="{{ housing_resources.bedroom_count }}" {% else %} value="0" {% endif %}>
+                    <input type="hidden" name="bedroom_files" id="bedroom_files" value="">
                     <button class="release-pay" type="button">提交审核</button>
 <!--                <button class="release-reserve" type="button">暂时保存</button> -->
                 </div>
@@ -317,8 +328,28 @@
 <script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="/static/website/js/dropzone-min/dropzone.min.js"></script>
 <script src="/static/website/js/dropzone-min/bootStyle.js"></script>
+<script src="/static/website/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="/static/website/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="/static/website/js/jquery.fileupload.js"></script>
 <script>
 $(document).ready(function () {
+
+   $('#fileupload').fileupload({
+        dataType: 'json',
+        // add: function (e, data) {
+        //     alert(data)
+        // },
+        done: function (e, data) {
+            if (!data.error_code) {
+                
+
+            }else{
+                alert(data.error_msg)
+            }
+        }
+    });
 
     function completeHandler(res){
         alert(res.error_msg)
@@ -328,7 +359,7 @@ $(document).ready(function () {
     }
 
     function errorHandler(err){
-        alert('提交失败')
+        alert('提交失败,请确认填写字段正确！')
     }
 
     $('.release-pay').on('click', function(){
@@ -533,66 +564,6 @@ $(document).ready(function () {
                 },
             }
         });
-
-        //设置上传信息
-        var uploader2 = Qiniu.uploader({
-            runtimes: 'html5,flash,html4',    //上传模式,依次退化
-            browse_button: 'pickfiles2',       //上传选择的点选按钮，**必需**
-            uptoken_url: '/admin/uptoken/',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
-            // uptoken : '', //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
-            unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
-            // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
-            domain: 'http://{{qiniu_domain}}',   //bucket 域名，下载资源时用到，**必需**
-            get_new_uptoken: false,  //设置上传文件的时候是否每次都重新获取新的token
-            container: 'container2',           //上传区域DOM ID，默认是browser_button的父元素，
-            max_file_size: '500mb',           //最大文件体积限制
-            max_retries: 3,                   //上传失败最大重试次数
-            dragdrop: true,                   //开启可拖曳上传
-            drop_element: 'container2',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
-            chunk_size: '4mb',                //分块上传时，每片的体积
-            auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
-            multi_selection: false,           //限制只能上传一个文件
-            filters : {
-                prevent_duplicates: true,
-                //Specify what files to browse for
-                 mime_types: [
-                  {title : "images files", extensions : "jpeg,png,jpg"},
-                 ]
-            },
-            init: {
-                'FilesAdded': function(up, files) {
-                    plupload.each(files, function(file) {
-                        // 文件添加进队列后,处理相关的事情
-                    });
-                },
-                'BeforeUpload': function(up, file) {
-                    // 每个文件上传前,处理相关的事情
-                    $('#pickfiles2').prev().val("");
-                },
-                'UploadProgress': function(up, file) {
-                   var percent = up.total.percent + '%';
-                   $("#upload_progress").css('width', percent);
-                   $("#upload_progress").text(percent);
-                },
-                'FileUploaded': function(up, file, info) {
-                    // 每个文件上传成功后,处理相关的事情
-                    var res = JSON.parse(info);
-                    key = res.key
-                    console.log(key)
-                    $('.avatar-pic').attr('src', 'http://{{ qiniu_domain }}/' + key)
-                    $('#pickfiles2').prev().val(key);
-                    // 更新用户的头像
-
-                },
-                'Error': function(up, err, errTip) {
-                    //上传出错时,处理相关的事情
-                },
-                'UploadComplete': function() {
-                    //队列文件处理完毕后,处理相关的事情
-                },
-            }
-        });
-
 
     });
 </script>

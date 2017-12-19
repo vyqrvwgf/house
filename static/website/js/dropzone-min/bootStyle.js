@@ -8,7 +8,7 @@ var previewTemplate = previewNode.parentNode.innerHTML;
 previewNode.parentNode.removeChild(previewNode);
 
 var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-    url: "http://www.torrentplease.com/dropzone.php", // Set the url
+    url: "/upload_file", // Set the url
     thumbnailWidth: 80,
     thumbnailHeight: 80,
     parallelUploads: 10,
@@ -16,7 +16,7 @@ var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
     autoQueue: false, // Make sure the files aren't queued until manually added
     previewsContainer: "#previews", // Define the container to display the previews
     clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
-    maxFilesize: 2 // MB
+    maxFilesize: 2, // MB
 });
 myDropzone.on("addedfile", function(file) {
     // Hookup the start button
@@ -28,24 +28,30 @@ myDropzone.on("totaluploadprogress", function(progress) {
     document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
 });
 
-myDropzone.on("sending", function(file) {
-    // Show the total progress bar when upload starts
-    document.querySelector("#total-progress").style.opacity = "1";
-    // And disable the start button
-    file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
-});
+// myDropzone.on("sending", function(file) {
+//     // Show the total progress bar when upload starts
+//     document.querySelector("#total-progress").style.opacity = "1";
+//     // And disable the start button
+//     file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+// });
 
 // Hide the total progress bar when nothing's uploading anymore
-myDropzone.on("queuecomplete", function(progress) {
-    document.querySelector("#total-progress").style.opacity = "0";
+myDropzone.on("complete", function(data) {
+    result = JSON.parse(data.xhr.response)
+    console.log(result)
+    if (!result.error_code) {
+       var bedroom_files = $("#bedroom_files").val()
+       bedroom_files += result.data.key + ','
+       $("#bedroom_files").val(bedroom_files)
+    }
 });
 
 // Setup the buttons for all transfers
 // The "add files" button doesn't need to be setup because the config
 // `clickable` has already been specified.
-document.querySelector("#actions .start").onclick = function() {
-    myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
-};
+// document.querySelector("#actions .start").onclick = function() {
+//     myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+// };
 document.querySelector("#actions .cancel").onclick = function() {
     myDropzone.removeAllFiles(true);
 };
