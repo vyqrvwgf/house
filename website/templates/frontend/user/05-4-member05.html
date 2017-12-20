@@ -140,53 +140,11 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    <p class="rentAll"><label><input type="radio" name="lease" value=0 ><span class="orange">*</span>整租</label><select name="male_count" id="male_count">
-                        <option value="男性人数" selected>男性人数</option>
-                        <option value=0 {% if not rent_house.male_count %}selected{% endif %}>1</option>
-                        <option value=1 {% if rent_house.male_count == 1 %}selected{% endif %}>2</option>
-                        <option value=2 {% if rent_house.male_count == 2 %}selected{% endif %}>3</option>
-                        <option value=3 {% if rent_house.male_count == 3 %}selected{% endif %}>4</option>
-                    </select>
-                        <select name="female_count" id="female_count">
-                            <option value="女性人数" selected>女性人数</option>
-                            <option value=0 {% if not rent_house.female_count %}selected{% endif %}>1</option>
-                            <option value=1 {% if rent_house.female_count == 1 %}selected{% endif %}>2</option>
-                            <option value=2 {% if rent_house.female_count == 2 %}selected{% endif %}>3</option>
-                            <option value=3 {% if rent_house.female_count == 3 %}selected{% endif %}>4</option>
-                        </select>
-                        <select name="relationship" id="relationship">
-                            <option value="关系" selected>关系</option>
-                            <option value=0 {% if not rent_house.relationship %}selected{% endif %}>朋友</option>
-                            <option value=1 {% if rent_house.relationship == 1 %}selected{% endif %}>情侣</option>
-                            <option value=2 {% if rent_house.relationship == 2 %}selected{% endif %}>同学</option>
-                            <option value=3 {% if rent_house.relationship == 3 %}selected{% endif %}>亲戚</option>
-                            <option value=4 {% if rent_house.relationship == 4 %}selected{% endif %}>陌生人</option>
-                            <option value=5 {% if rent_house.relationship == 5 %}selected{% endif %}>其他</option>
-                        </select>
-                    </p>
-                    <p class="rentPart"><label><input type="radio" name="lease" value=1><span class="orange">*</span>合租</label><select name="total_count" id="total_count">人数
-                        <option value="总人数" selected>总人数</option>
-                        <option value=0 {% if not rent_house.total_count %}selected{% endif %}>1</option>
-                        <option value=1 {% if rent_house.total_count == 1 %}selected{% endif %}>2</option>
-                        <option value=2 {% if rent_house.total_count == 2 %}selected{% endif %}>3</option>
-                        <option value=3 {% if rent_house.total_count == 3 %}selected{% endif %}>4</option>
-                        <option value=4 {% if rent_house.total_count == 4 %}selected{% endif %}>5</option>
-                        <option value=5 {% if rent_house.total_count == 5 %}selected{% endif %}>6</option>
-                    </select>
-                        <select name="relationship" id="relationship2">
-                            <option value="关系" selected>关系</option>
-                            <option value=0 {% if not rent_house.relationship %}selected{% endif %}>朋友</option>
-                            <option value=1 {% if rent_house.relationship == 1 %}selected{% endif %}>情侣</option>
-                            <option value=2 {% if rent_house.relationship == 2 %}selected{% endif %}>同学</option>
-                            <option value=3 {% if rent_house.relationship == 3 %}selected{% endif %}>亲戚</option>
-                            <option value=4 {% if rent_house.relationship == 4 %}selected{% endif %}>陌生人</option>
-                            <option value=5 {% if rent_house.relationship == 5 %}selected{% endif %}>其他</option>
-                        </select>
-                        <select name="accept" id="accept">
-                            <option value="能接受的合租对象" selected>能接受的合租对象</option>
-                            <option value=0 {% if not rent_house.accept %}selected{% endif %}>学生</option>
-                            <option value=1 {% if rent_house.accept == 1 %}selected{% endif %}>白领</option>
-                            <option value=2 {% if rent_house.accept == 2 %}selected{% endif %}>不限</option>
+                    <p>
+                        <label>租赁方式：</label>
+                        <select name="leasing-method" id="leasing-method" name="lease">
+                            <option value="" {% if not rent_house.lease %}selected{% endif %}>整租</option>
+                            <option value="1" {% if rent_house.lease == 1 %}selected{% endif %}>合租</option>
                         </select>
                     </p>
                     <p class="userName"><label><span class="orange">*</span>姓名</label><input type="text" name="name" placeholder="请输入您的名字" required>{{ rent_house.name }}</p>
