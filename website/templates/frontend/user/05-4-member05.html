@@ -105,29 +105,29 @@
                             <option value="武汉市" selected>武汉市</option>
                         </select>&nbsp;&nbsp;
                         <select name="area" id="area" required>
-                            <option value="wc">武昌区</option>
-                            <option value="hk">汉口区</option>
-                            <option value="hs">洪山区</option>
-                            <option value="gg">光谷区</option>
-                            <option value="hy">汉阳区</option>
+                            <option value="wc" {% if rent_house.area == 'wc' %}selected{% endif %}>武昌区</option>
+                            <option value="hk" {% if rent_house.area == 'hk' %}selected{% endif %}>汉口区</option>
+                            <option value="hs" {% if rent_house.area == 'hs' %}selected{% endif %}>洪山区</option>
+                            <option value="gg" {% if rent_house.area == 'gg' %}selected{% endif %}>光谷区</option>
+                            <option value="hy" {% if rent_house.area == 'hy' %}selected{% endif %}>汉阳区</option>
                         </select>
                     </p>
                     <p><label><span class="orange">*</span>租金：</label><select name="rent" id="rent" required>
                         <option value="请选择租金">请选择租金</option>
-                        <option value=0>0-500</option>
-                        <option value=1>500-1000</option>
-                        <option value=2>1000-1500</option>
-                        <option value=3>1500-2000</option>
-                        <option value=4>2000-2500</option>
-                        <option value=5>2500-3000</option>
-                        <option value=6>3000-3500</option>
-                        <option value=7>3500-4000</option>
-                        <option value=8>4000以上</option>
-                        <option value=9>不限</option>
+                        <option value=0 {% if not rent_house.rent %}selected{% endif %}>0-500</option>
+                        <option value=1 {% if rent_house.rent == 1 %}selected{% endif %}>500-1000</option>
+                        <option value=2 {% if rent_house.rent == 2 %}selected{% endif %}>1000-1500</option>
+                        <option value=3 {% if rent_house.rent == 3 %}selected{% endif %}>1500-2000</option>
+                        <option value=4 {% if rent_house.rent == 4 %}selected{% endif %}>2000-2500</option>
+                        <option value=5 {% if rent_house.rent == 5 %}selected{% endif %}>2500-3000</option>
+                        <option value=6 {% if rent_house.rent == 6 %}selected{% endif %}>3000-3500</option>
+                        <option value=7 {% if rent_house.rent == 7 %}selected{% endif %}>3500-4000</option>
+                        <option value=8 {% if rent_house.rent == 8 %}selected{% endif %}>4000以上</option>
+                        <option value=9 {% if rent_house.rent == 9 %}selected{% endif %}>不限</option>
                     </select>
                     </p>
-                    <p class="checkinDay"><label><span class="orange">*</span>最迟入住时间：</label><input type="text" name="date" id="selectDate" readonly="readonly" placeholder="请选择日期" required/></p>
-                    <p class="extraInfo"><label><span class="orange">*</span>补充说明：</label><textarea name="description" id="description" cols="30" rows="10" placeholder="凡本站会员不限制查看联系方式，请勿在此处添加任何联系方式或地址信息，如若添加信息审核将无法通过。" required></textarea></p>
+                    <p class="checkinDay"><label><span class="orange">*</span>最迟入住时间：</label><input type="text" name="date" id="selectDate" readonly="readonly" placeholder="请选择日期" required/>{{ rent_house.date }}</p>
+                    <p class="extraInfo"><label><span class="orange">*</span>补充说明：</label><textarea name="description" id="description" cols="30" rows="10" placeholder="凡本站会员不限制查看联系方式，请勿在此处添加任何联系方式或地址信息，如若添加信息审核将无法通过。" required>{{ rent_house.description }}</textarea></p>
                     <h4 class="house-online">基础设施</h4>
                     <ul class="surrounding-facilities clearfix">
                             {% for i in infrastructures %}
@@ -140,57 +140,15 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    <p class="rentAll"><label><input type="radio" name="lease" value=0 ><span class="orange">*</span>整租</label><select name="male_count" id="male_count">
-                        <option value="男性人数" selected>男性人数</option>
-                        <option value=0>1</option>
-                        <option value=1>2</option>
-                        <option value=2>3</option>
-                        <option value=3>4</option>
-                    </select>
-                        <select name="female_count" id="female_count">
-                            <option value="女性人数" selected>女性人数</option>
-                            <option value=0>1</option>
-                            <option value=1>2</option>
-                            <option value=2>3</option>
-                            <option value=3>4</option>
-                        </select>
-                        <select name="relationship" id="relationship">
-                            <option value="关系" selected>关系</option>
-                            <option value=0>朋友</option>
-                            <option value=1>情侣</option>
-                            <option value=2>同学</option>
-                            <option value=3>亲戚</option>
-                            <option value=4>陌生人</option>
-                            <option value=5>其他</option>
+                    <p>
+                        <label>租赁方式：</label>
+                        <select name="leasing-method" id="leasing-method" name="lease">
+                            <option value="" {% if not rent_house.lease %}selected{% endif %}>整租</option>
+                            <option value="1" {% if rent_house.lease == 1 %}selected{% endif %}>合租</option>
                         </select>
                     </p>
-                    <p class="rentPart"><label><input type="radio" name="lease" value=1><span class="orange">*</span>合租</label><select name="total_count" id="total_count">人数
-                        <option value="总人数" selected>总人数</option>
-                        <option value=0>1</option>
-                        <option value=1>2</option>
-                        <option value=2>3</option>
-                        <option value=3>4</option>
-                        <option value=4>5</option>
-                        <option value=5>6</option>
-                    </select>
-                        <select name="relationship" id="relationship2">
-                            <option value="关系" selected>关系</option>
-                            <option value=0>朋友</option>
-                            <option value=1>情侣</option>
-                            <option value=2>同学</option>
-                            <option value=3>亲戚</option>
-                            <option value=4>陌生人</option>
-                            <option value=5>其他</option>
-                        </select>
-                        <select name="accept" id="accept">
-                            <option value="能接受的合租对象" selected>能接受的合租对象</option>
-                            <option value=0>学生</option>
-                            <option value=1>白领</option>
-                            <option value=2>不限</option>
-                        </select>
-                    </p>
-                    <p class="userName"><label><span class="orange">*</span>姓名</label><input type="text" name="name" placeholder="请输入您的名字" required></p>
-                    <p class="phoneNum"><label><span class="orange"></span>手机</label><input name="phone" id="phone" type="text" placeholder="请输入您的手机">
+                    <p class="userName"><label><span class="orange">*</span>姓名</label><input type="text" name="name" placeholder="请输入您的名字" required>{{ rent_house.name }}</p>
+                    <p class="phoneNum"><label><span class="orange"></span>手机</label><input name="phone" id="phone" type="text" placeholder="请输入您的手机">{{ rent_house.phone }}</p>
                     <div class="release-ways">
                         <button class="release-pay" type="button">提交审核</button>
                     </div>

@@ -541,12 +541,10 @@ def rent_house(request):
 		is_valid=True,
 		user=profile.get_user()
 	).order_by('-created')
-	# rent_house = RentHouse.objects.all()
-	# all_rent_house = RentHouse.objects.all()
 
 	context = {
 		'module': 'index',
-		'sub_module': 'housing_resource',
+		'sub_module': 'rent_house',
 		'client': profile,
 		'clients1': rent_house.filter(status=2),
 		'clients2': rent_house.filter(audit_status=0),

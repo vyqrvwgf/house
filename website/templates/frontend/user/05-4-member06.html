@@ -91,14 +91,13 @@
     <div class="tab_container fr">
         <!--tab6 求租管理-->
         <div id="tab6" class="tab_content house-seekRent"">
-            <h4 class="seekRent-online">已上架求租</h4>
+            <h4 class="seekRent-unpublished">未发布求租</h4>
             <ul class="items-on clearfix">
-            {% for c1 in clients1 %}
+            {% for c3 in clients3 %}
                 <li class="item">
-                    <p>租金：<strong class="orange">{{ c1.rent }}</strong></p>
-                    <p>地理位置：<span>{{ c1.address }}</span></p>
-                    <p align="center"><a class="orange" href="{% url 'website:rent_house_edit' c1.id %}">编辑</a> 
-                    </p>
+                    <p>租金：<strong class="orange">{{ c3.rent }}</strong></p>
+                    <p>地理位置：<span>{{ c3.address }}</span></p>
+                    <p align="center"><a class="orange" href="{% url 'website:rent_house_edit' c3.id %}">编辑</a>
                 </li>
             {% endfor %}
             </ul>
@@ -114,14 +113,15 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="h-manage-unpublished">
-                <h4 class="seekRent-unpublished">未发布求租</h4>
+            <div class="h-manage-online">
+                <h4 class="seekRent-online">已上架求租</h4>
                 <ul class="items-on clearfix">
-                {% for c3 in clients3 %}
+                {% for c1 in clients1 %}
                     <li class="item">
-                        <p>租金：<strong class="orange">{{ c3.rent }}</strong></p>
-                        <p>地理位置：<span>{{ c3.address }}</span></p>
-                        <p align="center"><a class="orange" href="{% url 'website:rent_house_edit' c3.id %}">编辑</a>
+                        <p>租金：<strong class="orange">{{ c1.rent }}</strong></p>
+                        <p>地理位置：<span>{{ c1.address }}</span></p>
+                        <p align="center"><a class="orange" href="{% url 'website:rent_house_edit' c1.id %}">编辑</a> 
+                        </p>
                     </li>
                 {% endfor %}
                 </ul>
