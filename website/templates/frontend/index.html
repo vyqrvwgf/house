@@ -103,20 +103,22 @@
     </div>
     <!--租客 提意见 end-->
 
-    <!--房源信息 begin-->
+    <!--房源推荐 begin-->
     <div class="recommend wrap">
         <div class="houseMess banxin">
             <h5>The lastest housing</h5>
             <h2>房源推荐</h2>
-            <ul class="mess_list">
-                <li class="active"><a href="">最新房源</a></li>
-                <li><a href="">品质房源</a></li>
-                <li><a href="">最热房源</a></li>
+            <ul class="mess_list tabs">
+                <li class="active">
+                    <a href="#tab1">最新房源</a>
+                </li>
+                <li><a href="#tab2">品质房源</a></li>
+                <li><a href="#tab3">最热房源</a></li>
             </ul>
-            <div class="tab-content newest active">
+            <div class="tab-content newest active" id="tab1">
                 <div class="tabpanel">
-                {% for h in housingresources_list %}
-                    <a href="" class="trig">
+                {% for h in housingresources_list1 %}
+                    <a href="{% url 'website:housing_resources' h.id %}" class="trig">
                         <img src="{{ h.cover_url }}" alt="">
                         <div class="trig_txt">
                             <div class="trig-price orange">{{ h.month_rent }} <span>元/月</span></div>
@@ -129,92 +131,37 @@
                 {% endfor %}
                 </div>
             </div>
-            <div class="tab-content good">
+            <div class="tab-content good" id="tab2">
                 <div class="tabpanel">
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
+                {% for h in housingresources_list2 %}
+                    <a href="{% url 'website:housing_resources' h.id %}" class="trig">
+                        <img src="{{ h.cover_url }}" alt="">
                         <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
+                            <div class="trig-price orange">{{ h.month_rent }} <span>元/月</span></div>
+                            <div class="trig-addr">
+                            {{ h.area }}-{{ h.community }}-{{ h.category }}-朝{{  h.get_direction_display }}-{{ h.sitting_room_area }}㎡
+                            </div>
+                            <div class="trig-describe">{{ h.content }}</div>
                         </div>
                     </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
+                {% endfor %}
+
                 </div>
             </div>
-            <div class="tab-content hotest">
+            <div class="tab-content hotest" id="tab3">
                 <div class="tabpanel">
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
+                {% for h in housingresources_list3 %}
+                    <a href="{% url 'website:housing_resources' h.id %}" class="trig">
+                        <img src="{{ h.cover_url }}" alt="">
                         <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
+                            <div class="trig-price orange">{{ h.month_rent }} <span>元/月</span></div>
+                            <div class="trig-addr">
+                            {{ h.area }}-{{ h.community }}-{{ h.category }}-朝{{  h.get_direction_display }}-{{ h.sitting_room_area }}㎡
+                            </div>
+                            <div class="trig-describe">{{ h.content }}</div>
                         </div>
                     </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
-                    <a href="" class="trig">
-                        <img src="/static/website/images/houseMess.png" alt="">
-                        <div class="trig_txt">
-                            <div class="trig-price orange">1999 <span>元/月</span></div>
-                            <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                            <div class="trig-describe">位移徐东附近，可拎包入住</div>
-                        </div>
-                    </a>
+                {% endfor %}
                 </div>
             </div>
         </div>
@@ -254,6 +201,7 @@
 
 {% block script %}
 <script src="/static/website/js/swiper.min.js"></script>
+<script src="/static/website/js/index.js"></script>
 <!-- Initialize Swiper -->
 <script>
 //    banner autoplay
