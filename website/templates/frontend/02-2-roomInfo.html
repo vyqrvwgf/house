@@ -1,63 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>房源详情</title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/02-2-roomInfo.css">
-    <link rel="stylesheet" href="css/swiper.min.css">
-    <script src="//at.alicdn.com/t/font_au3ce8gckh4lhaor.js"></script>
-</head>
-<body>
-<!--通用top begin -->
-<!--header begin-->
-<header class="wrap">
-    <div class="banxin welcome clearfix">
-        <div class="wel_left fl">
-            <span class="white">欢迎来到租房网！更多房源选择任您挑选！请选择您的位置：</span>
-            <select class="city white" name="city" id="">
-                <option value="武汉" selected>武汉</option>
-            </select>
+{% extends 'frontend/base.html' %}
 
-        </div>
-        <div class="wel_right fr">
-            <a class="white" href="javascript:void(0)">收藏本站 |</a>
-            <a class="white" href="javascript:void(0)">设为首页 |</a>
-            <a class="white" href="javascript:void(0)">登录 |</a>
-            <a class="white" href="javascript:void(0)">注册 </a>
-        </div>
-    </div>
-</header>
-<!--header end-->
-<!--nav begin-->
-<nav class="wrap">
-    <div class="banxin nav  clearfix">
-        <a class="logo" href="javascript:void(0)"></a>
-        <ul class="nav_items fl clearfix">
-            <li class="fl"><a href="javascript:void(0)">首页</a></li>
-            <li class="fl"><a href="javascript:void(0)">房源信息</a></li>
-            <li class="fl"><a href="javascript:void(0)">求租信息</a></li>
-            <li class="fl"><a href="javascript:void(0)">生活馆</a></li>
-            <li class="fl"><a href="javascript:void(0)">注册登录</a></li>
-        </ul>
-        <div class="hot-line fr clearfix">
-            <p class="p_number green"><b></b>400-6789-888</p>
-            <p class="p_time" align="right">看房热线：<span class="green">08:00 - 21:00</span></p>
-        </div>
-    </div>
-</nav>
-<!--nav end-->
-<!--通用top end -->
+{% block pageheader %}
+房源详情
+{% endblock %}
 
+    {% block style %}
+    <link rel="stylesheet" href="/static/website/css/02-2-roomInfo.css">
+    <link rel="stylesheet" href="/static/website/css/swiper.min.css">
+    {% endblock %}
+
+{% block container %}
 <!--图片简介 begin-->
 <div class="info-pic wrap">
     <div class="banner banxin clearfix">
         <!--左侧 图片-->
         <div class="swiper-container clearfix fl">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><a href="javascript:void(0)"><img src="images/banner.jpg" alt=""></a></div>
-                <div class="swiper-slide"><a href="javascript:void(0)"><img src="images/banner2.png" alt=""></a></div>
-                <div class="swiper-slide"><a href="javascript:void(0)"><img src="images/banner.jpg" alt=""></a></div>
+            {% for p in housing_resources.get_pictures %}
+                <div class="swiper-slide">
+                    <a href="javascript:void(0)">
+                        <img src="{{ p }}" alt="">
+                    </a>
+                </div>
+            {% endfor %}
             </div>
             <!-- Add Pagination -->
             <!--<div class="swiper-pagination"></div>-->
@@ -65,13 +30,15 @@
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
             <!--Add pagination-->
-            <div class="swiper-pagination swiper-pagination-fraction"><span class="swiper-pagination-current">1</span> / <span class="swiper-pagination-total">10</span></div>
+            <div class="swiper-pagination swiper-pagination-fraction"><span class="swiper-pagination-current">1</span> / <span class="swiper-pagination-total">{{ housing_resources.get_pictures|length }}</span></div>
         </div>
 
         <!--右侧 简介-->
         <div class="contact fr">
-            <h3><span>汉口</span>-<span>二室一厅</span>-<span>80</span>m³-<span>9/15</span>F</h3>
-            <p><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-didian"></use></svg> <a>武汉市武昌区和平大道300号6365645653463456456435</a></p>
+            <h3>
+                <span>汉口</span>-<span>二室一厅</span>-<span>80</span>m³-<span>9/15</span>F</h3>
+            <p><svg class="icon" aria-hidden="true">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-didian"></use></svg> <a>武汉市武昌区和平大道300号6365645653463456456435</a></p>
             <p><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-shijian"></use></svg> <span>2017-8-9 19:00</span> &nbsp更新</p>
             <p><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-1-part"></use></svg> <span>合租</span></p>
             <p class="payment"><span class="orange">￥600/月</span>&nbsp&nbsp&nbsp&nbsp<span class="how">押一付一</span></p>
@@ -291,24 +258,10 @@
     </div>
 </div>
 <!--附近类似房源推荐 end-->
+{% endblock %}
 
-<div class="backToTop">↑<p>Top</p></div>
 
-<!--footer begin-->
-<div class="footer wrap">
-    <img src="images/footer.png" alt="">
-    <div class="company banxin">
-        <span class="service">SERVICE</span>
-        电话咨询服务电话：<span class="number green">400-1371-365</span>
-        <span class="right">&reg 2017 Zuke</span>
-    </div>
-</div>
-<!--footer end-->
-
-<script src="js/jquery-3.2.1.js"></script>
-<script src="js/nav.js"></script>
-<!-- Swiper JS -->
-<script src="js/swiper.min.js"></script>
+{% block script %}
 <!-- Initialize Swiper -->
 <script>
     //    banner autoplay
@@ -331,5 +284,5 @@
         scrollTo(0,0);
     });
 </script>
-</body>
-</html>
+{% endblock %}
+
