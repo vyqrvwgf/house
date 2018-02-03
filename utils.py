@@ -40,6 +40,7 @@ def website_check_login(view):
 
     return wrapper
 
+
 def md5_create(src):
     """生成md5字符串
     """

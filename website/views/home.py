@@ -12,6 +12,7 @@ from web.models import(
     Advertising,
     Profile,
     HousingResources,
+    FeedBack,
 )
 
 from imagestore.qiniu_manager import (
@@ -44,7 +45,6 @@ import string
 import redis
 import logging
 
-
 redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 
 
@@ -52,22 +52,22 @@ redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 def upload_file(request):
 
     keys = ''
-    # try:
-    if request.FILES.get('file', None):
-        file = request.FILES.get('file', None)
-        # 上传图片
-        id_card_picture = file
-        ts = int(time.time())
-        ext = get_extension(id_card_picture.name)
-        key = 'id_card_picture_{}.{}'.format(ts, ext)
-        handle_uploaded_file(id_card_picture, key)
-        upload(key, os.path.join(UPLOAD_DIR, key))
-    # except Exception as e:
-    #   logging.error(e)
-    #   return JsonResponse({
-    #       'error_code': 1,
-    #       'error_msg': '保存失败',
-    #   })
+    try:
+        if request.FILES.get('file', None):
+            file = request.FILES.get('file', None)
+            # 上传图片
+            id_card_picture = file
+            ts = int(time.time())
+            ext = get_extension(id_card_picture.name)
+            key = 'id_card_picture_{}.{}'.format(ts, ext)
+            handle_uploaded_file(id_card_picture, key)
+            upload(key, os.path.join(UPLOAD_DIR, key))
+    except Exception as e:
+        logging.error(e)
+        return JsonResponse({
+            'error_code': 1,
+            'error_msg': '保存失败',
+        })
 
     return JsonResponse({
         'error_code': 0,
@@ -79,19 +79,24 @@ def upload_file(request):
 
 
 def index(request):
-    advertising_list = Advertising.objects.filter(
-        is_del=False,
-        is_valid=True
-    ).order_by('-order_no')
-
+    advertising_list = Advertising.obs.get_queryset().order_by('-order_no')
     housingresources_list = HousingResources.obs.get_queryset()
     housingresources_list1 = housingresources_list.order_by('-updated')[:8]
     housingresources_list2 = housingresources_list.order_by('-click_count')[:8]
     housingresources_list3 = housingresources_list.filter(hot=1)[:8]
 
+    # 获取第多少为服务用户
+    profile = Profile.obs.get_queryset().filter(user=request.user).first()
+    if profile:
+        fuwu_number = profile.id
+    else:
+        profile = Profile.obs.get_queryset().order_by('-id').first()
+        fuwu_number = profile.id + 1 if profile else 0
+
     context = {
         'module': 'index',
         'advertisings': advertising_list,
+        'fuwu_number': fuwu_number,
         'advertising_count': advertising_list.count(),
         'housingresources_list1': housingresources_list1,
         'housingresources_list2': housingresources_list2,
@@ -99,6 +104,54 @@ def index(request):
     }
 
     return render(request, 'frontend/index.html', context)
+
+
+def search(request):
+    keyword = request.GET.get('keyword', '')
+
+    advertising_list = Advertising.obs.get_queryset().order_by('-order_no')
+    housingresources_list = HousingResources.obs.get_queryset().filter(
+        audit_status=2).order_by('-updated')
+
+    if keyword:
+        housingresources_list = housingresources_list.filter(
+            Q(community__icontains=keyword) | Q(address__icontains=keyword))
+
+    context = {
+        'module': 'index',
+        'keyword': keyword,
+        'advertisings': advertising_list,
+        'advertising_count': advertising_list.count(),
+        'housingresources_list': housingresources_list
+    }
+
+    return render(request, 'frontend/search.html', context)
+
+
+@csrf_exempt
+def feedback_add(request):
+
+    try:
+        suggestion = request.POST.get('suggestion', '')
+        if not suggestion:
+            raise Exception("I know python!")
+
+        feedback = FeedBack()
+        feedback.content = suggestion
+        feedback.user = request.user if request.user else None
+        feedback.save()
+
+    except Exception as e:
+        logging.error(e)
+        return JsonResponse({
+            'error_code': 1,
+            'error_msg': '保存失败',
+        })
+
+    return JsonResponse({
+        'error_code': 0,
+        'error_msg': '已提交平台管理，请等待'
+    })
 
 
 def housing_resources_list(request):
