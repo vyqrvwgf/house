@@ -18,7 +18,7 @@ class BaseModelManager(models.Manager):
         return super(
             BaseModelManager,
             self).get_queryset().filter(
-            is_del=False)
+            is_del=False, is_valid=True)
 
 
 class BaseModel(models.Model):
@@ -719,8 +719,12 @@ class FeedBack(BaseModel):
         verbose_name = '意见反馈'
         verbose_name_plural = '意见反馈'
 
-    name = models.CharField(max_length=128, verbose_name="姓名")
-    phone = models.CharField(max_length=128, verbose_name="联系方式")
+    user = models.ForeignKey(
+        User,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name='用户')
     content = models.TextField(default='', verbose_name="反馈内容")
 
 

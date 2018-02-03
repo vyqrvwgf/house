@@ -11,8 +11,10 @@ from website.views import (
 urlpatterns = [
     # 首页
     url(r'^$', home.index, name='home_index'),
+    url(r'^search$', home.search, name='home_search'),
     url(r'^register$', home.register, name='home_register'),
     url(r'^login$', home.login, name='home_login'),
+    url(r'^feedback/add$', home.feedback_add, name='home_feedback_add'),
 
     # 房源
     url(r'^housing_resources$',
