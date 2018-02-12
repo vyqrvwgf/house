@@ -29,10 +29,10 @@
         <!--地区列表-->
         <ul class="tabs clearfix">
             <li><strong>区域</strong>：&nbsp;</li>
-            <li>&nbsp;<a href="#tab1">全部</a>&nbsp;</li>
-            <li>&nbsp;<a href="#tab2">洪山</a>&nbsp;</li>
-            <li>&nbsp;<a href="#tab3">汉阳</a>&nbsp;</li>
-            <li>&nbsp;<a href="#tab4">武昌</a>&nbsp;</li>
+            <li><a href="#tab1">&nbsp;全部&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;洪山&nbsp;</a></li>
+            <li><a href="#tab3">&nbsp;汉阳&nbsp;</a></li>
+            <li><a href="#tab4">&nbsp;武昌&nbsp;</a></li>
         </ul>
 
         <!--区域范围列表-->
@@ -60,14 +60,14 @@
         <ul class="clearfix fl">
             <li><strong>价格</strong>：&nbsp;</li>
             <li class="active">&nbsp;不限&nbsp;</li>
-            <li><a>500</a>以下&nbsp;</li>
-            <li><a>500-1000</a>&nbsp;</li>
-            <li><a>1000-1500</a>&nbsp;</li>
-            <li><a>1500-2000</a>&nbsp;</li>
-            <li><a>2000-2500</a>&nbsp;</li>
-            <li><a>2500-3000</a>&nbsp;</li>
-            <li><a>3000-3500</a>&nbsp;</li>
-            <li><a>3500-4000</a>&nbsp;</li>
+            <li>500以下&nbsp;</li>
+            <li>500-1000&nbsp;</li>
+            <li>1000-1500&nbsp;</li>
+            <li>1500-2000&nbsp;</li>
+            <li>2000-2500&nbsp;</li>
+            <li>2500-3000&nbsp;</li>
+            <li>3000-3500&nbsp;</li>
+            <li>3500-4000&nbsp;</li>
         </ul>
         <div class="self-pricing fl">&nbsp;
             <input type="text" name="start_price"> - <input type="text" name="end_price">
@@ -81,12 +81,12 @@
                 <strong>户型</strong>：&nbsp;
             </li>
             <li class="active">&nbsp;不限&nbsp;</li>
-            <li><a>一室</a>&nbsp;</li>
-            <li><a>二室</a>&nbsp;</li>
-            <li><a>三室</a>&nbsp;</li>
-            <li><a>四室</a>&nbsp;</li>
-            <li><a>五室</a>&nbsp;</li>
-            <li><a>其他</a>&nbsp;</li>
+            <li>一室&nbsp;</li>
+            <li>二室&nbsp;</li>
+            <li>三室&nbsp;</li>
+            <li>四室&nbsp;</li>
+            <li>五室&nbsp;</li>
+            <li>其他&nbsp;</li>
         </ul>
     </div>
     <!--合租/整租 筛选-->
@@ -114,12 +114,12 @@
 
 <!-- 房源筛选结果列表 -->
 <div class="tabpanel banxin">
-
-    <a href="" class="trig">
-        <img src="/static/website/images/houseMess.png" alt="">
+{% for h in housingresources_list  %}
+    <a href="{% url 'website:housing_resources' h.id %}" class="trig">
+        <img src="{{ h.cover_url }}" alt="">
         <div class="trig_txt">
             <p class="trig-price orange clearfix">
-                <strong>1900</strong>
+                <strong>{{ h.month_rent }}</strong>
                 <span>元/月</span>
                 <strong class="fr">★★★★☆</strong>
             </p>
@@ -129,86 +129,13 @@
                 <strong ><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use></svg></strong>
                 <span class="confirmed">核实工作单位</span>
             </p>
-            <p class="trig-describe">位移徐东附近，可拎包入住，位移徐东附近，可拎包入住</p>
+            <p class="trig-describe">{{ h.content|safe }}</p>
         </div>
     </a>
-
-
-    <a href="" class="trig">
-        <img src="/static/website/images/houseMess.png" alt="">
-        <div class="trig_txt">
-            <p class="trig-price orange clearfix">
-                <strong>1200</strong>
-                <span>元/月</span>
-                <strong class="fr">★★★★☆</strong>
-            </p>
-            <p class="trig-realInfo">
-                <strong><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use></svg></strong>
-                <span class="confirmed">户主本人</span>
-                <strong ><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use></svg></strong>
-                <span class="confirmed">核实工作单位</span>
-            </p>
-            <p class="trig-describe">位移徐东附近，可拎包入住，位移徐东附近，可拎包入住</p>
-        </div>
-    </a>
-
-    <a href="" class="trig">
-        <img src="/static/website/images/houseMess.png" alt="">
-        <div class="trig_txt">
-            <p class="trig-price orange clearfix">
-                <strong>1900</strong>
-                <span>元/月</span>
-                <strong class="fr">★★★☆☆</strong>
-            </p>
-            <p class="trig-realInfo">
-                <strong><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use></svg></strong>
-                <span class="confirmed">户主本人</span>
-                <strong ><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use></svg></strong>
-                <span class="confirmed">核实工作单位</span>
-            </p>
-            <p class="trig-describe">位移徐东附近，可拎包入住，位移徐东附近，可拎包入住</p>
-        </div>
-    </a>
-
-    <a href="" class="trig">
-        <img src="/static/website/images/houseMess.png" alt="">
-        <div class="trig_txt">
-            <p class="trig-price orange clearfix">
-                <strong>2500-300000</strong>
-                <span>元/月</span>
-                <strong class="fr">★★★★☆</strong>
-            </p>
-            <p class="trig-realInfo">
-                <strong><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use></svg></strong>
-                <span class="confirmed">户主本人</span>
-                <strong ><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use></svg></strong>
-                <span class="confirmed">核实工作单位</span>
-            </p>
-            <p class="trig-describe">位移徐东附近，可拎包入住，位移徐东附近，可拎包入住</p>
-        </div>
-    </a>
-    <a href="" class="trig">
-        <img src="/static/website/images/houseMess.png" alt="">
-        <div class="trig_txt">
-            <p class="trig-price orange clearfix">
-                <strong>1200</strong>
-                <span>元/月</span>
-                <strong class="fr">★☆☆☆☆</strong>
-            </p>
-            <p class="trig-realInfo">
-                <strong><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use></svg></strong>
-                <span class="confirmed">户主本人</span>
-                <strong ><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use></svg></strong>
-                <span class="confirmed">核实工作单位</span>
-            </p>
-            <p class="trig-describe">位移徐东附近，可拎包入住，位移徐东附近，可拎包入住</p>
-        </div>
-    </a>
-
+{% endfor %}
 </div>
 {% endblock %}
 <!--footer begin-->
-
 
 {% block script %}
 <script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
