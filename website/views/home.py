@@ -141,6 +141,7 @@ def housing_resources_map_list(request):
 
     context = {
         'module': 'housing_resources',
+        'qq_map_api_url': QQ_MAP_API_URL,
         'housingresources_list': housingresources_list,
     }
 

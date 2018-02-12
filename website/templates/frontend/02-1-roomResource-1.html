@@ -29,10 +29,10 @@
         <!--地区列表-->
         <ul class="tabs clearfix">
             <li><strong>区域</strong>：&nbsp;</li>
-            <li><a href="#tab1">&nbsp;全部&nbsp;</a></li>
-            <li><a href="#tab2">&nbsp;洪山&nbsp;</a></li>
-            <li><a href="#tab3">&nbsp;汉阳&nbsp;</a></li>
-            <li><a href="#tab4">&nbsp;武昌&nbsp;</a></li>
+            <li value=""><a href="#tab1">&nbsp;全部&nbsp;</a></li>
+            <li value="洪山"><a href="#tab2">&nbsp;洪山&nbsp;</a></li>
+            <li value="汉阳"><a href="#tab3">&nbsp;汉阳&nbsp;</a></li>
+            <li value="武昌"><a href="#tab4">&nbsp;武昌&nbsp;</a></li>
         </ul>
 
         <!--区域范围列表-->
@@ -59,15 +59,15 @@
     <div class="row price clearfix">
         <ul class="clearfix fl">
             <li><strong>价格</strong>：&nbsp;</li>
-            <li class="active">&nbsp;不限&nbsp;</li>
-            <li>500以下&nbsp;</li>
-            <li>500-1000&nbsp;</li>
-            <li>1000-1500&nbsp;</li>
-            <li>1500-2000&nbsp;</li>
-            <li>2000-2500&nbsp;</li>
-            <li>2500-3000&nbsp;</li>
-            <li>3000-3500&nbsp;</li>
-            <li>3500-4000&nbsp;</li>
+            <li class="active" value="">&nbsp;不限&nbsp;</li>
+            <li value="500">500以下&nbsp;</li>
+            <li value="500-1000">500-1000&nbsp;</li>
+            <li value="1000-1500">1000-1500&nbsp;</li>
+            <li value="1500-2000">1500-2000&nbsp;</li>
+            <li value="2000-2500">2000-2500&nbsp;</li>
+            <li value="2500-3000">2500-3000&nbsp;</li>
+            <li value="3000-3500">3000-3500&nbsp;</li>
+            <li value="3500-4000">3500-4000&nbsp;</li>
         </ul>
         <div class="self-pricing fl">&nbsp;
             <input type="text" name="start_price"> - <input type="text" name="end_price">
@@ -80,13 +80,13 @@
             <li>
                 <strong>户型</strong>：&nbsp;
             </li>
-            <li class="active">&nbsp;不限&nbsp;</li>
-            <li>一室&nbsp;</li>
-            <li>二室&nbsp;</li>
-            <li>三室&nbsp;</li>
-            <li>四室&nbsp;</li>
-            <li>五室&nbsp;</li>
-            <li>其他&nbsp;</li>
+            <li class="active" value="">&nbsp;不限&nbsp;</li>
+            <li value="一室">一室&nbsp;</li>
+            <li value="二室">二室&nbsp;</li>
+            <li value="三室">三室&nbsp;</li>
+            <li value="四室">四室&nbsp;</li>
+            <li value="五室">五室&nbsp;</li>
+            <li value="其他">其他&nbsp;</li>
         </ul>
     </div>
     <!--合租/整租 筛选-->
@@ -109,7 +109,6 @@
             <li>女生&nbsp;</li>
         </ul>
     </div> -->
-
 </div>
 
 <!-- 房源筛选结果列表 -->
@@ -138,6 +137,8 @@
 <!--footer begin-->
 
 {% block script %}
-<script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="/static/website/js/03-findToRent.js"></script>
+<script type="text/javascript">
+    
+</script>
 {% endblock %}
