@@ -102,7 +102,7 @@
     <div class="tab_container fr">
         <!--tab2 房源发布-->
         <div id="tab2" class="tab_content house-release clearfix">
-            <form method="POST" action="{% url 'website:housing_resource_create' %}" enctype="multipart/form-data" id="form1">
+            <form method="POST" action="{% if not housing_resources %}{% url 'website:housing_resource_create' %} {% else %} {% url 'website:housing_resource_edit' housing_resources.id %} {% endif %}" enctype="multipart/form-data" id="form1">
             {% csrf_token %}
             <h4>房源描述</h4><br>
                 <textarea class="house-description" name="content" id="house-description" cols="50" rows="10" placeholder="请输入房源描述">{{ housing_resources.content }}</textarea><br><br>
@@ -226,23 +226,13 @@
                         <h5>卧室</h5>
                         <p>
                             <label>面积：</label>
-                            <input class="area" name="area{{ forloop.counter }}" type="text" value="{{ b.area }}">&nbsp m³
+                            <input class="area" name="area{{ forloop.counter }}" type="text" value="{{ b.area }}">&nbsp; m³
                         </p>
                         <p>房间配置：
-                            <label>飘窗 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="1" {% if '1' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>空调 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="2" {% if '2' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>床 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="3" {% if '3' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>书桌 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="4" {% if '4' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>衣柜 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="5" {% if '5' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>沙发 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="6" {% if '6' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>独立卫生间 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="7" {% if '7' in b.complete %}selected{% endif %}>
+                        {% for hc in house_configs %}
+                            <label>{{ hc.name }}</label>
+                            <input type="checkbox" name="details{{ forloop.counter }}" value="{{ hc.id }}" {% if hc in b.house_config.all %} checked {% endif %}>&nbsp;&nbsp;
+                        {% endfor %}
                         </p>
                         <p><label for=""></label></p>
                     </div>
@@ -257,11 +247,6 @@
                 <img src="{{ housing_resources.cover_url }}" width="200">
                 {% endif %}
                 <h4>上传照片</h4>
-<!--                 <span class="btn btn-success fileinput-button">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    <span>选择图片</span>
-                    <input id="fileupload" type="file" name="files[]" data-url="/upload_file" multiple>
-                </span> -->
                 <div id="actions" class="row">
                     <div class="col-lg-7">
                         <!-- The fileinput-button span is used to style the file input field as button -->
@@ -365,7 +350,7 @@ $(document).ready(function () {
     $('.release-pay').on('click', function(){
         var formData = new FormData($('form')[0]);
         $.ajax({
-          url: '{% url "website:housing_resource_create" %}', //接收页面
+          url: '{% if not housing_resources %} {% url "website:housing_resource_create" %} {% else %} {% url "website:housing_resource_edit" housing_resources.id %} {% endif %}', //接收页面
           type: 'POST',
           data: formData,
           contentType: false,
@@ -401,21 +386,13 @@ $(document).ready(function () {
                                 <p><label>面积：</label>\
                                     <input class="area" name="area' + bedroom_count + '" type="text">&nbsp m³\
                                 </p>\
-                                <p>房间配置：<label>飘窗 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="1">&nbsp;&nbsp;\
-                                    <label>空调 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="2">&nbsp;&nbsp;\
-                                    <label>床 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="3">&nbsp;&nbsp;\
-                                    <label>书桌 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="4">&nbsp;&nbsp;\
-                                    <label>衣柜 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="5">&nbsp;&nbsp;\
-                                    <label>沙发 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="6">&nbsp;&nbsp;\
-                                    <label>独立卫生间 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="7">\
-                                </p><span class="close">X</span>';
+                                <p>房间配置：\
+                                    {% for hc in house_configs %}\
+                                        <label>{{ hc.name }} </label>\
+                                        <input type="checkbox" name="details' + bedroom_count + '" value="{{ hc.id }}">&nbsp;&nbsp;\
+                                    {% endfor %}\
+                                </p>\
+                                <span class="close">X</span>';
         $('.addBedroom').before(newBedroom);
         bedroom_obj.val(bedroom_count)
 
