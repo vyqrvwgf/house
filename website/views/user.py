@@ -57,8 +57,8 @@ import logging
 @csrf_exempt
 @website_check_login
 def index(request):
-    c_user = request.session.get('c_user', 0)
-    profile = Profile.obs.get_queryset().filter(pk=c_user['id']).first()
+    c_user = request.session.get('c_user', {})
+    profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
     infrastructures = Infrastructure.obs.get_queryset().order_by('-order_no')
 
     if request.method == 'POST':
@@ -111,8 +111,8 @@ def index(request):
 @csrf_exempt
 @website_check_login
 def housing_resource_create(request):
-    c_user = request.session.get('c_user', 0)
-    profile = Profile.obs.get_queryset().filter(pk=c_user['id']).first()
+    c_user = request.session.get('c_user', {})
+    profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
     infrastructures = Infrastructure.obs.get_queryset().order_by('-order_no')
     house_configs = HouseConfig.obs.get_queryset().order_by('-order_no')
 
@@ -256,8 +256,8 @@ def housing_resource_create(request):
 
 @website_check_login
 def housing_resource_edit(request, housing_resources_id):
-    c_user = request.session.get('c_user', 0)
-    profile = Profile.obs.get_queryset().filter(pk=c_user['id']).first()
+    c_user = request.session.get('c_user', {})
+    profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
     infrastructures = Infrastructure.objects.filter(
         is_del=False,
         is_valid=True
@@ -408,8 +408,8 @@ def housing_resource_edit(request, housing_resources_id):
 
 @website_check_login
 def housing_resources(request):
-    c_user = request.session.get('c_user', 0)
-    profile = Profile.obs.get_queryset().filter(pk=c_user['id']).first()
+    c_user = request.session.get('c_user', {})
+    profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
     housing_resources = HousingResources.objects.filter(
         is_del=False,
         is_valid=True,
@@ -432,8 +432,8 @@ def housing_resources(request):
 
 @website_check_login
 def rent_house_create(request):
-    c_user = request.session.get('c_user', 0)
-    profile = Profile.obs.get_queryset().filter(pk=c_user['id']).first()
+    c_user = request.session.get('c_user', {})
+    profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
     infrastructures = Infrastructure.objects.filter(
         is_del=False,
         is_valid=True
@@ -497,8 +497,8 @@ def rent_house_create(request):
 
 @website_check_login
 def rent_house_edit(request, rent_house_id):
-    c_user = request.session.get('c_user', 0)
-    profile = Profile.obs.get_queryset().filter(pk=c_user['id']).first()
+    c_user = request.session.get('c_user', {})
+    profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
     infrastructures = Infrastructure.objects.filter(
         is_del=False,
         is_valid=True
@@ -557,8 +557,8 @@ def rent_house_edit(request, rent_house_id):
 
 @website_check_login
 def rent_house(request):
-    c_user = request.session.get('c_user', 0)
-    profile = Profile.obs.get_queryset().filter(pk=c_user['id']).first()
+    c_user = request.session.get('c_user', {})
+    profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
     rent_house = RentHouse.objects.filter(
         is_del=False,
         is_valid=True,
@@ -622,7 +622,7 @@ def update_profile(request):
     employe = request.POST.get('employe', '')
 
     # try:
-    profile = Profile.objects.filter(is_del=False, pk=c_user_id).first()
+    profile = Profile.obs.get_queryset().filter(pk=c_user_id).first()
     profile.user_name = user_name
     profile.gender = gender
     birbath = datetime.datetime.strptime(birbath, "%Y-%m-%d")

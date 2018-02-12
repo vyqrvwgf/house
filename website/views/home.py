@@ -51,8 +51,8 @@ redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 
 def index(request):
     # 获取第多少为服务用户
-    c_user = request.session.get('c_user', 0)
-    profile = Profile.obs.get_queryset().filter(pk=c_user['id']).first()
+    c_user = request.session.get('c_user', {})
+    profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
     total_profile = Profile.obs.get_queryset().count()
     fuwu_number = profile.id if profile else total_profile + 1
 
