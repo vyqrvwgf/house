@@ -623,6 +623,8 @@ class HousingResources(BaseModel):
         choices=VAILD_CHOICES,
         default=0,
         verbose_name='最热')
+    lng = models.FloatField(default=0, verbose_name='经度')
+    lat = models.FloatField(default=0, verbose_name='纬度')
 
     def cover_url(self):
         return url(self.cover)
@@ -643,6 +645,12 @@ class HousingResources(BaseModel):
 
         return pictures
 
+    @property
+    def complete_address(self):
+        '''获取房源地址
+        '''
+        return self.province + self.city + self.area + self.address
+ 
     @property
     def bedrooms(self):
         '''获取卧室
@@ -689,25 +697,45 @@ class HousingPicture(BaseModel):
         return url(self.picture)
 
 
+class HouseConfig(BaseModel):
+
+    class Meta(object):
+        verbose_name = '房间配置'
+        verbose_name_plural = '房间配置'
+
+    order_no = models.IntegerField(default=0, verbose_name="排序号")
+    name = models.CharField(
+        max_length=1024,
+        default='',
+        blank=True,
+        verbose_name="名称")
+
+
 class Bedroom(BaseModel):
 
     class Meta(object):
         verbose_name = '房屋卧室'
         verbose_name_plural = '房屋卧室'
 
+    STATUS_CHOICES = (
+        (0, '未出租'),
+        (1, '已出租'),
+    )
+
     housing_resources = models.ForeignKey(
         HousingResources, null=True, blank=True, verbose_name="房源")
     area = models.FloatField(default=0, blank=True, verbose_name="面积")
-    complete = models.CharField(
-        max_length=1024,
-        default='',
-        blank=True,
-        verbose_name="配套")
+    house_config = models.ManyToManyField(
+        HouseConfig, verbose_name="房间配置")
     cover = models.CharField(
         max_length=1024,
         default='',
         blank=True,
         verbose_name="图片")
+    status = models.IntegerField(
+        choices=STATUS_CHOICES,
+        default=0,
+        verbose_name='状态')
 
     def cover_url(self):
         return url(self.cover)

@@ -32,7 +32,8 @@ from settings import (
     REDIS_DB,
     DB_PREFIX,
     UPLOAD_DIR,
-    DOMAIN
+    DOMAIN,
+    QQ_MAP_API_URL
 )
 
 import os
@@ -48,36 +49,6 @@ import logging
 redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 
 
-@csrf_exempt
-def upload_file(request):
-
-    keys = ''
-    try:
-        if request.FILES.get('file', None):
-            file = request.FILES.get('file', None)
-            # 上传图片
-            id_card_picture = file
-            ts = int(time.time())
-            ext = get_extension(id_card_picture.name)
-            key = 'id_card_picture_{}.{}'.format(ts, ext)
-            handle_uploaded_file(id_card_picture, key)
-            upload(key, os.path.join(UPLOAD_DIR, key))
-    except Exception as e:
-        logging.error(e)
-        return JsonResponse({
-            'error_code': 1,
-            'error_msg': '保存失败',
-        })
-
-    return JsonResponse({
-        'error_code': 0,
-        'error_msg': '保存成功',
-        'data': {
-            'key': key
-        }
-    })
-
-
 def index(request):
     advertising_list = Advertising.obs.get_queryset().order_by('-order_no')
     housingresources_list = HousingResources.obs.get_queryset()
@@ -86,9 +57,9 @@ def index(request):
     housingresources_list3 = housingresources_list.filter(hot=1)[:8]
 
     # 获取第多少为服务用户
-    profile = Profile.obs.get_queryset().filter(user=request.user).first()
-    if profile:
-        fuwu_number = profile.id
+    if request.user.is_authenticated():
+        profile = Profile.obs.get_queryset().filter(user=request.user).first()
+        fuwu_number = profile.id if profile else 0
     else:
         profile = Profile.obs.get_queryset().order_by('-id').first()
         fuwu_number = profile.id + 1 if profile else 0
@@ -196,6 +167,7 @@ def housing_resources(request, housing_resources_id):
 
     context = {
         'module': 'housing_resources',
+        'qq_map_api_url': QQ_MAP_API_URL,
         'housing_resources': housing_resources,
     }
 
@@ -328,3 +300,33 @@ def login(request):
         })
 
     return render(request, 'frontend/login.html', context)
+
+
+@csrf_exempt
+def upload_file(request):
+
+    keys = ''
+    try:
+        if request.FILES.get('file', None):
+            file = request.FILES.get('file', None)
+            # 上传图片
+            id_card_picture = file
+            ts = int(time.time())
+            ext = get_extension(id_card_picture.name)
+            key = 'id_card_picture_{}.{}'.format(ts, ext)
+            handle_uploaded_file(id_card_picture, key)
+            upload(key, os.path.join(UPLOAD_DIR, key))
+    except Exception as e:
+        logging.error(e)
+        return JsonResponse({
+            'error_code': 1,
+            'error_msg': '保存失败',
+        })
+
+    return JsonResponse({
+        'error_code': 0,
+        'error_msg': '保存成功',
+        'data': {
+            'key': key
+        }
+    })

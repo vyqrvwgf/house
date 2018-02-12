@@ -63,9 +63,11 @@
                     <li><a href="javascript:void(0)">大兴</a></li>
                     <li><a href="javascript:void(0)">汉口</a></li>
                 </ul>
-                <a href="#" class="more fr">MORE <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-open"></use>
-                </svg></a>
+                <a href="#" class="more fr">MORE
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-open"></use>
+                    </svg>
+                </a>
             </div>
             <div class="hot hotBlock white">
                 <h4>热门小区:</h4>
@@ -138,7 +140,7 @@
                     <a href="{% url 'website:housing_resources' h.id %}" class="trig">
                         <img src="{{ h.cover_url }}" alt="">
                         <div class="trig_txt">
-                            <div class="trig-price orange">{{ h.month_rent }} <span>元/月</span></div>
+                            <div class="trig-price orange">{{ h.month_rent }}<span>元/月</span></div>
                             <div class="trig-addr">
                             {{ h.area }}-{{ h.community }}-{{ h.category }}-朝{{  h.get_direction_display }}-{{ h.sitting_room_area }}㎡
                             </div>

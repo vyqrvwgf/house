@@ -165,6 +165,10 @@ BUCKET_NAME = 'yueju'
 API_KEY = 'sk_live_DKyPiDvnn1qTeDyzPK98W1e5'
 APP_ID = 'app_SOGGKKPaLafDq1aH'
 
+# QQ地图
+
+QQ_MAP_API_URL = 'https://map.qq.com/api/js?v=2.exp&libraries=drawing,geometry,autocomplete,convertor'
+
 
 STATIC_URL = '/static/'
 
