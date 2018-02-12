@@ -50,19 +50,17 @@ redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 
 
 def index(request):
+    # 获取第多少为服务用户
+    c_user = request.session.get('c_user', 0)
+    profile = Profile.obs.get_queryset().filter(pk=c_user['id']).first()
+    total_profile = Profile.obs.get_queryset().count()
+    fuwu_number = profile.id if profile else total_profile + 1
+
     advertising_list = Advertising.obs.get_queryset().order_by('-order_no')
     housingresources_list = HousingResources.obs.get_queryset()
     housingresources_list1 = housingresources_list.order_by('-updated')[:8]
     housingresources_list2 = housingresources_list.order_by('-click_count')[:8]
     housingresources_list3 = housingresources_list.filter(hot=1)[:8]
-
-    # 获取第多少为服务用户
-    if request.user.is_authenticated():
-        profile = Profile.obs.get_queryset().filter(user=request.user).first()
-        fuwu_number = profile.id if profile else 0
-    else:
-        profile = Profile.obs.get_queryset().order_by('-id').first()
-        fuwu_number = profile.id + 1 if profile else 0
 
     context = {
         'module': 'index',
