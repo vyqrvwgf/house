@@ -21,5 +21,22 @@
         <li class="active"><a href="{% url 'website:housing_resources_map_list' %}">地图找房</a></li>
     </ul>
 </div>
-<div class="roomlist"></div>
+<!-- <div class="roomlist"></div> -->
+<div id="map_container" style="width:100%; min-height:600px;min-width:1200px"></div>
+{% endblock %}
+
+{% block script %}
+<script charset="utf-8" src="{{ qq_map_api_url }}"></script>
+<script>
+  var lng = {% if not housing_resources or housing_resources.lng == 0.0000000 %}114.30{% else %}{{ housing_resources.lng }}{% endif %};
+  var lat = {% if not housing_resources or housing_resources.lat == 0.0000000 %}30.60{% else %}{{ housing_resources.lat }}{% endif %};
+
+  var map = []
+
+  var center = new qq.maps.LatLng(lat, lng);
+  var map = new qq.maps.Map(document.getElementById("map_container"),{
+    center:center,
+    zoom:14
+  });
+</script>
 {% endblock %}
