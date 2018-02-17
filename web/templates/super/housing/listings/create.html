@@ -119,13 +119,15 @@
             <input type="number" class="form-control" name="total_layer" value="{% if client %}{{ client.total_layer }}{% endif %}" placeholder=""/>
           </div>
         </div>
-
-        <div class="form-group">
-          <label class="col-md-2 control-label">所在小区</label>
-          <div class="col-md-10">
-            <input type="text" class="form-control" name="community" value="{{ client.community }}" placeholder=""/>
+<!--         <div class="form-group" >
+          <label class="col-md-2 control-label">地图搜索</label>
+          <div class="col-md-6">
+            <input type="text" class="form-control" name="address-search" value="{% if client.address %}{{ client.address }}{% else %} {% endif %}" placeholder="" />
           </div>
-        </div>
+          <div class="col-md-2">
+            <a href="javascript:void(0);" onclick="javascript:searchAddress();" class="btn btn-success">搜索</a>
+          </div>
+        </div> -->
 
         <div class="form-group">
           <label class="col-md-2 control-label">详细地址</label>
@@ -143,6 +145,38 @@
               </select>
               <input class="addr" name="address" id="addr" type="text" placeholder="具体街道地址" value="{{ client.address }}">
           </div>
+          <div class="col-md-2">
+            <a href="javascript:void(0);" onclick="javascript:searchAddress();" class="btn btn-success">搜索</a>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">地图定位</label>
+          <div class="col-md-10">
+            <div id="map_container" style="width:100%; height:300px"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">经纬度</label>
+          <div class="col-md-2">
+            <input type="text" class="form-control" id="lng" name="lng" placeholder=""
+            value="{% if client %}{{ client.lng }}{% else %}0{% endif %}" hidden />
+          </div>
+          <div class="col-md-2">
+            <input type="text" class="form-control" id="lat" name="lat" placeholder=""
+            value="{% if client %}{{ client.lat }}{% else %}0{% endif %}" hidden  />
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">所在小区</label>
+          <div class="col-md-10">
+            <input type="text" class="form-control" name="community" value="{{ client.community }}" placeholder=""/>
+          </div>
         </div>
         <div class="form-group">
           <label class="col-md-2 control-label">基础设施</label>
@@ -156,8 +190,7 @@
             </select>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
+
         <div class="form-group">
           <label class="col-md-2 control-label">附近公交</label>
           <div class="col-md-10">
@@ -201,14 +234,15 @@
         <div class="form-group">
           <label class="col-md-2 control-label">房产证照片</label>
           <div class="col-md-10">
-            <input type="file" class="form-control" name="house_pcover" value="{{ client.house_pcover }}" ></input>
+            <input type="file" class="form-control" name="house_pcover" value="{{ client.house_pcover }}" />
             {% if client.house_pcover %}
               <p style="margin-top: 10px;">
                 <img src="{{ client.house_pcover_url }} " width="150"/>
               </p>
             {% endif %}
-          </d iv>
+          </div>
         </div>
+
       </div>
 
     </div><!-- /.box-body -->
@@ -224,4 +258,90 @@
 
   </form>
 </div>
+{% endblock %}
+
+
+
+{% block script %}
+<script charset="utf-8" src="{{ qq_map_api_url }}"></script>
+<script type="text/javascript">
+
+  var lng = {% if not client or client.lng == 0.0000000 %}114.30{% else %}{{ client.lng }}{% endif %};
+  var lat = {% if not client or client.lat == 0.0000000 %}30.60{% else %}{{ client.lat }}{% endif %};
+
+  var map, searchService, marker, markers = []
+
+  var center = new qq.maps.LatLng(lat, lng);
+  $("input[name='lng']").val(center.getLng());
+  $("input[name='lat']").val(center.getLat());
+  var map = new qq.maps.Map(document.getElementById("map_container"),{
+    center:center,
+    zoom:14
+  });
+
+  var latlngBounds = new qq.maps.LatLngBounds();
+  //调用Poi检索类
+  searchService = new qq.maps.SearchService({
+    complete : function(results){
+      var pois = results.detail.pois;
+      for(var i = 0,l = pois.length;i < l; i++){
+        var poi = pois[i];
+
+        latlngBounds.extend(poi.latLng);
+
+        (function(n) {
+            var marker = new qq.maps.Marker({
+                map: map
+            });
+            marker.setPosition(pois[n].latLng);
+
+            marker.setTitle(i + 1);
+            markers.push(marker);
+
+            qq.maps.event.addListener(marker, 'click', function(event) {
+              marker.setMap(null);
+              var center = event.latLng
+              $("input[name='lng']").val(center.getLng());
+              $("input[name='lat']").val(center.getLat());
+              marker=new qq.maps.Marker({
+                position:center,
+                animation:qq.maps.MarkerAnimation.DROP,
+                map:map
+              });
+            });
+        })(i);
+
+      }
+      map.fitBounds(latlngBounds);
+    }
+  });
+
+  setTimeout(function(){
+    marker=new qq.maps.Marker({
+      position:center,
+      animation:qq.maps.MarkerAnimation.DROP,
+      map:map
+    });
+    //marker.setAnimation(qq.maps.Animation.DROP);
+  },200);
+
+  function clearOverlays(overlays){
+    var overlay;
+    while(overlay = overlays.pop()){
+      overlay.setMap(null);
+    }
+  }
+
+  function searchAddress() {
+    var city = $("select[name='city']").val();
+    var county = $("select[name='county']").val();
+    var address = $("input[name='address']").val();
+
+    marker.setMap(null);
+    clearOverlays(markers);
+    searchService.setLocation(city);
+    // searchService.search(county + address);
+    searchService.search(address);
+  }
+  </script>
 {% endblock %}
