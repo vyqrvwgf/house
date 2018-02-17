@@ -93,7 +93,6 @@
             </select>
           </div>
         </div>
-
         <div class="form-group">
           <label class="col-md-2 control-label">楼层朝向</label>
           <div class="col-md-10">
@@ -105,21 +104,19 @@
             </select>
           </div>
         </div>
-
         <div class="form-group">
           <label class="col-md-2 control-label">楼层数</label>
           <div class="col-md-10">
             <input type="number" class="form-control" name="layer" value="{% if client %}{{ client.layer }}{% endif %}" placeholder=""/>
           </div>
         </div>
-
         <div class="form-group">
           <label class="col-md-2 control-label">总楼层数</label>
           <div class="col-md-10">
             <input type="number" class="form-control" name="total_layer" value="{% if client %}{{ client.total_layer }}{% endif %}" placeholder=""/>
           </div>
         </div>
-<!--         <div class="form-group" >
+<!--    <div class="form-group" >
           <label class="col-md-2 control-label">地图搜索</label>
           <div class="col-md-6">
             <input type="text" class="form-control" name="address-search" value="{% if client.address %}{{ client.address }}{% else %} {% endif %}" placeholder="" />
@@ -170,6 +167,8 @@
         </div>
 
       </div>
+
+
       <div class="col-md-6">
 
         <div class="form-group">
@@ -194,19 +193,19 @@
         <div class="form-group">
           <label class="col-md-2 control-label">附近公交</label>
           <div class="col-md-10">
-            <input type="text" class="form-control" name="bus" value="{% if client %} {{ client.bus }} {% endif %}" placeholder=""/>
+            <input type="text" class="form-control" name="bus" value="{% if client %}{{ client.bus }}{% endif %}" placeholder=""/>
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-2 control-label">附近地铁</label>
           <div class="col-md-10">
-            <input type="text" class="form-control" name="subway" value="{% if client %} {{ client.subway }} {% endif %}" placeholder=""/>
+            <input type="text" class="form-control" name="subway" value="{% if client %}{{ client.subway }}{% endif %}" placeholder=""/>
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-2 control-label">餐饮购物</label>
           <div class="col-md-10">
-            <input type="text" class="form-control" name="buy" value="{% if client %} {{ client.buy }} {% endif %}" placeholder=""/>
+            <input type="text" class="form-control" name="buy" value="{% if client %}{{ client.buy }}{% endif %}" placeholder=""/>
           </div>
         </div>
         <div class="form-group">
