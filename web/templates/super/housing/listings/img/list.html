@@ -1,0 +1,73 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+房源图片
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-danger">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      房源图片
+    </h3>
+    <div class="box-tools">
+    </div>
+  </div><!-- /.box-header -->
+
+  <div class="box-body">
+    <div style="margin-bottom:15px;" class="row">
+      <form class="navbar-form navbar-left" method="GET" role="search">
+        <div class="form-group">
+          <a href="{% url 'web:listings_picture_create' housingresources_id %}" class="btn btn-info">新建</a>
+        </div>
+        <a class="btn btn-default" href="{% url 'web:listings_list' %}">返回</a>
+      </form>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+          <tbody>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>图片</th>
+              <th>排序</th>
+              <th>操作</th>
+            </tr>
+            {% for c in clients %}
+              <tr>
+                <td style="vertical-align: middle;">
+                  {{ c.id }}
+                </td>
+                <td style="vertical-align: middle;">
+                  {% if c.picture %}
+                    <img src="{{  c.picture_url }}" style="width: 100px">
+                  {% endif %}
+                </td>
+                <td style="vertical-align: middle;">
+                  <a href="{% url 'web:listings_picture_up' c.id %}?page={{page}}&search_name={{ search_name }}">
+                    <i class="fa fa-fw fa-arrow-up"></i>
+                  </a>
+                  <a href="{% url 'web:listings_picture_down' c.id %}?page={{page}}&search_name={{ search_name }}">
+                    <i class="fa fa-fw fa-arrow-down"></i>
+                  </a>
+                </td>
+                <td style="vertical-align: middle;">
+                  <a class="btn-xs btn-info" href="{% url 'web:listings_picture_edit' c.id %}?page={{page}}">
+                    编辑
+                  </a>
+                  <a class="btn-xs btn-danger" href="{% url 'web:listings_picture_delete' c.id %}?page={{page}}" onclick="return confirm('确认删除专辑吗?')">
+                    删除
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% with clients as paging_objs %}
+      {% include 'super/paging.html' %}
+    {% endwith %}
+  </div>
+</div>
+{% endblock %}

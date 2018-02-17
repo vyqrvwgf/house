@@ -211,6 +211,37 @@ class Profile(BaseModel):
         return self.nickname
 
 
+class ACL(BaseModel):
+
+    class Meta(object):
+
+        verbose_name = "访问控制列表"
+        verbose_name_plural = "访问控制列表"
+        permissions = (
+            ('view_module', '查看'),
+            ('add_module', '添加'),
+            ('edit_module', '编辑'),
+            ('delete_module', '删除'),
+            ('active_module', '启用禁用'),
+            ('move_module', '上移下移'),
+        )
+
+    module = models.CharField(max_length=255, default='', verbose_name="模块名称")
+    module_cn = models.CharField(
+        max_length=255,
+        default='',
+        verbose_name="模块中文名称")
+    permission_ids = models.CharField(
+        max_length=255, default='', verbose_name="权限选项")
+
+    def __unicode__(self):
+        return self.module
+
+    def permission_options(self):
+        ids = self.permission_ids.split('#')
+        return Permission.objects.filter(id__in=ids)
+
+
 class AdminLog(BaseModel):
 
     class Meta(object):
@@ -685,6 +716,7 @@ class HousingPicture(BaseModel):
         verbose_name = '房屋图片'
         verbose_name_plural = '房屋图片'
 
+    order_no = models.IntegerField(default=0, verbose_name="排序号")
     housing_resources = models.ForeignKey(
         HousingResources, null=True, blank=True, verbose_name="房源")
     picture = models.CharField(
@@ -732,6 +764,11 @@ class Bedroom(BaseModel):
         default='',
         blank=True,
         verbose_name="图片")
+    intro = models.TextField(
+        default='',
+        null=True,
+        blank=True,
+        verbose_name='卧室简介')
     status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=0,

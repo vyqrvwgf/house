@@ -138,7 +138,7 @@ def housing_resource_create(request):
         sitting_room = request.POST.get('sitting_room', '')
         sitting_room_area = request.POST.get('sitting_room_area', '')
         sitting_room_complete = request.POST.getlist(
-            'sitting_room_complete', '')
+            'sitting_room_complete', [])
         bedroom_count = request.POST.get('bedroom_count', 0)
         bedroom_files = request.POST.get('bedroom_files', '')
 
