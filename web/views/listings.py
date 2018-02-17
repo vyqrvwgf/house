@@ -29,7 +29,7 @@ from utils import (
 
 from settings import (
     BACK_PAGE_COUNT, FILED_CHECK_MSG,
-    UPLOAD_DIR,
+    UPLOAD_DIR, QQ_MAP_API_URL
 )
 
 import os
@@ -89,7 +89,8 @@ def list(request):
 @staff_member_required(login_url='/admin/login')
 def create(request):
     context = {
-        'module': 'listings'
+        'module': 'listings',
+        'qq_map_api_url': QQ_MAP_API_URL
     }
 
     infrastructures = Infrastructure.obs.get_queryset().order_by('-order_no')
@@ -119,6 +120,8 @@ def create(request):
         sitting_room_complete = request.POST.getlist(
             'sitting_room_complete', [])
         infrastructure_id = request.POST.getlist('infrastructure_id', [])
+        lng = request.POST.get('lng', 0)
+        lat = request.POST.get('lat', 0)
 
         flag = True
         housing_resources = HousingResources()
@@ -165,6 +168,8 @@ def create(request):
             housing_resources.lease = lease
             housing_resources.category = category
             housing_resources.month_rent = month_rent
+            housing_resources.lat = lat
+            housing_resources.lng = lng
             housing_resources.bet = bet
             housing_resources.pay = pay
             housing_resources.direction = direction
@@ -198,6 +203,7 @@ def edit(request, housingresources_id):
     context = {
         'client': housing_resources,
         'module': 'listings',
+        'qq_map_api_url': QQ_MAP_API_URL
     }
 
     infrastructures = Infrastructure.obs.get_queryset().order_by('-order_no')
@@ -227,6 +233,8 @@ def edit(request, housingresources_id):
         sitting_room_complete = request.POST.getlist(
             'sitting_room_complete', [])
         infrastructure_id = request.POST.getlist('infrastructure_id', [])
+        lng = request.POST.get('lng', 0)
+        lat = request.POST.get('lat', 0)
 
         flag = True
 
@@ -272,6 +280,8 @@ def edit(request, housingresources_id):
             housing_resources.lease = lease
             housing_resources.category = category
             housing_resources.month_rent = month_rent
+            housing_resources.lat = lat
+            housing_resources.lng = lng
             housing_resources.bet = bet
             housing_resources.pay = pay
             housing_resources.direction = direction
