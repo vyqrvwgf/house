@@ -2,8 +2,9 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from django.db.models import Q
+from django.db.models import Q, Avg
 from django.template import loader
+
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db import transaction
@@ -13,6 +14,7 @@ from web.models import(
     Profile,
     HousingResources,
     FeedBack,
+    HousingEvaluation,
 )
 
 from imagestore.qiniu_manager import (
@@ -23,7 +25,7 @@ from imagestore.qiniu_manager import (
 
 from utils import(
     send_v_code, check_v_code, md5_create,
-    jwt_token_gen, jwt_token_decode
+    jwt_token_gen, jwt_token_decode, get_xinxing
 )
 
 from settings import (
@@ -163,11 +165,31 @@ def rent_house_list(request):
 def housing_resources(request, housing_resources_id):
 
     housing_resources = HousingResources.objects.get(pk=housing_resources_id)
+    housing_evaluations = HousingEvaluation.obs.get_queryset().filter(
+        housing_resources=housing_resources).order_by('-created')
+
+    for he in housing_evaluations:
+        he.point_str = get_xinxing(he.point, 5)
+        if not he.niming:
+            he.user.username = he.user.username[
+                0] + u'***' + he.user.username[-1]
+
+    avg_point = housing_evaluations.aggregate(
+        avg_point=Avg('point'))['avg_point']
+
+    point_str = get_xinxing(avg_point, 5)
+
+    # 同小区房源
+    tongxiaoquhousing = HousingResources.obs.get_queryset().filter(
+        community=housing_resources.community)
 
     context = {
         'module': 'housing_resources',
         'qq_map_api_url': QQ_MAP_API_URL,
         'housing_resources': housing_resources,
+        'housing_evaluations': housing_evaluations,
+        'tongxiaoquhousing': tongxiaoquhousing,
+        'point_str': point_str,
     }
 
     return render(request, 'frontend/02-2-roomInfo.html', context)

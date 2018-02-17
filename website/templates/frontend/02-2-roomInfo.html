@@ -161,8 +161,8 @@
             {% for b in housing_resources.bedrooms %}
                 <li class="clearfix">
                     <h4>卧室{{ forloop.counter }}
-                        <span class="orange">12㎡</span>
-                        <button class="fr">已出租</button>
+                        <span class="orange">{{ b.area }}㎡</span>
+                        <button class="fr">{{ b.get_status_display }}</button>
                     </h4>
                     <p>
                         <span class="orange">☑</span>
@@ -171,7 +171,7 @@
                         <span>飘窗</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span>一男一女</span>
                     </p>
-                    <p>房间配置：床、沙发、镜子、衣柜、鞋柜、冰箱、台灯</p>
+                    <p>房间配置：{% for hf in b.house_config.all %}{{ hf.name }}{% if not forloop.last %}、{% endif %}{% endfor %}</p>
                 </li>
             {% endfor %}
             </ul>
@@ -186,18 +186,21 @@
             </svg>看房评价
         </div>
         <div class="right fl">
-            <h3>总评分：<span>★★★★☆</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(共 1 条评价)</h3>
+            <h3>总评分：<span>{{ point_str }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(共 {{ housing_evaluations|length }} 条评价)</h3>
             <ul>
+            {% for he in housing_evaluations %}
                 <li class="clearfix">
                     <p class="comment-pic">
-                        <img src="/static/website/images/commentpic.png" alt="评论图">
-                        <img src="/static/website/images/commentpic.png" alt="评论图">
-                        <img src="/static/website/images/commentpic.png" alt="评论图">
+                    {% for i in he.imgs %}
+                        <img src="{{ i }}" alt="">
+                    {% endfor %}
                     </p>
-                    <p class="comment-text">不好意思，评价晚了。买了一对杯子，拿到的时候真的很惊喜，对一个我这样的外行人来说，真的没有找到一点瑕疵，很漂亮的杯子啊，是我一直想要的，本来想买正品的，因为看了评价说，基本没有瑕疵，就想碰碰运气的，结果真的很好啊，看图吧……</p>
-                    <p class="comment-time grey">用户：<span class="orange">va**fe（匿名）</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;评分：<span class="orange">★★★★☆</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：<span>2017-8-12 11:40</span></p>
+                    <p class="comment-text">
+                        {{ he.content|safe }}
+                    </p>
+                    <p class="comment-time grey">用户：<span class="orange">{{ he.user.username }} {% if not he.niming %}（{{ he.get_niming_display }}）{% endif %}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;评分：<span class="orange">{{ he.point_str }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：<span>{{ he.created|date:"Y-m-d H:i" }}</span></p>
                 </li>
-
+            {% endfor %}
             </ul>
         </div>
     </div>
@@ -209,15 +212,16 @@
     <h3>同小区其他房源推荐</h3>
     <div class="tab-content newest active">
         <div class="tabpanel">
-            <a href="" class="trig">
-                <img src="/static/website/images/houseMess.png" alt="">
+        {% for th in tongxiaoquhousing %}
+            <a href="{% url 'website:housing_resources' th.id %}" class="trig">
+                <img src="{{ th.cover_url }}" alt="">
                 <div class="trig_txt">
-                    <div class="trig-price orange">1999 <span>元/月</span></div>
-                    <div class="trig-addr">洪山区-教师小区-五居室-西卧-RoomB-10.0㎡</div>
-                    <div class="trig-describe">位移徐东附近，可拎包入住</div>
+                    <div class="trig-price orange">{{ th.month_rent }} <span>元/月</span></div>
+                    <div class="trig-addr">{{ th.area }}-{{ th.community }}-{{ th.category }}-朝{{  th.get_direction_display }}-{{ th.sitting_room_area }}㎡</div>
+                    <div class="trig-describe">{{ th.content }}</div>
                 </div>
             </a>
-
+        {% endfor %}
         </div>
     </div>
 </div>
@@ -295,13 +299,21 @@
   var lat = {% if not housing_resources or housing_resources.lat == 0.0000000 %}30.60{% else %}{{ housing_resources.lat }}{% endif %};
 
   var map = []
-
+  console.log(lng, lat)
   var center = new qq.maps.LatLng(lat, lng);
   var map = new qq.maps.Map(document.getElementById("map_container"),{
     center:center,
     zoom:14
   });
 
+  setTimeout(function(){
+    marker=new qq.maps.Marker({
+      position:center,
+      animation:qq.maps.MarkerAnimation.DROP,
+      map:map
+    });
+    //marker.setAnimation(qq.maps.Animation.DROP);
+  },200);
 
 </script>
 {% endblock %}

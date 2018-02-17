@@ -681,7 +681,7 @@ class HousingResources(BaseModel):
         '''获取房源地址
         '''
         return self.province + self.city + self.area + self.address
- 
+
     @property
     def bedrooms(self):
         '''获取卧室
@@ -776,6 +776,57 @@ class Bedroom(BaseModel):
 
     def cover_url(self):
         return url(self.cover)
+
+
+class HousingEvaluation(BaseModel):
+
+    class Meta(object):
+        verbose_name = '房源评价'
+        verbose_name_plural = '房源评价'
+
+    NIMING_CHOICES = (
+        (0, '匿名'),
+        (1, '正常'),
+    )
+
+    user = models.ForeignKey(
+        User,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name='用户')
+    housing_resources = models.ForeignKey(
+        HousingResources, null=True, blank=True, verbose_name="房源")
+    content = models.TextField(default='', verbose_name="评论内容")
+    point = models.FloatField(default=0, null=True, verbose_name="评分")
+    niming = models.IntegerField(
+        choices=NIMING_CHOICES,
+        default=0,
+        verbose_name="匿名")
+
+    def imgs(self):
+        housing_evaluationimgs = HousingEvaluationImg.obs.get_queryset().filter(
+            housing_evaluation=self)
+
+        return [h.img_url() for h in housing_evaluationimgs]
+
+
+class HousingEvaluationImg(BaseModel):
+
+    class Meta(object):
+        verbose_name = '房源评价图片'
+        verbose_name_plural = '房源评价图片'
+
+    housing_evaluation = models.ForeignKey(
+        HousingEvaluation, null=True, blank=True, verbose_name="房源评价")
+    img = models.CharField(
+        max_length=1024,
+        default='',
+        blank=True,
+        verbose_name="图片")
+
+    def img_url(self):
+        return url(self.img)
 
 
 class FeedBack(BaseModel):

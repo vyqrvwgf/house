@@ -18,6 +18,27 @@ import hashlib
 import uuid
 
 
+def get_xinxing(avg_point, num):
+
+    if not avg_point:
+        return '☆☆☆☆☆'
+
+    str1 = ''
+    avg_point = int(avg_point*10)
+
+    shixin = avg_point/2
+    xuxin = num - shixin
+    for i in range(shixin):
+        str1 += '★'
+
+    xuxin = xuxin if 0 < xuxin <= num else 0
+
+    for x in xrange(xuxin):
+        str1 += '☆'
+
+    return str1
+
+
 def paging_objs(object_list, per_page, page):
 
     paginator = Paginator(object_list, per_page)

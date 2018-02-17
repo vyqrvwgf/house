@@ -8,7 +8,7 @@ from web.models import (
     JointVentureAccount, Setting, Withdrawal,
     Infrastructure, HousingResources, HousingPicture,
     Bedroom, HousingResourcesOrder, HousingResourcesComment,
-    HouseConfig,
+    HouseConfig, HousingEvaluation, HousingEvaluationImg
 )
 
 admin.site.register(Profile)
@@ -29,3 +29,5 @@ admin.site.register(Bedroom)
 admin.site.register(HousingResourcesOrder)
 admin.site.register(HousingResourcesComment)
 admin.site.register(HouseConfig)
+admin.site.register(HousingEvaluation)
+admin.site.register(HousingEvaluationImg)
