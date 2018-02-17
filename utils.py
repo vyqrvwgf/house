@@ -4,6 +4,7 @@ from rest_framework_jwt.settings import api_settings
 from settings import SMS_ACCOUNT_SID, SMS_ACCOUNT_TOKEN, SMS_SUB_ACCOUNT_SID, SMS_TEMPLATE_CODE_ID, SMS_SUB_ACCOUNT_TOKEN, SMS_APP_ID
 from sms import SMSManager
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from functools import wraps
 from django.http import HttpResponseRedirect
 
@@ -15,6 +16,19 @@ import string
 import logging
 import hashlib
 import uuid
+
+
+def paging_objs(object_list, per_page, page):
+
+    paginator = Paginator(object_list, per_page)
+    try:
+        objs = paginator.page(page)
+    except PageNotAnInteger:
+        objs = []
+    except EmptyPage:
+        objs = []
+
+    return objs
 
 
 def _uuid():
@@ -68,11 +82,20 @@ def jwt_token_decode(token):
 
 
 def send_v_code(mobile, v_code, expired_minutes):
-    sms_manager = SMSManager(SMS_ACCOUNT_SID, SMS_ACCOUNT_TOKEN, SMS_SUB_ACCOUNT_SID, SMS_SUB_ACCOUNT_TOKEN, SMS_APP_ID)
+    sms_manager = SMSManager(
+        SMS_ACCOUNT_SID,
+        SMS_ACCOUNT_TOKEN,
+        SMS_SUB_ACCOUNT_SID,
+        SMS_SUB_ACCOUNT_TOKEN,
+        SMS_APP_ID)
     try:
-        result = sms_manager.send_auth_code(mobile, v_code, expired_minutes=expired_minutes, template_id=SMS_TEMPLATE_CODE_ID)
+        result = sms_manager.send_auth_code(
+            mobile,
+            v_code,
+            expired_minutes=expired_minutes,
+            template_id=SMS_TEMPLATE_CODE_ID)
         send_status = True
-    except Exception, e:
+    except Exception as e:
         send_status = False
     data = {}
     if send_status:
@@ -83,11 +106,16 @@ def send_v_code(mobile, v_code, expired_minutes):
 
 
 def send_notice(mobile, datas, template_id):
-    sms_manager = SMSManager(SMS_ACCOUNT_SID, SMS_ACCOUNT_TOKEN, SMS_SUB_ACCOUNT_SID, SMS_SUB_ACCOUNT_TOKEN, SMS_APP_ID)
+    sms_manager = SMSManager(
+        SMS_ACCOUNT_SID,
+        SMS_ACCOUNT_TOKEN,
+        SMS_SUB_ACCOUNT_SID,
+        SMS_SUB_ACCOUNT_TOKEN,
+        SMS_APP_ID)
     try:
         result = sms_manager.send_sms_msg(mobile, datas, 2, template_id)
         send_status = True
-    except Exception, e:
+    except Exception as e:
         send_status = False
     data = {}
     if send_status:
@@ -97,11 +125,16 @@ def send_notice(mobile, datas, template_id):
 
 
 def send_voice_code(mobile, v_code):
-    sms_manager = SMSManager(SMS_ACCOUNT_SID, SMS_ACCOUNT_TOKEN, SMS_SUB_ACCOUNT_SID, SMS_SUB_ACCOUNT_TOKEN, SMS_APP_ID)
+    sms_manager = SMSManager(
+        SMS_ACCOUNT_SID,
+        SMS_ACCOUNT_TOKEN,
+        SMS_SUB_ACCOUNT_SID,
+        SMS_SUB_ACCOUNT_TOKEN,
+        SMS_APP_ID)
     try:
         result = sms_manager.send_voice_code(mobile, v_code)
         send_status = True
-    except Exception, e:
+    except Exception as e:
         send_status = False
     data = {}
     if send_status:
@@ -118,15 +151,16 @@ def check_v_code(request, redis_conn, mobile, v_code, expired_minutes):
         v_data = simplejson.loads(v_data)
         s_v_code = v_data.get(mobile, '')
         if s_v_code and s_v_code == v_code:
-            diff_v_time = int(time.time())-int(v_data['send_time'])
-            if diff_v_time <= int(expired_minutes)*60:
+            diff_v_time = int(time.time()) - int(v_data['send_time'])
+            if diff_v_time <= int(expired_minutes) * 60:
                 return 0
-            elif diff_v_time > int(expired_minutes)*60:
+            elif diff_v_time > int(expired_minutes) * 60:
                 return 1
         else:
             return 2
     else:
         return 3
+
 
 def verify_mobile(mobile):
     # 返回值True 代表验证通过
@@ -142,5 +176,5 @@ def verify_mobile(mobile):
             # if cnm or cnu or cnt:
             return True
         return False
-    except Exception, e:
+    except Exception as e:
         return False

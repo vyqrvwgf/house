@@ -1,0 +1,95 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+房源卧室
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-danger">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      房源卧室
+    </h3>
+    <div class="box-tools">
+    </div>
+  </div><!-- /.box-header -->
+
+  <div class="box-body">
+    <div style="margin-bottom:15px;" class="row">
+      <form class="navbar-form navbar-left" method="GET" role="search">
+        <div class="form-group">
+          <a href="{% url 'web:listings_bedroom_create' housingresources_id %}" class="btn btn-info">新建</a>
+        </div>
+        <a class="btn btn-default" href="{% url 'web:listings_list' %}">返回</a>
+      </form>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+          <tbody>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>简介</th>
+              <th>图片</th>
+              <th>房间配置</th>
+              <th>面积</th>
+              <th>上线</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+            {% for c in clients %}
+              <tr>
+                <td style="vertical-align: middle;">
+                  {{ c.id }}
+                </td>
+                <td style="vertical-align: middle;">
+                  {{ c.intro|safe }}
+                </td>
+                <td style="vertical-align: middle;">
+                  {% if c.cover %}
+                    <img src="{{  c.cover_url }}" style="width: 100px">
+                  {% endif %}
+                </td>
+                <td style="vertical-align: middle;">
+                  {% for hc in c.house_config.all %}
+                    {{ hc.name }},
+                  {% endfor %}
+                </td>
+                <td style="vertical-align: middle;">
+                  {{ c.area }}
+                </td>
+                <td style="vertical-align: middle;">
+                  {% if c.is_valid %}
+                    <i class="fa fa-fw fa-check-circle text-green"></i>
+                  {% else %}
+                    <i class="fa fa-fw fa-ban text-red"></i>
+                  {% endif %}
+                </td>
+                <td style="vertical-align: middle;">
+                  {{ c.get_status_display }}
+                </td>
+                <td style="vertical-align: middle;">
+                  <a class="btn-xs btn-info" href="{% url 'web:listings_bedroom_edit' c.id %}?page={{page}}">
+                    编辑
+                  </a>&nbsp;
+                  {% if c.is_valid %}
+                    <a class="btn-xs btn-success" href="{% url 'web:listings_bedroom_offline' c.id %}?page={{ page }}">下线</a>&nbsp;
+                  {% else %}
+                    <a class="btn-xs btn-success" href="{% url 'web:listings_bedroom_online' c.id %}?page={{ page }}">上线</a>&nbsp;
+                  {% endif %}
+                  <a class="btn-xs btn-danger" href="{% url 'web:listings_bedroom_delete' c.id %}?page={{page}}" onclick="return confirm('确认删除专辑吗?')">
+                    删除
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% with clients as paging_objs %}
+      {% include 'super/paging.html' %}
+    {% endwith %}
+  </div>
+</div>
+{% endblock %}
