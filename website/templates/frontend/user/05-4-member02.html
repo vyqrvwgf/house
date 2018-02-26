@@ -55,8 +55,8 @@
                 </svg> 房源发布
             </a>
         </li>
-        <li {% if sub_module == 'housing_resource' %} class="active" {% endif %}>
-            <a href="{% url 'website:housing_resources' %}">
+        <li {% if sub_module == 'user_housing_resources' %} class="active" {% endif %}>
+            <a href="{% url 'website:user_housing_resources' %}">
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-03fygl"></use>
                 </svg> 房源管理
@@ -69,8 +69,8 @@
                 </svg> 求租发布
             </a>
         </li>
-        <li {% if sub_module == 'rent_house' %} class="active" {% endif %}>
-            <a href="{% url 'website:rent_house' %}">
+        <li {% if sub_module == 'user_rent_house' %} class="active" {% endif %}>
+            <a href="{% url 'website:user_rent_house' %}">
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-05qzgl"></use>
                 </svg> 求租管理
@@ -185,7 +185,7 @@
                         <br>
                         <label>{{ i.name }}</label>
                         <br>
-                        <input type="checkbox" name="infrastructures" value="{{ i.id }}">
+                        <input type="checkbox" name="infrastructures" value="{{ i.id }}" {% if i in housing_resources.infrastructure.all %} checked {% endif %}>
                     </li>
                 {% endfor %}
                 </ul>
@@ -244,7 +244,7 @@
                 {% if not housing_resources %}
                 <div class="photos" id="test-image-preview">图片预览</div>
                 {% else %}
-                <img src="{{ housing_resources.cover_url }}" width="200">
+                <img src="{{ housing_resources.house_pcover_url }}" width="200">
                 {% endif %}
                 <h4>上传照片</h4>
                 <div id="actions" class="row">
@@ -259,7 +259,6 @@
                 <p class="red">（默认第一张为房源封面）</p>
                 <div class="table table-striped files" id="previews">
                     <div id="template" class="file-row">
-                        <!-- This is used as the file preview template -->
                         <div>
                             <span class="preview"><img data-dz-thumbnail /></span>
                         </div>
@@ -339,7 +338,7 @@ $(document).ready(function () {
     function completeHandler(res){
         alert(res.error_msg)
         if (!res.error_code) {
-            location.href = '{% url "website:housing_resources" %}'
+            location.href = '{% url "website:user_housing_resources" %}'
         }
     }
 

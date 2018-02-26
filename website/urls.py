@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^register$', home.register, name='home_register'),
     url(r'^login$', home.login, name='home_login'),
     url(r'^feedback/add$', home.feedback_add, name='home_feedback_add'),
+    url(r'^upload_file$', home.upload_file, name='upload_file'),
 
     # 房源
     url(r'^housing_resources$',
@@ -33,20 +34,28 @@ urlpatterns = [
     url(r'^user/update_profile$', user.update_profile, name='update_profile'),
     url(r'^user/update_avatar$', user.update_avatar, name='update_avatar'),
     url(r'^login_out$', user.login_out, name='login_out'),
+
     # 房源发布
     url(r'^housing_resources/create$',
         user.housing_resource_create,
         name='housing_resource_create'),
     url(r'^housing_resources/(?P<housing_resources_id>\d+)/edit$',
         user.housing_resource_edit, name='housing_resource_edit'),
-    url(r'^housing_resources$',
+    url(r'^user/housing_resources$',
         user.housing_resources,
-        name='housing_resources'),
+        name='user_housing_resources'),
+    url(r'^housing_resources/(?P<housing_resources_id>\d+)/offline$',
+        user.housing_resource_offline, name='housing_resource_offline'),
+    url(r'^housing_resources/(?P<housing_resources_id>\d+)/online$',
+        user.housing_resource_online, name='housing_resource_online'),
+
     # 求租发布
     url(r'^rent_house/create$',
         user.rent_house_create,
         name='rent_house_create'),
     url(r'^rent_house/(?P<rent_house_id>\d+)/edit$',
         user.rent_house_edit, name='rent_house_edit'),
-    url(r'^rent_house$', user.rent_house, name='rent_house'),
+    url(r'^user/rent_houses$',
+        user.rent_house,
+        name='user_rent_house'),
 ]

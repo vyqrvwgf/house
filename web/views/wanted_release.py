@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.db.models import Max, Min
 from web.models import (
-    HousingResources
+    RentHouse
 )
 
 from imagestore.qiniu_manager import(
@@ -19,13 +19,13 @@ from imagestore.qiniu_manager import(
     url,
 )
 
-from utils import (
-    paging_objs,
-)
-
 from settings import (
     BACK_PAGE_COUNT, FILED_CHECK_MSG,
     UPLOAD_DIR,
+)
+
+from utils import (
+    paging_objs,
 )
 
 import os
@@ -36,7 +36,7 @@ import time
 @staff_member_required(login_url='/admin/login')
 def list(request):
 
-    objs = HousingResources.obs.get_queryset().order_by('-created')
+    objs = RentHouse.obs.get_queryset().order_by('-created')
 
     page = request.GET.get('page', 1)
     clients = paging_objs(
@@ -45,35 +45,37 @@ def list(request):
         page=page)
 
     context = {
-        'module': 'listings_release',
+        'module': 'wanted_release',
         'clients': clients,
+        'page': page,
     }
 
-    return render(request, 'super/release/listings/list.html', context)
+    return render(request, 'super/release/wanted/list.html', context)
 
 
 @staff_member_required(login_url='/admin/login')
-def offline(request, housingresources_id):
+def offline(request, renthouse_id):
     page = request.GET.get('page', '')
 
-    client = HousingResources.objects.filter(pk=housingresources_id).first()
+    client = RentHouse.objects.filter(pk=renthouse_id).first()
     if client:
         client.audit_status = 1
         client.save()
 
-    return HttpResponseRedirect(reverse('web:listings_release_list')
+    return HttpResponseRedirect(reverse('web:wanted_release_list')
         + '?page=' + str(page)
     )
 
 
 @staff_member_required(login_url='/admin/login')
-def online(request, housingresources_id):
+def online(request, renthouse_id):
     page = request.GET.get('page', '')
-    client = HousingResources.objects.filter(pk=housingresources_id).first()
+
+    client = RentHouse.objects.filter(pk=renthouse_id).first()
     if client:
         client.audit_status = 2
         client.save()
 
-    return HttpResponseRedirect(reverse('web:listings_release_list')
+    return HttpResponseRedirect(reverse('web:wanted_release_list')
         + '?page=' + str(page)
     )

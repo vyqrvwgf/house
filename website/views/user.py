@@ -184,6 +184,7 @@ def housing_resource_create(request):
                 for index, b in enumerate(bedroom_files):
                     if not index:
                         housing_resources.cover = b
+                        housing_resources.save()
                     HousingPicture.objects.create(
                         housing_resources=housing_resources,
                         picture=b,
@@ -334,6 +335,7 @@ def housing_resource_edit(request, housing_resources_id):
                 for index, b in enumerate(bedroom_files):
                     if not index:
                         housing_resources.cover = b
+                        housing_resources.save()
                     HousingPicture.objects.create(
                         housing_resources=housing_resources,
                         picture=b,
@@ -410,15 +412,13 @@ def housing_resource_edit(request, housing_resources_id):
 def housing_resources(request):
     c_user = request.session.get('c_user', {})
     profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
-    housing_resources = HousingResources.objects.filter(
-        is_del=False,
-        is_valid=True,
+    housing_resources = HousingResources.obs.get_queryset().filter(
         user=profile.get_user()
     ).order_by('-created')
 
     context = {
         'module': 'index',
-        'sub_module': 'housing_resource',
+        'sub_module': 'user_housing_resources',
         'client': profile,
         'clients1': housing_resources.filter(audit_status=2, status=2),
         'clients2': housing_resources.filter(audit_status=0, status=0),
@@ -430,14 +430,31 @@ def housing_resources(request):
     return render(request, 'frontend/user/05-4-member03.html', context)
 
 
+@staff_member_required(login_url='/admin/login')
+def housing_resource_offline(request, housing_resources_id):
+
+    housing_resources = HousingResources.objects.get(pk=housing_resources_id)
+    housing_resources.status = 1
+    housing_resources.save()
+
+    return HttpResponseRedirect(reverse('website:user_housing_resources'))
+
+
+@staff_member_required(login_url='/admin/login')
+def housing_resource_online(request, housing_resources_id):
+
+    housing_resources = HousingResources.objects.get(pk=housing_resources_id)
+    housing_resources.status = 2
+    housing_resources.save()
+
+    return HttpResponseRedirect(reverse('website:user_housing_resources'))
+
+
 @website_check_login
 def rent_house_create(request):
     c_user = request.session.get('c_user', {})
     profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
-    infrastructures = Infrastructure.objects.filter(
-        is_del=False,
-        is_valid=True
-    ).order_by('-order_no')
+    infrastructures = Infrastructure.obs.get_queryset().order_by('-order_no')
 
     if request.method == 'POST':
         province = request.POST.get('province', '')
@@ -454,6 +471,7 @@ def rent_house_create(request):
         accept = request.POST.get('accept', 0)
         name = request.POST.get('name', '')
         phone = request.POST.get('phone', '')
+        infrastructure_ids = request.POST.getlist('infrastructures', [])
 
         # try:
         with transaction.atomic():
@@ -476,7 +494,7 @@ def rent_house_create(request):
             rent_house.save()
 
             infrastructure_list = Infrastructure.objects.filter(
-                pk__in=infrastructures).all()
+                pk__in=infrastructure_ids)
             rent_house.infrastructure = infrastructure_list
             rent_house.save()
 
@@ -499,10 +517,7 @@ def rent_house_create(request):
 def rent_house_edit(request, rent_house_id):
     c_user = request.session.get('c_user', {})
     profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
-    infrastructures = Infrastructure.objects.filter(
-        is_del=False,
-        is_valid=True
-    ).order_by('-order_no')
+    infrastructures = Infrastructure.obs.get_queryset().order_by('-order_no')
 
     rent_house = RentHouse.objects.get(pk=rent_house_id)
     if request.method == 'POST':
@@ -520,6 +535,7 @@ def rent_house_edit(request, rent_house_id):
         accept = request.POST.get('accept')
         name = request.POST.get('name', '')
         phone = request.POST.get('phone', '')
+        infrastructure_ids = request.POST.getlist('infrastructures', [])
 
         with transaction.atomic():
             rent_house.province = province
@@ -529,17 +545,17 @@ def rent_house_edit(request, rent_house_id):
             rent_house.date = date
             rent_house.description = description
             rent_house.lease = lease
-            rent_house.male_count = male_count
-            rent_house.female_count = female_count
-            rent_house.relationship = relationship
-            rent_house.total_count = total_count
-            rent_house.accept = accept
+            # rent_house.male_count = male_count
+            # rent_house.female_count = female_count
+            # rent_house.relationship = relationship
+            # rent_house.total_count = total_count
+            # rent_house.accept = accept
             rent_house.name = name
             rent_house.phone = phone
             rent_house.save()
 
             infrastructure_list = Infrastructure.objects.filter(
-                pk__in=infrastructures).all()
+                pk__in=infrastructure_ids)
             rent_house.infrastructure = infrastructure_list
             rent_house.save()
 
@@ -549,30 +565,29 @@ def rent_house_edit(request, rent_house_id):
         "module": "index",
         'sub_module': 'rent_house_create',
         'client': profile,
+        'rent_house': rent_house,
         'infrastructures': infrastructures
     }
 
-    return render(request, 'frontend/user/05-4-member05.html')
+    return render(request, 'frontend/user/05-4-member05.html', context)
 
 
 @website_check_login
 def rent_house(request):
     c_user = request.session.get('c_user', {})
     profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
-    rent_house = RentHouse.objects.filter(
-        is_del=False,
-        is_valid=True,
+    rent_house = RentHouse.obs.get_queryset().filter(
         user=profile.get_user()
     ).order_by('-created')
 
     context = {
         'module': 'index',
-        'sub_module': 'rent_house',
+        'sub_module': 'user_rent_house',
         'client': profile,
-        'clients1': rent_house.filter(status=2),
+        'clients1': rent_house.filter(audit_status=2, status=0),
         'clients2': rent_house.filter(audit_status=0),
-        'clients3': rent_house.filter(audit_status=1),
-        'clients4': rent_house.filter(status=1),
+        'clients3': rent_house.filter(audit_status=2, status=2),
+        'clients4': rent_house.filter(audit_status=2, status=1),
     }
 
     return render(request, 'frontend/user/05-4-member06.html', context)
