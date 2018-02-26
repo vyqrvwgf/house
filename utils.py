@@ -18,6 +18,33 @@ import hashlib
 import uuid
 
 
+# 确定查询经纬度范围
+def get_area(latitude, longitude, dis, precision):
+    """
+    确定查询经纬度范围
+    :param latitude:中心纬度
+    :param longitude:中心经度
+    :param dis:半径
+    :return:(minlat, maxlat, minlng, maxlng)
+    """
+    r = 6371.137
+    dlng = 2 * math.asin(math.sin(dis / (2 * r)) / math.cos(latitude * math.pi / 180))
+    dlng = dlng * 180 / math.pi
+
+    dlat = dis / r
+    dlat = dlat * 180 / math.pi
+
+    minlat = round(latitude - dlat, precision)
+
+    maxlat = round(latitude + dlat, precision)
+
+    minlng = round(longitude - dlng, precision)
+
+    maxlng = round(longitude + dlng, precision)
+
+    return [minlat, maxlat], [minlng, maxlng]
+
+
 def get_xinxing(avg_point, num):
 
     if not avg_point:

@@ -1,0 +1,79 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+求租发布
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      求租发布
+    </h3>
+    <div class="box-tools">
+    </div>
+  </div><!-- /.box-header -->
+
+  <div class="box-body">
+<!--     <div style="margin-bottom:15px;">
+      <a href="{% url 'web:infrastructure_create' %}" class="btn btn-info">新建</a>
+    </div> -->
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+          <tbody>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>姓名</th>
+              <th>手机</th>
+              <th>租赁方式</th>
+              <th>基础设施</th>
+              <th>求租地段</th>
+              <th>租金</th>
+              <th>最迟入住时间</th>
+              <th>说明</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+            {% for c in clients %}
+              <tr>
+                <td style="vertical-align: middle;">{{ c.id }}</td>
+                <td style="vertical-align: middle;">{{ c.name }}</td>
+                <td style="vertical-align: middle;">{{ c.phone }}</td>
+                <td style="vertical-align: middle;">{{ c.get_lease_display }}</td>
+                <td style="vertical-align: middle;">
+                  {% for i in c.infrastructure.all %}
+                    {{ i.name }},
+                  {% endfor %}
+                </td>
+                <td style="vertical-align: middle;">
+                  {{ c.province }}{{ c.city }}{% if c.area == 'wc' %}武昌区{% elif c.area == 'hk' %}汉口区{% elif c.area == 'hs' %}洪山区{% elif c.area == 'gg' %}光谷区{% elif c.area == 'hy' %}汉阳区{% endif %}
+                </td>
+                <td style="vertical-align: middle;">{{ c.rent }}</td>
+                <td style="vertical-align: middle;">{{ c.date }}</td>
+                <td style="vertical-align: middle;">{{ c.description }}</td>
+                <td style="vertical-align: middle;">{{ c.get_status_display }}</td>
+                <td style="vertical-align: middle;">
+                {% if c.status != 2 %}
+                  <a class="btn-xs btn-success" href="{% url 'web:wanted_online' c.id %}?page={{page}}">上线</a>
+                {% else %}
+                  <a class="btn-xs btn-danger" href="{% url 'web:wanted_offline' c.id %}?page={{page}}">下线</a>
+                {% endif %}
+                  <a class="btn-xs btn-danger" href="{% url 'web:wanted_delete' c.id %}" onclick="return confirm('确认删除吗?')">
+                      删除
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% with clients as paging_objs %}
+      {% include 'super/paging.html' %}
+    {% endwith %}
+
+  </div>
+</div>
+{% endblock %}

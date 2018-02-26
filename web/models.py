@@ -485,6 +485,11 @@ class RentHouse(BaseModel):
         default=0,
         verbose_name='审核状态')
 
+    @property
+    def get_profile(self):
+        profile = Profile.obs.get_queryset().filter(user=self.user).first()
+        return profile
+
 
 class HousingResources(BaseModel):
 

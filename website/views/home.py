@@ -15,6 +15,7 @@ from web.models import(
     HousingResources,
     FeedBack,
     HousingEvaluation,
+    RentHouse
 )
 
 from imagestore.qiniu_manager import (
@@ -25,7 +26,7 @@ from imagestore.qiniu_manager import (
 
 from utils import(
     send_v_code, check_v_code, md5_create,
-    jwt_token_gen, jwt_token_decode, get_xinxing
+    jwt_token_gen, jwt_token_decode, get_xinxing, get_area
 )
 
 from settings import (
@@ -152,11 +153,11 @@ def housing_resources_map_list(request):
 
 def rent_house_list(request):
 
-    housingresources_list = HousingResources.obs.get_queryset()
+    rent_houses = RentHouse.obs.get_queryset().filter(status=2, audit_status=2)
 
     context = {
         'module': 'rent_house',
-        'housingresources_list': housingresources_list,
+        'rent_houses': rent_houses,
     }
 
     return render(request, 'frontend/03-findToRent.html', context)
@@ -183,12 +184,20 @@ def housing_resources(request, housing_resources_id):
     tongxiaoquhousing = HousingResources.obs.get_queryset().filter(
         community=housing_resources.community)
 
+    # 附近小区
+    lat_scope, lng_scope = get_area(housing_resources.lat, housing_resources.lng, 10, 3)
+    fujinxiaoqufangyuan = HousingResources.obs.get_queryset().filter(
+        lat__in=lat_scope,
+        lng__in=lng_scope,
+    )
+
     context = {
         'module': 'housing_resources',
         'qq_map_api_url': QQ_MAP_API_URL,
         'housing_resources': housing_resources,
         'housing_evaluations': housing_evaluations,
         'tongxiaoquhousing': tongxiaoquhousing,
+        'fujinxiaoqufangyuan': fujinxiaoqufangyuan,
         'point_str': point_str,
     }
 

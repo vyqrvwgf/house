@@ -153,7 +153,7 @@
 
                 {% if 'wanted' in request.session.menu_str %}
                   <li {% if module == 'wanted' %}class="active" {% endif %}>
-                    <a href=""><i class="fa fa-circle-o"></i>求租列表</a>
+                    <a href="{% url 'web:wanted_list' %}"><i class="fa fa-circle-o"></i>求租列表</a>
                   </li>
                 {% endif %}
               </ul>
@@ -171,7 +171,7 @@
                 {% endif %}
                 {% if 'wanted_release' in request.session.menu_str %}
                 <li {% if module == 'wanted_release' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>求租发布</a>
+                  <a href="{% url 'web:wanted_release_list' %}"><i class="fa fa-circle-o"></i>求租发布</a>
                 </li>
                 {% endif %}
                 {% if 'listings_release' in request.session.menu_str %}
@@ -185,7 +185,9 @@
 
             {% if 'information' in request.session.menu_str or 'market_feedback' in request.session.menu_str or 'complaints' in request.session.menu_str %}
             <li class="treeview {% if module == 'information' or module == 'market_feedback' %}active{% endif %}">
-              <a href=""><i class="fa fa-home"></i><span>信息中心</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href=""><i class="fa fa-home"></i><span>信息中心</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
               <ul class="treeview-menu">
                 {% if 'market_feedback' in request.session.menu_str %}
                   <li {% if module == 'market_feedback' %}class="active" {% endif %}>

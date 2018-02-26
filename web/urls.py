@@ -14,7 +14,9 @@ from web.views import (
     user,
     flush_view,
     listings,
-    listings_release
+    wanted,
+    listings_release,
+    wanted_release
 )
 
 # 管理后台
@@ -124,6 +126,25 @@ urlpatterns = [
         listings_release.online, name='listings_release_online'),
     url(r'^listings_release/(?P<housingresources_id>\d+)/offline/$',
         listings_release.offline, name='listings_release_offline'),
+
+
+    # 求租列表
+    url(r'^wanted/list/$', wanted.list, name='wanted_list'),
+    url(r'^wanted/(?P<renthouse_id>\d+)/online$',
+        wanted.online, name='wanted_online'),
+    url(r'^wanted/(?P<renthouse_id>\d+)/offline$',
+        wanted.offline, name='wanted_offline'),
+    url(r'^wanted/(?P<renthouse_id>\d+)/delete$',
+        wanted.delete, name='wanted_delete'),
+
+    # 求租发布审核
+    url(r'^wanted_release/list/$',
+        wanted_release.list,
+        name='wanted_release_list'),
+    url(r'^wanted_release/(?P<renthouse_id>\d+)/online/$',
+        wanted_release.online, name='wanted_release_online'),
+    url(r'^wanted_release/(?P<renthouse_id>\d+)/offline/$',
+        wanted_release.offline, name='wanted_release_offline'),
 
     # 商家管理员
     url(r'^venture_manage/list$',
