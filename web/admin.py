@@ -7,8 +7,9 @@ from web.models import (
     FeedBack, Words, JointVenture, Permissions,
     JointVentureAccount, Setting, Withdrawal,
     Infrastructure, HousingResources, HousingPicture,
-    Bedroom, HousingResourcesOrder,
-    HousingResourcesComment
+    Bedroom, HousingResourcesOrder, HousingResourcesComment,
+    HouseConfig, HousingEvaluation, HousingEvaluationImg,
+    RentHouse
 )
 
 admin.site.register(Profile)
@@ -28,3 +29,7 @@ admin.site.register(HousingPicture)
 admin.site.register(Bedroom)
 admin.site.register(HousingResourcesOrder)
 admin.site.register(HousingResourcesComment)
+admin.site.register(HouseConfig)
+admin.site.register(HousingEvaluation)
+admin.site.register(HousingEvaluationImg)
+admin.site.register(RentHouse)

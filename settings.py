@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'guardian',
     'web',
     'website',
 ]
@@ -66,6 +67,12 @@ DATABASES = {
         'OPTIONS': {'charset': 'utf8mb4'},
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'web.auth_backends.mobile.MobileBackend',
+)
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -164,6 +171,10 @@ BUCKET_NAME = 'yueju'
 # ping++
 API_KEY = 'sk_live_DKyPiDvnn1qTeDyzPK98W1e5'
 APP_ID = 'app_SOGGKKPaLafDq1aH'
+
+# QQ地图
+
+QQ_MAP_API_URL = 'https://map.qq.com/api/js?v=2.exp&libraries=drawing,geometry,autocomplete,convertor'
 
 
 STATIC_URL = '/static/'

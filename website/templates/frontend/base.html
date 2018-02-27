@@ -44,14 +44,14 @@
             <ul class="nav_items fl clearfix">
                 <li class="fl"><a href="/">首页</a></li>
                 <li class="fl">
-                    <a href="javascript:void(0)">房源信息</a>
+                    <a href="{% url 'website:housing_resources_list' %}">房源信息</a>
                 </li>
                 <li class="fl">
-                    <a href="javascript:void(0)">求租信息</a>
+                    <a href="{% url 'website:rent_house_list' %}">求租信息</a>
                 </li>
-                <li class="fl">
+<!--                 <li class="fl">
                     <a href="javascript:void(0)">生活馆</a>
-                </li>
+                </li> -->
                 <li class="fl">
                 {% if request.session.c_user %}
                     <a href="{% url 'website:user_index' %}">用户中心</a>

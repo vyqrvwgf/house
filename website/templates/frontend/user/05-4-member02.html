@@ -55,8 +55,8 @@
                 </svg> 房源发布
             </a>
         </li>
-        <li {% if sub_module == 'housing_resource' %} class="active" {% endif %}>
-            <a href="{% url 'website:housing_resources' %}">
+        <li {% if sub_module == 'user_housing_resources' %} class="active" {% endif %}>
+            <a href="{% url 'website:user_housing_resources' %}">
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-03fygl"></use>
                 </svg> 房源管理
@@ -69,8 +69,8 @@
                 </svg> 求租发布
             </a>
         </li>
-        <li {% if sub_module == 'rent_house' %} class="active" {% endif %}>
-            <a href="{% url 'website:rent_house' %}">
+        <li {% if sub_module == 'user_rent_house' %} class="active" {% endif %}>
+            <a href="{% url 'website:user_rent_house' %}">
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-05qzgl"></use>
                 </svg> 求租管理
@@ -102,7 +102,7 @@
     <div class="tab_container fr">
         <!--tab2 房源发布-->
         <div id="tab2" class="tab_content house-release clearfix">
-            <form method="POST" action="{% url 'website:housing_resource_create' %}" enctype="multipart/form-data" id="form1">
+            <form method="POST" action="{% if not housing_resources %}{% url 'website:housing_resource_create' %} {% else %} {% url 'website:housing_resource_edit' housing_resources.id %} {% endif %}" enctype="multipart/form-data" id="form1">
             {% csrf_token %}
             <h4>房源描述</h4><br>
                 <textarea class="house-description" name="content" id="house-description" cols="50" rows="10" placeholder="请输入房源描述">{{ housing_resources.content }}</textarea><br><br>
@@ -116,7 +116,7 @@
                 </p>
                 <p>
                     <label>房屋类型：</label>
-                    <input class="house-type" name="category" id="house-type" type="text" placeholder="例如：2室1厅   独立卫生间   精装修" value="{{ housing_resources.category }}">
+                    <input class="house-type" name="category" id="house-type" type="text" placeholder="例如：一室一厅   独立卫生间   精装修" value="{{ housing_resources.category }}">
                 </p>
                 <p>
                     <label>每月租金：</label>
@@ -133,12 +133,12 @@
                         <option value="3" {% if housing_resources.bet == 3 %}selected{% endif %}>3</option>
                     </select>
                         付 <select name="pay" id="cashRent">
-                        <option value="0.5" {% if not housing_resources.pay or housing_resources.bet == 0.5 %}selected{% endif %}>0.5</option>
-                        <option value="1" {% if housing_resources.bet == 1 %}selected{% endif %}>1</option>
-                        <option value="1.5" {% if housing_resources.bet == 1.5 %}selected{% endif %}>1.5</option>
-                        <option value="2" {% if housing_resources.bet == 2 %}selected{% endif %}>2</option>
-                        <option value="2.5" {% if housing_resources.bet == 2.5 %}selected{% endif %}>2.5</option>
-                        <option value="3" {% if housing_resources.bet == 3 %}selected{% endif %}>3</option>
+                        <option value="0.5" {% if not housing_resources or housing_resources.bet == 0.5 %}selected{% endif %}>0.5</option>
+                        <option value="1" {% if housing_resources.pay == 1 %}selected{% endif %}>1</option>
+                        <option value="1.5" {% if housing_resources.pay == 1.5 %}selected{% endif %}>1.5</option>
+                        <option value="2" {% if housing_resources.pay == 2 %}selected{% endif %}>2</option>
+                        <option value="2.5" {% if housing_resources.pay == 2.5 %}selected{% endif %}>2.5</option>
+                        <option value="3" {% if housing_resources.pay == 3 %}selected{% endif %}>3</option>
                     </select> (月份)
                 </p>
                 <p>
@@ -185,7 +185,7 @@
                         <br>
                         <label>{{ i.name }}</label>
                         <br>
-                        <input type="checkbox" name="infrastructures" value="{{ i.id }}">
+                        <input type="checkbox" name="infrastructures" value="{{ i.id }}" {% if i in housing_resources.infrastructure.all %} checked {% endif %}>
                     </li>
                 {% endfor %}
                 </ul>
@@ -226,23 +226,13 @@
                         <h5>卧室</h5>
                         <p>
                             <label>面积：</label>
-                            <input class="area" name="area{{ forloop.counter }}" type="text" value="{{ b.area }}">&nbsp m³
+                            <input class="area" name="area{{ forloop.counter }}" type="text" value="{{ b.area }}">&nbsp; m³
                         </p>
                         <p>房间配置：
-                            <label>飘窗 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="1" {% if '1' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>空调 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="2" {% if '2' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>床 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="3" {% if '3' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>书桌 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="4" {% if '4' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>衣柜 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="5" {% if '5' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>沙发 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="6" {% if '6' in b.complete %}selected{% endif %}>&nbsp&nbsp
-                            <label>独立卫生间 </label>
-                            <input type="checkbox" name="details{{ forloop.counter }}" value="7" {% if '7' in b.complete %}selected{% endif %}>
+                        {% for hc in house_configs %}
+                            <label>{{ hc.name }}</label>
+                            <input type="checkbox" name="details{{ forloop.counter }}" value="{{ hc.id }}" {% if hc in b.house_config.all %} checked {% endif %}>&nbsp;&nbsp;
+                        {% endfor %}
                         </p>
                         <p><label for=""></label></p>
                     </div>
@@ -254,14 +244,9 @@
                 {% if not housing_resources %}
                 <div class="photos" id="test-image-preview">图片预览</div>
                 {% else %}
-                <img src="{{ housing_resources.cover_url }}" width="200">
+                <img src="{{ housing_resources.house_pcover_url }}" width="200">
                 {% endif %}
                 <h4>上传照片</h4>
-<!--                 <span class="btn btn-success fileinput-button">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    <span>选择图片</span>
-                    <input id="fileupload" type="file" name="files[]" data-url="/upload_file" multiple>
-                </span> -->
                 <div id="actions" class="row">
                     <div class="col-lg-7">
                         <!-- The fileinput-button span is used to style the file input field as button -->
@@ -274,7 +259,6 @@
                 <p class="red">（默认第一张为房源封面）</p>
                 <div class="table table-striped files" id="previews">
                     <div id="template" class="file-row">
-                        <!-- This is used as the file preview template -->
                         <div>
                             <span class="preview"><img data-dz-thumbnail /></span>
                         </div>
@@ -354,7 +338,7 @@ $(document).ready(function () {
     function completeHandler(res){
         alert(res.error_msg)
         if (!res.error_code) {
-            location.href = '{% url "website:housing_resources" %}'
+            location.href = '{% url "website:user_housing_resources" %}'
         }
     }
 
@@ -365,7 +349,7 @@ $(document).ready(function () {
     $('.release-pay').on('click', function(){
         var formData = new FormData($('form')[0]);
         $.ajax({
-          url: '{% url "website:housing_resource_create" %}', //接收页面
+          url: '{% if not housing_resources %} {% url "website:housing_resource_create" %} {% else %} {% url "website:housing_resource_edit" housing_resources.id %} {% endif %}', //接收页面
           type: 'POST',
           data: formData,
           contentType: false,
@@ -401,21 +385,13 @@ $(document).ready(function () {
                                 <p><label>面积：</label>\
                                     <input class="area" name="area' + bedroom_count + '" type="text">&nbsp m³\
                                 </p>\
-                                <p>房间配置：<label>飘窗 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="1">&nbsp;&nbsp;\
-                                    <label>空调 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="2">&nbsp;&nbsp;\
-                                    <label>床 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="3">&nbsp;&nbsp;\
-                                    <label>书桌 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="4">&nbsp;&nbsp;\
-                                    <label>衣柜 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="5">&nbsp;&nbsp;\
-                                    <label>沙发 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="6">&nbsp;&nbsp;\
-                                    <label>独立卫生间 </label>\
-                                    <input type="checkbox" name="details' + bedroom_count + '" value="7">\
-                                </p><span class="close">X</span>';
+                                <p>房间配置：\
+                                    {% for hc in house_configs %}\
+                                        <label>{{ hc.name }} </label>\
+                                        <input type="checkbox" name="details' + bedroom_count + '" value="{{ hc.id }}">&nbsp;&nbsp;\
+                                    {% endfor %}\
+                                </p>\
+                                <span class="close">X</span>';
         $('.addBedroom').before(newBedroom);
         bedroom_obj.val(bedroom_count)
 

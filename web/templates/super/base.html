@@ -18,7 +18,7 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="/static/kikkik/bootstrap/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/static/admin/plugins/timepicker/bootstrap-timepicker.min.css">
     <link rel="stylesheet" href="/static/kikkik/plugins/timepicker/bootstrap-timepicker.min.css">
     <link rel="stylesheet" href="/static/kikkik/plugins/iCheck/minimal/blue.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/admin/plugins/select2/select2.min.css">
@@ -79,7 +79,8 @@
       </header>
       <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">
-
+          {% load guardian_tags %}
+          {% load perm_extra %}
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
 
@@ -152,7 +153,7 @@
 
                 {% if 'wanted' in request.session.menu_str %}
                   <li {% if module == 'wanted' %}class="active" {% endif %}>
-                    <a href=""><i class="fa fa-circle-o"></i>求租列表</a>
+                    <a href="{% url 'web:wanted_list' %}"><i class="fa fa-circle-o"></i>求租列表</a>
                   </li>
                 {% endif %}
               </ul>
@@ -170,7 +171,7 @@
                 {% endif %}
                 {% if 'wanted_release' in request.session.menu_str %}
                 <li {% if module == 'wanted_release' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>求租发布</a>
+                  <a href="{% url 'web:wanted_release_list' %}"><i class="fa fa-circle-o"></i>求租发布</a>
                 </li>
                 {% endif %}
                 {% if 'listings_release' in request.session.menu_str %}
@@ -184,7 +185,9 @@
 
             {% if 'information' in request.session.menu_str or 'market_feedback' in request.session.menu_str or 'complaints' in request.session.menu_str %}
             <li class="treeview {% if module == 'information' or module == 'market_feedback' %}active{% endif %}">
-              <a href=""><i class="fa fa-home"></i><span>信息中心</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href=""><i class="fa fa-home"></i><span>信息中心</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
               <ul class="treeview-menu">
                 {% if 'market_feedback' in request.session.menu_str %}
                   <li {% if module == 'market_feedback' %}class="active" {% endif %}>
@@ -307,14 +310,12 @@
 
     <script src="/static/kikkik/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="/static/kikkik/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/static/js/moment-with-locales.min.js"></script>
+    <!-- <script src="/static/js/moment-with-locales.min.js"></script> -->
     <script src="/static/ckeditor/ckeditor.js"></script>
     <script src="/static/ckeditor/config.js"></script>
-    <script src="/static/kikkik/plugins/timepicker/bootstrap-timepicker.min.js"></script>
-    <script src="/static/kikkik/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="/static/admin/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="/static/admin/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="/static/kikkik/plugins/iCheck/icheck.min.js"></script>
-    <script src="/static/kikkik/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/static/kikkik/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="/static/admin/plugins/select2/select2.full.min.js"></script>
     <script src="/static/kikkik/dist/js/app.min.js"></script>
     <script type="text/javascript">
@@ -324,6 +325,12 @@
     });
       function skip_page(){
         var page_number = $('.skip_page_number').val();
+        var search_name = $('input[name="search_name"]').val();
+        var search_status = $('select[name="search_status"]').val();
+        var search_lease = $('select[name="search_lease"]').val();
+        var search_start = $('input[name="search_start"]').val();
+        var search_end = $('input[name="search_end"]').val();
+
         var url = window.location.href;
         if (url.indexOf('page=') == -1){
           if (url.indexOf('?') == -1){
@@ -332,7 +339,22 @@
             result = url + '&page=' + page_number;
           }
         }else{
-          result = url.replace(/&?page=[^&]*/g, '&page='+page_number)
+          result = url.replace(/&?page=[^&]*/g, '&page='+ page_number)
+        }
+        if (search_name && result.indexOf('search_name') < 0) {
+            result += '&search_name=' + search_name
+        }
+        if (search_start && result.indexOf('search_start') < 0) {
+            result += '&search_start=' + search_start
+        }
+        if (search_end && result.indexOf('search_end') < 0) {
+            result += '&search_end=' + search_end
+        }
+        if (search_status && result.indexOf('search_status') < 0) {
+            result += '&search_status=' + search_status
+        }
+        if (search_lease && result.indexOf('search_lease') < 0) {
+            result += '&search_lease=' + search_lease
         }
         window.location.href=result;
       }

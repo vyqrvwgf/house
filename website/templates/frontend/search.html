@@ -1,0 +1,134 @@
+
+{% extends 'frontend/base.html' %}
+
+{% block pageheader %}
+房源列表
+{% endblock %}
+
+    {% block style %}
+    <link rel="stylesheet" href="/static/website/css/index.css">
+    <link rel="stylesheet" href="/static/website/css/swiper.min.css">
+    {% endblock %}
+
+{% block container %}
+    <!--banner begin-->
+    <div class="banner wrap">
+        <!-- Swiper banner图片部分-->
+        <div class="swiper-container clearfix">
+            <div class="swiper-wrapper">
+            {% for a in advertisings %}
+                <div class="swiper-slide">
+                    <a href="javascript:void(0)">
+                        <img src="{{a.img_url}}" alt="">
+                    </a>
+                </div>
+            {% endfor %}
+            </div>
+            <!-- Add Pagination -->
+            {% if advertising_count > 1 %}
+                <div class="swiper-pagination"></div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            {% endif %}
+        </div>
+
+        <!--搜索-->
+        <div class="b_search banxin">
+            <div class="s_keyword">
+                <input type="search" class="keyword" placeholder="请输入您想要的房源地址或者小区" value="{{ keyword }}">
+                <button class="s_submit white sousuo">搜索</button>
+            </div>
+            <!--其他找房暂时隐藏-->
+            <!--<ul class="s_other">-->
+                <!--<li class="map white">地图找房</li>-->
+                <!--<li class="mobileP white">手机找房</li>-->
+                <!--<li class="QR white">公众号找房</li>-->
+            <!--</ul>-->
+            <div class="hot hotPlate white">
+                <h4>热门板块:</h4>
+                <ul class="autoList">
+                    <li><a href="javascript:void(0)">汉阳</a></li>
+                    <li><a href="javascript:void(0)">光谷雅丽</a></li>
+                    <li><a href="javascript:void(0)">汉口</a></li>
+                    <li><a href="javascript:void(0)">光谷</a></li>
+                    <li><a href="javascript:void(0)">汉口</a></li>
+                    <li><a href="javascript:void(0)">武昌</a></li>
+                    <li><a href="javascript:void(0)">汉口</a></li>
+                    <li><a href="javascript:void(0)">大兴</a></li>
+                    <li><a href="javascript:void(0)">汉口</a></li>
+                </ul>
+                <a href="#" class="more fr">MORE <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-open"></use>
+                </svg></a>
+            </div>
+            <div class="hot hotBlock white">
+                <h4>热门小区:</h4>
+                <ul class="autoList">
+                    <li><a href="javascript:void(0)">汉阳</a></li>
+                    <li><a href="javascript:void(0)">光谷雅丽</a></li>
+                    <li><a href="javascript:void(0)">汉口</a></li>
+                    <li><a href="javascript:void(0)">光谷</a></li>
+                    <li><a href="javascript:void(0)">汉口</a></li>
+                    <li><a href="javascript:void(0)">武昌</a></li>
+                    <li><a href="javascript:void(0)">汉口</a></li>
+                    <li><a href="javascript:void(0)">大兴</a></li>
+                    <li><a href="javascript:void(0)">汉口</a></li>
+                </ul>
+                <a href="#" class="more fr">MORE <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-open"></use>
+                </svg></a>
+            </div>
+        </div>
+    </div>
+    <!--banner end-->
+
+    <!--房源推荐 begin-->
+    <div class="recommend wrap">
+        <div class="houseMess banxin">
+            <div class="tab-content newest active" id="tab1">
+                <div class="tabpanel">
+                {% for h in housingresources_list %}
+                    <a href="{% url 'website:housing_resources' h.id %}" class="trig">
+                        <img src="{{ h.cover_url }}" alt="">
+                        <div class="trig_txt">
+                            <div class="trig-price orange">{{ h.month_rent }} <span>元/月</span></div>
+                            <div class="trig-addr">
+                            {{ h.area }}-{{ h.community }}-{{ h.category }}-朝{{  h.get_direction_display }}-{{ h.sitting_room_area }}㎡
+                            </div>
+                            <div class="trig-describe">{{ h.content }}</div>
+                        </div>
+                    </a>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--房源信息 end-->
+
+{% endblock %}
+
+{% block script %}
+<script src="/static/website/js/swiper.min.js"></script>
+<script src="/static/website/js/index.js"></script>
+<!-- Initialize Swiper -->
+<script>
+//    banner autoplay
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        paginationClickable: true,
+        spaceBetween: 1000,
+        centeredSlides: true,
+        autoplay: 4000,
+        autoplayDisableOnInteraction: false,
+        effect: 'fade',
+        loop: true
+    });
+    $('.sousuo').on('click',function(){
+        var keyword = $('.keyword').val()
+        window.location.href = '{% url "website:home_search" %}?keyword=' + keyword
+    })
+</script>
+{% endblock %}

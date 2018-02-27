@@ -36,8 +36,6 @@ $(document).ready(function() {
         $("ul.service_tabs li").removeClass("active");
         $("ul.service_tabs li:nth-child(1)").addClass("active").show(); //Activate first tab
 
-
-
         //【选择位置】 >> 【选择区域】
         //On Click Event
         $("ul.service_tabs li").click(function () {

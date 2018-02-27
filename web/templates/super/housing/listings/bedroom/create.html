@@ -1,0 +1,95 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+  {% if client.id %}
+  编辑房源卧室
+  {% else %}
+  新建房源卧室
+  {% endif %}
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-danger">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      {% if client.id %}
+      编辑房源卧室
+      {% else %}
+      新建房源卧室
+      {% endif %}
+    </h3>
+  </div>
+  <!-- /.box-header -->
+  <!-- form start -->
+  <form class="form-horizontal" role="form" method="POST"
+      {% if not client.id %}
+      action="{% url 'web:listings_bedroom_create' housing_resources.id %}"
+      {% else %}
+      action="{% url 'web:listings_bedroom_edit' client.id %}?page={{ page }}"
+      {% endif %}
+      enctype="multipart/form-data">
+      {% csrf_token %}
+    <div class="box-body">
+      <div class="col-md-6">
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">卧室简介</label>
+          <div class="col-md-10">
+            <textarea class="form-control" name="intro">{{ client.intro }}</textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label">图片</label>
+          <div class="col-md-10">
+            <input type="file" class="form-control" name="cover" value="{{ client.cover }}"/>
+            {% if client.cover %}
+              <p style="margin-top: 10px;">
+                <img src="{{ client.cover_url}} " width="150"/>
+              </p>
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label">面积</label>
+          <div class="col-md-10">
+            <input type="text" class="form-control" name="area" value="{{ client.area }}" placeholder=""  />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label">状态</label>
+          <div class="col-md-10">
+              <label>未出租 </label>
+              <input type="radio" name="status" value="0" {% if not client.status %} checked {% endif %}>&nbsp;&nbsp;
+              <label>已出租 </label>
+              <input type="radio" name="status" value="1" {% if client.status %} checked {% endif %}>&nbsp;&nbsp;
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label">房间配置</label>
+          <div class="col-md-10">
+            <select class="form-control select2" multiple name="house_config" style="width: 100%">
+            {% for h in house_configs %}
+                <option value="{{ h.id }}" {% if h in client.house_config.all %} selected {% endif %}>
+                  {{ h.name }}
+                </option>
+            {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="box-footer">
+      <button type="submit" class="btn btn-primary pull-right">
+        {% if client.id %}
+          更新
+        {% else %}
+          创建
+        {% endif %}
+      </button>
+    </div>
+  </form>
+
+</div>
+{% endblock %}
+
+
