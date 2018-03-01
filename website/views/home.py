@@ -60,7 +60,7 @@ def index(request):
     fuwu_number = profile.id if profile else total_profile + 1
 
     advertising_list = Advertising.obs.get_queryset().order_by('-order_no')
-    housingresources_list = HousingResources.obs.get_queryset()
+    housingresources_list = HousingResources.obs.get_queryset().filter(audit_status=2, status=2)
     housingresources_list1 = housingresources_list.order_by('-updated')[:8]
     housingresources_list2 = housingresources_list.order_by('-click_count')[:8]
     housingresources_list3 = housingresources_list.filter(hot=1)[:8]
@@ -83,7 +83,7 @@ def search(request):
 
     advertising_list = Advertising.obs.get_queryset().order_by('-order_no')
     housingresources_list = HousingResources.obs.get_queryset().filter(
-        audit_status=2).order_by('-updated')
+        audit_status=2, status=2).order_by('-updated')
 
     if keyword:
         housingresources_list = housingresources_list.filter(
@@ -128,7 +128,7 @@ def feedback_add(request):
 
 def housing_resources_list(request):
 
-    housingresources_list = HousingResources.obs.get_queryset()
+    housingresources_list = HousingResources.obs.get_queryset().filter(audit_status=2, status=2)
 
     context = {
         'module': 'housing_resources',
@@ -140,7 +140,7 @@ def housing_resources_list(request):
 
 def housing_resources_map_list(request):
 
-    housingresources_list = HousingResources.obs.get_queryset()
+    housingresources_list = HousingResources.obs.get_queryset().filter(audit_status=2, status=2)
 
     context = {
         'module': 'housing_resources',
@@ -182,13 +182,18 @@ def housing_resources(request, housing_resources_id):
 
     # 同小区房源
     tongxiaoquhousing = HousingResources.obs.get_queryset().filter(
-        community=housing_resources.community)
+        community=housing_resources.community,
+        audit_status=2,
+        status=2
+    )
 
     # 附近小区
     lat_scope, lng_scope = get_area(housing_resources.lat, housing_resources.lng, 10, 3)
     fujinxiaoqufangyuan = HousingResources.obs.get_queryset().filter(
         lat__in=lat_scope,
         lng__in=lng_scope,
+        audit_status=2,
+        status=2
     )
 
     context = {
