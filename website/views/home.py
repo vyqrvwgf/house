@@ -25,8 +25,15 @@ from imagestore.qiniu_manager import (
 )
 
 from utils import(
-    send_v_code, check_v_code, md5_create,
-    jwt_token_gen, jwt_token_decode, get_xinxing, get_area
+    send_v_code,
+    send_v_code1,
+    check_v_code,
+    md5_create,
+    verify_mobile,
+    jwt_token_gen,
+    jwt_token_decode,
+    get_xinxing,
+    get_area,
 )
 
 from settings import (
@@ -365,3 +372,48 @@ def upload_file(request):
             'key': key
         }
     })
+
+
+@csrf_exempt
+def send_vcode(request):
+
+    mobile = request.POST.get('mobile', '')
+    if not mobile:
+        return JsonResponse({'error_code': 3, 'error_msg': '手机号为空'})
+
+    if not verify_mobile(mobile):
+        return JsonResponse({'error_code': 2, 'error_msg': '手机号格式错误'})
+
+    v_code = str(random.randint(1000, 9999))
+
+    data = send_v_code(mobile, v_code, 2)
+    if data:
+        redis_conn.set('v_code_json', simplejson.dumps(
+            {data['mobile']: data['v_code'], 'send_time': data['send_time']}, ensure_ascii=False)
+        )
+        return JsonResponse({'error_code': 0, 'error_msg': '验证码发送成功'})
+    else:
+        return JsonResponse({'error_code': 1, 'error_msg': '发送失败'})
+
+
+@csrf_exempt
+def send_vcode1(request):
+
+    mobile = request.POST.get('mobile', '')
+    if not mobile:
+        return JsonResponse({'error_code': 3, 'error_msg': '手机号为空'})
+
+    if not verify_mobile(mobile):
+        return JsonResponse({'error_code': 2, 'error_msg': '手机号格式错误'})
+
+    v_code = str(random.randint(1000, 9999))
+
+    data = send_v_code(mobile, v_code, 2)
+    if data:
+        redis_conn.set('v_code_json', simplejson.dumps(
+            {data['mobile']: data['v_code'], 'send_time': data['send_time']}, ensure_ascii=False)
+        )
+        return JsonResponse({'error_code': 0, 'error_msg': '验证码发送成功'})
+    else:
+        return JsonResponse({'error_code': 1, 'error_msg': '发送失败'})
+
