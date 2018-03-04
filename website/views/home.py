@@ -26,7 +26,6 @@ from imagestore.qiniu_manager import (
 
 from utils import(
     send_v_code,
-    send_v_code1,
     check_v_code,
     md5_create,
     verify_mobile,
