@@ -1,7 +1,15 @@
 # coding: utf-8
 
 from rest_framework_jwt.settings import api_settings
-from settings import SMS_ACCOUNT_SID, SMS_ACCOUNT_TOKEN, SMS_SUB_ACCOUNT_SID, SMS_TEMPLATE_CODE_ID, SMS_SUB_ACCOUNT_TOKEN, SMS_APP_ID
+from settings import (
+    SMS_ACCOUNT_SID,
+    SMS_ACCOUNT_TOKEN,
+    SMS_SUB_ACCOUNT_SID,
+    SMS_TEMPLATE_CODE_ID,
+    SMS_TEMPLATE_CODE_RESET,
+    SMS_SUB_ACCOUNT_TOKEN,
+    SMS_APP_ID
+)
 from sms import SMSManager
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -142,6 +150,30 @@ def send_v_code(mobile, v_code, expired_minutes):
             v_code,
             expired_minutes=expired_minutes,
             template_id=SMS_TEMPLATE_CODE_ID)
+        send_status = True
+    except Exception as e:
+        send_status = False
+    data = {}
+    if send_status:
+        data['mobile'] = mobile
+        data['v_code'] = v_code
+        data['send_time'] = int(time.time())
+    return data
+
+
+def send_v_code1(mobile, v_code, expired_minutes):
+    sms_manager = SMSManager(
+        SMS_ACCOUNT_SID,
+        SMS_ACCOUNT_TOKEN,
+        SMS_SUB_ACCOUNT_SID,
+        SMS_SUB_ACCOUNT_TOKEN,
+        SMS_APP_ID)
+    try:
+        result = sms_manager.send_auth_code(
+            mobile,
+            v_code,
+            expired_minutes=expired_minutes,
+            template_id=SMS_TEMPLATE_CODE_RESET)
         send_status = True
     except Exception as e:
         send_status = False

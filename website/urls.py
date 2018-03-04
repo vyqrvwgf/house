@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^login$', home.login, name='home_login'),
     url(r'^feedback/add$', home.feedback_add, name='home_feedback_add'),
     url(r'^upload_file$', home.upload_file, name='upload_file'),
+    url(r'^send/vcode$', home.send_vcode, name='send_vcode'),
+    url(r'^send/vcode1$', home.send_vcode1, name='send_vcode1'),
 
     # 房源
     url(r'^housing_resources$',
