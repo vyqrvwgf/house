@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^user/update_profile$', user.update_profile, name='update_profile'),
     url(r'^user/update_avatar$', user.update_avatar, name='update_avatar'),
     url(r'^login_out$', user.login_out, name='login_out'),
+    url(r'^reset/pwd$', user.reset_pwd, name='reset_pwd'),
 
     # 房源发布
     url(r'^housing_resources/create$',
