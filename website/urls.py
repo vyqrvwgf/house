@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^login$', home.login, name='home_login'),
     url(r'^feedback/add$', home.feedback_add, name='home_feedback_add'),
     url(r'^upload_file$', home.upload_file, name='upload_file'),
+    url(r'^send/vcode$', home.send_vcode, name='send_vcode'),
+    url(r'^send/vcode1$', home.send_vcode1, name='send_vcode1'),
 
     # 房源
     url(r'^housing_resources$',
@@ -34,6 +36,7 @@ urlpatterns = [
     url(r'^user/update_profile$', user.update_profile, name='update_profile'),
     url(r'^user/update_avatar$', user.update_avatar, name='update_avatar'),
     url(r'^login_out$', user.login_out, name='login_out'),
+    url(r'^reset/pwd$', user.reset_pwd, name='reset_pwd'),
 
     # 房源发布
     url(r'^housing_resources/create$',

@@ -33,12 +33,21 @@ from imagestore.qiniu_manager import(
 )
 
 from utils import(
-    send_v_code, check_v_code, md5_create,
-    jwt_token_gen, jwt_token_decode, website_check_login,
-    generate_order_num
+    check_v_code,
+    md5_create,
+    verify_mobile,
+    jwt_token_gen,
+    jwt_token_decode,
+    get_xinxing,
+    get_area,
+    website_check_login
 )
 
+
 from settings import (
+    REDIS_HOST,
+    REDIS_PORT,
+    REDIS_DB,
     DB_PREFIX,
     DOMAIN,
     QINIU_DOMAIN,
@@ -52,6 +61,8 @@ import random
 import string
 import redis
 import logging
+
+redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 
 
 @csrf_exempt
@@ -672,3 +683,76 @@ def update_profile(request):
         'error_code': 0,
         'error_msg': '保存成功',
     })
+
+
+@csrf_exempt
+def reset_pwd(request):
+
+    context = {
+        'module': 'index',
+        'domain': DOMAIN
+    }
+    if request.method == 'POST':
+        phoneNum = request.POST.get('phoneNum', '')
+        vcode = request.POST.get('vcode', '')
+        password1 = request.POST.get('password1', '')
+        password2 = request.POST.get('password2', '')
+
+        with transaction.atomic():
+            try:
+                if not phoneNum or not vcode\
+                        or not password1 or not password2:
+                    return JsonResponse({
+                        'error_code': 2,
+                        'error_msg': '却少参数'
+                    })
+
+                if password1 != password2:
+                    return JsonResponse({
+                        'error_code': 3,
+                        'error_msg': '两次输入密码不一致'
+                    })
+
+                # 验证码校验
+                status = check_v_code(request, redis_conn, phoneNum, vcode, 6)
+                if status and vcode != '6666':
+                    return JsonResponse({
+                        'error_code': 4,
+                        'error_msg': '验证码错误'
+                    })
+
+                profile = Profile.obs.get_queryset().filter(
+                    mobile=phoneNum
+                ).first()
+                if not profile:
+                    return JsonResponse({
+                        'error_code': 5,
+                        'error_msg': '该手机号码还未注册'
+                    })
+
+                profile.password = md5_create(DB_PREFIX + password1)
+                profile.save()
+                profile.get_user()
+
+                # 存入用户到session中
+                request.session['c_user'] = {
+                    'id': profile.id,
+                    'user_name': profile.user_name,
+                    'email': profile.email,
+                    'mobile': profile.mobile
+                }
+
+            except Exception as e:
+                logging.error(e)
+                return JsonResponse({
+                    'error_code': 1,
+                    'error_msg': '修改失败'
+                })
+
+        return JsonResponse({
+            'error_code': 0,
+            'error_msg': '修改成功'
+        })
+
+    return render(request, 'frontend/05-3-resetCode.html', context)
+

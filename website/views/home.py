@@ -25,8 +25,14 @@ from imagestore.qiniu_manager import (
 )
 
 from utils import(
-    send_v_code, check_v_code, md5_create,
-    jwt_token_gen, jwt_token_decode, get_xinxing, get_area
+    send_v_code,
+    check_v_code,
+    md5_create,
+    verify_mobile,
+    jwt_token_gen,
+    jwt_token_decode,
+    get_xinxing,
+    get_area,
 )
 
 from settings import (
@@ -60,7 +66,7 @@ def index(request):
     fuwu_number = profile.id if profile else total_profile + 1
 
     advertising_list = Advertising.obs.get_queryset().order_by('-order_no')
-    housingresources_list = HousingResources.obs.get_queryset()
+    housingresources_list = HousingResources.obs.get_queryset().filter(audit_status=2, status=2)
     housingresources_list1 = housingresources_list.order_by('-updated')[:8]
     housingresources_list2 = housingresources_list.order_by('-click_count')[:8]
     housingresources_list3 = housingresources_list.filter(hot=1)[:8]
@@ -83,7 +89,7 @@ def search(request):
 
     advertising_list = Advertising.obs.get_queryset().order_by('-order_no')
     housingresources_list = HousingResources.obs.get_queryset().filter(
-        audit_status=2).order_by('-updated')
+        audit_status=2, status=2).order_by('-updated')
 
     if keyword:
         housingresources_list = housingresources_list.filter(
@@ -128,7 +134,7 @@ def feedback_add(request):
 
 def housing_resources_list(request):
 
-    housingresources_list = HousingResources.obs.get_queryset()
+    housingresources_list = HousingResources.obs.get_queryset().filter(audit_status=2, status=2)
 
     context = {
         'module': 'housing_resources',
@@ -140,7 +146,7 @@ def housing_resources_list(request):
 
 def housing_resources_map_list(request):
 
-    housingresources_list = HousingResources.obs.get_queryset()
+    housingresources_list = HousingResources.obs.get_queryset().filter(audit_status=2, status=2)
 
     context = {
         'module': 'housing_resources',
@@ -182,13 +188,18 @@ def housing_resources(request, housing_resources_id):
 
     # 同小区房源
     tongxiaoquhousing = HousingResources.obs.get_queryset().filter(
-        community=housing_resources.community)
+        community=housing_resources.community,
+        audit_status=2,
+        status=2
+    )
 
     # 附近小区
     lat_scope, lng_scope = get_area(housing_resources.lat, housing_resources.lng, 10, 3)
     fujinxiaoqufangyuan = HousingResources.obs.get_queryset().filter(
         lat__in=lat_scope,
         lng__in=lng_scope,
+        audit_status=2,
+        status=2
     )
 
     context = {
@@ -360,3 +371,48 @@ def upload_file(request):
             'key': key
         }
     })
+
+
+@csrf_exempt
+def send_vcode(request):
+
+    mobile = request.POST.get('mobile', '')
+    if not mobile:
+        return JsonResponse({'error_code': 3, 'error_msg': '手机号为空'})
+
+    if not verify_mobile(mobile):
+        return JsonResponse({'error_code': 2, 'error_msg': '手机号格式错误'})
+
+    v_code = str(random.randint(1000, 9999))
+
+    data = send_v_code(mobile, v_code, 2)
+    if data:
+        redis_conn.set('v_code_json', simplejson.dumps(
+            {data['mobile']: data['v_code'], 'send_time': data['send_time']}, ensure_ascii=False)
+        )
+        return JsonResponse({'error_code': 0, 'error_msg': '验证码发送成功'})
+    else:
+        return JsonResponse({'error_code': 1, 'error_msg': '发送失败'})
+
+
+@csrf_exempt
+def send_vcode1(request):
+
+    mobile = request.POST.get('mobile', '')
+    if not mobile:
+        return JsonResponse({'error_code': 3, 'error_msg': '手机号为空'})
+
+    if not verify_mobile(mobile):
+        return JsonResponse({'error_code': 2, 'error_msg': '手机号格式错误'})
+
+    v_code = str(random.randint(1000, 9999))
+
+    data = send_v_code(mobile, v_code, 2)
+    if data:
+        redis_conn.set('v_code_json', simplejson.dumps(
+            {data['mobile']: data['v_code'], 'send_time': data['send_time']}, ensure_ascii=False)
+        )
+        return JsonResponse({'error_code': 0, 'error_msg': '验证码发送成功'})
+    else:
+        return JsonResponse({'error_code': 1, 'error_msg': '发送失败'})
+

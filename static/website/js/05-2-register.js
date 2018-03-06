@@ -6,7 +6,7 @@ $(document).ready(function () {
     //验证手机合法性
     $(".phoneNum").blur(function () {
         //手机合法性验证
-        var reg1 = /^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])\d{8}$/;
+        var reg1 = /^1[0-9]{10}$/;
         var phoneNum = $(this).val();
         console.log(phoneNum);
         if(reg1.test(phoneNum)){
@@ -25,17 +25,17 @@ $(document).ready(function () {
         $(".phone-wrong").html("").removeClass("wrong");
     });
 
-    //验证码 正确验证
-    $(".verification-code input").blur(function () {
-        // console.log($(this));
-        var verCode = 1234;
-        if(verCode === $(this).val()){
-            $(this).css("color","green");
-        }else{
-            $(this).css("color","red");
-            $(".vCodeWrong").html("验证码错误").addClass("wrong");
-        }
-    });
+    // //验证码 正确验证
+    // $(".verification-code input").blur(function () {
+    //     // console.log($(this));
+    //     var verCode = 1234;
+    //     if(verCode === $(this).val()){
+    //         $(this).css("color","green");
+    //     }else{
+    //         $(this).css("color","red");
+    //         $(".vCodeWrong").html("验证码错误").addClass("wrong");
+    //     }
+    // });
     $(".verification-code input").focus(function () {
         $(this).css("color","black");
         $(".vCodeWrong").html("").removeClass("wrong");

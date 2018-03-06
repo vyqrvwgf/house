@@ -80,7 +80,7 @@ $(document).ready(function () {
 
 
         //手机合法性验证
-        var reg1 = /^(13[0-9]|15[0-9]|18[0-9])\d{8}$/;
+        var reg1 = /^1[0-9]{10}$/;
         console.log(phoneNum);
         if(reg1.test(phoneNum)){
             //3、符合个给一个样式，不符合给另一个样式
@@ -151,8 +151,22 @@ $(document).ready(function () {
         if(!reg1.test(phoneNum)){
             alert('请输入正确的手机号')
         }else{
-            alert('验证码发送成功')
-
+            $.ajax({
+                url: '{% url "website:send_vcode" %}',
+                async: false,
+                type: 'post',
+                data: {
+                    mobile: phoneNum,
+                },
+                success: function(res, status){
+                    if(!res.error_code){
+                        alert(res.error_msg)
+                    }
+                },
+                error: function(res, status){
+                    alert('发送失败')
+                }
+            })
         }
     })
     $(".phoneNum").focus(function () {
