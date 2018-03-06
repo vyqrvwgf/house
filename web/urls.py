@@ -136,6 +136,10 @@ urlpatterns = [
         wanted.offline, name='wanted_offline'),
     url(r'^wanted/(?P<renthouse_id>\d+)/delete$',
         wanted.delete, name='wanted_delete'),
+    # 求租预约
+    url(r'^wanted/meet/list/$', wanted.meet_list, name='wanted_meet_list'),
+    url(r'^wanted/meet/(?P<renthouse_meet_id>\d+)/delete$', wanted.meet_delete, name='wanted_meet_delete'),
+    url(r'^wanted/meet/(?P<renthouse_meet_id>\d+)/complete$', wanted.meet_complete, name='wanted_meet_complete'),
 
     # 求租发布审核
     url(r'^wanted_release/list/$',

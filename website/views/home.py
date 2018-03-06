@@ -15,7 +15,8 @@ from web.models import(
     HousingResources,
     FeedBack,
     HousingEvaluation,
-    RentHouse
+    RentHouse,
+    RentHouseMeet
 )
 
 from imagestore.qiniu_manager import (
@@ -155,18 +156,6 @@ def housing_resources_map_list(request):
     }
 
     return render(request, 'frontend/02-1-roomResource-2.html', context)
-
-
-def rent_house_list(request):
-
-    rent_houses = RentHouse.obs.get_queryset().filter(status=2, audit_status=2)
-
-    context = {
-        'module': 'rent_house',
-        'rent_houses': rent_houses,
-    }
-
-    return render(request, 'frontend/03-findToRent.html', context)
 
 
 def housing_resources(request, housing_resources_id):

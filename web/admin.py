@@ -9,7 +9,7 @@ from web.models import (
     Infrastructure, HousingResources, HousingPicture,
     Bedroom, HousingResourcesOrder, HousingResourcesComment,
     HouseConfig, HousingEvaluation, HousingEvaluationImg,
-    RentHouse
+    RentHouse, RentHouseMeet
 )
 
 admin.site.register(Profile)
@@ -33,3 +33,4 @@ admin.site.register(HouseConfig)
 admin.site.register(HousingEvaluation)
 admin.site.register(HousingEvaluationImg)
 admin.site.register(RentHouse)
+admin.site.register(RentHouseMeet)

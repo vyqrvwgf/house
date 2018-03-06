@@ -5,6 +5,7 @@ from django.conf.urls import url
 from website.views import (
     home,
     user,
+    rent_house,
 )
 
 # 管理后台
@@ -29,7 +30,9 @@ urlpatterns = [
 
     # 求租
     url(r'^rent_house$',
-        home.rent_house_list, name='rent_house_list'),
+        rent_house.rent_house_list, name='rent_house_list'),
+    url(r'^rent_house/meet/create$',
+        rent_house.rent_house_meet_create, name='rent_house_meet_create'),
 
     # 用户
     url(r'^user$', user.index, name='user_index'),

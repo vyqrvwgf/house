@@ -116,7 +116,7 @@
         <li class="item clearfix">
             <div class="left fl">
                 <img src="{{ rh.get_profile.avatar_url }}" alt="">
-                <p><button class="getContact">联系他</button></p>
+                <p><button class="getContact" rent_house_id='{{ rh.id }}'>联系他</button></p>
                 <p><button class="complaint">举报他</button></p>
             </div>
             <div class="right fl">
@@ -136,4 +136,35 @@
     {% endfor %}
     </ul>
 </div>
+{% endblock %}
+
+
+{% block script %}
+<script>
+$(document).ready(function () {
+
+    $('.getContact').on('click', function(){
+        var rent_house_id = $(this).attr('rent_house_id')
+        $.ajax({
+            url: '{% url "website:rent_house_meet_create" %}',
+            type: 'post',
+            data: {
+                rent_house_id: rent_house_id,
+            },
+            success: function(res, status){
+                if (res.error_code == 1) {
+                    window.location.href = '{% url "website:home_login" %}'
+                }
+                if (!res.error_code) {
+                    alert(res.error_msg)
+                }
+            },
+            error: function(res, status){
+                alert('预约失败')
+            }
+        })
+    })
+
+});
+</script>
 {% endblock %}
