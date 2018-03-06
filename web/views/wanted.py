@@ -10,6 +10,7 @@ from django.db.models import Q
 from django.db.models import Max, Min
 from web.models import (
     RentHouse,
+    RentHouseMeet,
 )
 
 from imagestore.qiniu_manager import(
@@ -112,3 +113,54 @@ def delete(request, renthouse_id):
     if client:
         client.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@staff_member_required(login_url='/admin/login')
+def meet_list(request):
+    context = {
+        'module': 'wanted_meet'
+    }
+    objs = RentHouseMeet.obs.get_queryset().order_by('-created')
+
+    search_start = request.GET.get('search_start', '')
+    if search_start:
+        context['search_start'] = search_start
+        start_date = datetime.datetime.strptime(search_start, '%Y-%m-%d')
+        objs = objs.filter(created__gte=start_date)
+
+    search_end = request.GET.get('search_end', '')
+    if search_end:
+        context['search_end'] = search_end
+        end_date = datetime.datetime.strptime(search_end, '%Y-%m-%d')
+        objs = objs.filter(created__lte=end_date)
+
+    page = request.GET.get('page', 1)
+    clients = paging_objs(
+        object_list=objs,
+        per_page=BACK_PAGE_COUNT,
+        page=page)
+
+    context['clients'] = clients
+
+    return render(request, 'super/housing/wanted/meet/list.html', context)
+
+
+@staff_member_required(login_url='/admin/login')
+def meet_complete(request, renthouse_meet_id):
+    page = request.GET.get('page', '')
+    client = RentHouseMeet.objects.filter(pk=renthouse_meet_id).first()
+    if client:
+        client.status = 1
+        client.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@staff_member_required(login_url='/admin/login')
+def meet_delete(request, renthouse_meet_id):
+    page = request.GET.get('page', '')
+    client = RentHouseMeet.objects.filter(pk=renthouse_meet_id).first()
+    if client:
+        client.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+

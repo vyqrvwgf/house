@@ -491,6 +491,37 @@ class RentHouse(BaseModel):
         return profile
 
 
+class RentHouseMeet(BaseModel):
+
+    class Meta(object):
+        verbose_name = '求租预约'
+        verbose_name_plural = '求租预约'
+
+    STATUS_CHOICES = (
+        (0, '待看房'),
+        (1, '已看房'),
+    )
+
+    user = models.ForeignKey(
+        User,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name='用户')
+    rent_house = models.ForeignKey(
+        RentHouse,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name='求租')
+    meet_time = models.DateTimeField(auto_now=True, verbose_name="预约时间")
+    comp_meet_time = models.DateTimeField(default=datetime.datetime.now(), verbose_name="已预约时间")
+    status = models.IntegerField(
+        choices=STATUS_CHOICES,
+        default=0,
+        verbose_name='状态')
+
+
 class HousingResources(BaseModel):
 
     class Meta(object):
