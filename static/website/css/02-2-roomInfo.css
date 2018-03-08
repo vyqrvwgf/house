@@ -290,5 +290,35 @@
     font-size: 14px;
 }
 
+input::-webkit-input-placeholder {
+   /* WebKit browsers */
+    color: #fff;
+}
+input:-moz-placeholder {
+   /* Mozilla Firefox 4 to 18 */
+   color: #fff;
+}
+input::-moz-placeholder {
+   /* Mozilla Firefox 19+ */
+   color: #fff;
+}
+input::-ms-input-placeholder {
+   /* Internet Explorer 10+ */
+   color: #fff;
+}
+
+#select_date {
+    border: 1px solid #999;
+    width: 120px;
+    height: 32px;
+    font-size: 16px;
+    line-height: 32px;
+    text-align: center;
+    background-color: orange;
+    color: #fff;
+    border-radius: 4px;
+    margin-top: 30px;
+    cursor: pointer;
+}
 
 
