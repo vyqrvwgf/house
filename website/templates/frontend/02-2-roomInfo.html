@@ -7,6 +7,9 @@
     {% block style %}
     <link rel="stylesheet" href="/static/website/css/02-2-roomInfo.css">
     <link rel="stylesheet" href="/static/website/css/swiper.min.css">
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
     {% endblock %}
 
 {% block container %}
@@ -56,7 +59,10 @@
                 <span>{{ housing_resources.get_lease_display }}</span>
             </p>
             <p class="payment"><span class="orange">￥{{ housing_resources.month_rent }}/月</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="how">押{{ housing_resources.bet }}付{{ housing_resources.pay }}</span></p>
-            <p class="phoneNum orange"><button>预 约 看 房</button></p>
+            <!-- <p class="phoneNum orange"><button>预 约 看 房</button></p> -->
+            <p class="getContact orange">
+                <input type="text" id="select_date" readonly="readonly" placeholder="预约看房" />
+            </p>
         </div>
     </div>
 </div>
@@ -250,28 +256,11 @@
 
 {% block script %}
 <script charset="utf-8" src="{{ qq_map_api_url }}"></script>
+<script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="/static/website/js/swiper.min.js"></script>
+<script src="/static/website/js/02-2-roomInfo.js"></script>
 <!-- Initialize Swiper -->
 <script>
-    var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-        paginationClickable: true,
-        spaceBetween: 500,
-        centeredSlides: true,
-        autoplay: 2000,
-        autoplayDisableOnInteraction: false,
-        effect: 'fade',
-        loop: true
-    });
-
-    $(".backToTop").click(function () {
-        console.log(11);
-        scrollTo(0,0);
-    });
-
-
   var lng = {% if not housing_resources or housing_resources.lng == 0.0000000 %}114.30{% else %}{{ housing_resources.lng }}{% endif %};
   var lat = {% if not housing_resources or housing_resources.lat == 0.0000000 %}30.60{% else %}{{ housing_resources.lat }}{% endif %};
 

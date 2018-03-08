@@ -6,6 +6,9 @@
 
     {% block style %}
     <link rel="stylesheet" href="/static/website/css/03-findToRent.css">
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
     {% endblock %}
 
 {% block container %}
@@ -116,7 +119,8 @@
         <li class="item clearfix">
             <div class="left fl">
                 <img src="{{ rh.get_profile.avatar_url }}" alt="">
-                <p><button class="getContact" rent_house_id='{{ rh.id }}'>联系他</button></p>
+                <!-- <p><button class="getContact" rent_house_id='{{ rh.id }}'>联系他</button></p> -->
+                <p class="getContact" rent_house_id='{{ rh.id }}'><input type="text" id="select_date" readonly="readonly" placeholder="预约看房" /></p>
                 <p><button class="complaint">举报他</button></p>
             </div>
             <div class="right fl">
