@@ -4,6 +4,7 @@
 /**
  * Created by Administrator on 2017/8/8 0008.
  */
+
 $(document).ready(function() {
 
     $('#select_date').datepicker({
@@ -40,6 +41,8 @@ $(document).ready(function() {
         $(newContent).show();
         $("ul.service_tabs li").removeClass("active");
         $("ul.service_tabs li:nth-child(1)").addClass("active").show(); //Activate first tab
+
+
 
         //【选择位置】 >> 【选择区域】
         //On Click Event
@@ -143,5 +146,4 @@ $(document).ready(function() {
             $(this).addClass("active");
         });
     }
-
 });

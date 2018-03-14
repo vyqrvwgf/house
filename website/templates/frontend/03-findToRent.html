@@ -120,7 +120,8 @@
             <div class="left fl">
                 <img src="{{ rh.get_profile.avatar_url }}" alt="">
                 <!-- <p><button class="getContact" rent_house_id='{{ rh.id }}'>联系他</button></p> -->
-                <p class="getContact" rent_house_id='{{ rh.id }}'><input type="text" id="select_date" readonly="readonly" placeholder="预约看房" /></p>
+                <p class="getContact"><input type="text" id="select_date" readonly="readonly" placeholder="预约看房" rent_house_id='{{ rh.id }}' /></p>
+
                 <p><button class="complaint">举报他</button></p>
             </div>
             <div class="right fl">
@@ -144,16 +145,20 @@
 
 
 {% block script %}
+<script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script src="/static/website/js/03-findToRent.js"></script>
 <script>
 $(document).ready(function () {
 
-    $('.getContact').on('click', function(){
+    $('#select_date').on('change', function(){
         var rent_house_id = $(this).attr('rent_house_id')
+        var select_date = $(this).val()
         $.ajax({
             url: '{% url "website:rent_house_meet_create" %}',
             type: 'post',
             data: {
                 rent_house_id: rent_house_id,
+                select_date: select_date,
             },
             success: function(res, status){
                 if (res.error_code == 1) {

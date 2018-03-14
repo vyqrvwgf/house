@@ -56,12 +56,16 @@ def rent_house_meet_create(request):
             profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
 
             rent_house_id = request.POST.get('rent_house_id', 0)
+            select_date = request.POST.get('select_date', '')
+            meet_time = datetime.datetime.strptime(select_date, "%Y-%m-%d")
             rent_house = RentHouse.objects.get(pk=rent_house_id)
-
-            RentHouseMeet.objects.get_or_create(
+            rent_house_meet, _ = RentHouseMeet.objects.get_or_create(
                 user=profile.user,
-                rent_house=rent_house,
+                rent_house=rent_house
             )
+            rent_house_meet.meet_time = meet_time
+            rent_house_meet.save()
+
     except Exception as e:
         logging.error(e)
         return JsonResponse({'error_code': 1, 'error_msg': '预约失败'})

@@ -61,7 +61,7 @@
             <p class="payment"><span class="orange">￥{{ housing_resources.month_rent }}/月</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="how">押{{ housing_resources.bet }}付{{ housing_resources.pay }}</span></p>
             <!-- <p class="phoneNum orange"><button>预 约 看 房</button></p> -->
             <p class="getContact orange">
-                <input type="text" id="select_date" readonly="readonly" placeholder="预约看房" />
+                <input type="text" id="select_date" housing_resources_id={{housing_resources.id}} readonly="readonly" placeholder="预约看房" />
             </p>
         </div>
     </div>
@@ -280,6 +280,31 @@
     });
     //marker.setAnimation(qq.maps.Animation.DROP);
   },200);
+
+
+    $('#select_date').on('change', function(){
+        var housing_resources_id = $(this).attr('housing_resources_id')
+        var select_date = $(this).val()
+        $.ajax({
+            url: '{% url "website:housing_resources_meet_create" %}',
+            type: 'post',
+            data: {
+                housing_resources_id: housing_resources_id,
+                select_date: select_date,
+            },
+            success: function(res, status){
+                if (res.error_code == 1) {
+                    window.location.href = '{% url "website:home_login" %}'
+                }
+                if (!res.error_code) {
+                    alert(res.error_msg)
+                }
+            },
+            error: function(res, status){
+                alert('预约失败')
+            }
+        })
+    })
 
 </script>
 {% endblock %}

@@ -19,7 +19,7 @@
       <form class="navbar-form navbar-left" method="GET" role="search">
         <div class="form-group">
           <div class="input-group">
-            <input type="text" class="form-control" name="search_name" placeholder="房源描述" value="{{ search_name }}"/>
+            <input type="text" class="form-control" name="search_name" placeholder="手机号" value="{{ search_name }}"/>
           </div>
           <div class="input-group">
             <input type="text" class="form-control" name="search_start" placeholder="开始时间" value="{{ search_start }}" id="search_start"/>
@@ -49,20 +49,21 @@
           <tbody>
             <tr>
               <th style="width: 10px">#</th>
-              <th>房屋描述</th>
+              <th>手机号</th>
               <th>房屋类型</th>
               <th>租赁方式</th>
               <th>押付方式</th>
               <th>所在小区</th>
               <th>房屋照片</th>
               <th>状态</th>
+              <th>品质房源</th>
               <th>创建时间</th>
               <th>操作</th>
             </tr>
             {% for c in clients %}
               <tr>
                 <td style="vertical-align: middle;">{{ c.id }}</td>
-                <td style="vertical-align: middle;">{{ c.content }}</td>
+                <td style="vertical-align: middle;">{{ c.user.profile.mobile }}</td>
                 <td style="vertical-align: middle;">{{ c.category }}</td>
                 <td style="vertical-align: middle;">{{ c.get_lease_display }}</td>
                 <td style="vertical-align: middle;">押{{ c.bet }}付{{ c.pay }}</td>
@@ -71,11 +72,29 @@
                   <img src="{{ c.cover_url }}" width="50" height="50" />
                 </td>
                 <td style="vertical-align: middle;">{{ c.get_status_display }}</td>
+                <td style="vertical-align: middle;">
+                  {% if c.quality %}
+                    <i class="fa fa-fw fa-check-circle text-green"></i>
+                  {% else %}
+                    <i class="fa fa-fw fa-ban text-red"></i>
+                  {% endif %}
+                </td>
                 <td style="vertical-align: middle;">{{ c.created|date:"Y-m-d H:i" }}</td>
                 <td style="vertical-align: middle;">
+                    <a class="btn-xs btn-success" target="_blank" href="{% url 'website:housing_resources' c.id %}">预览</a>
                     <a class="btn-xs btn-info" href="{% url 'web:listings_bedroom_list' c.id %}">卧室管理</a>
                     <a class="btn-xs btn-info" href="{% url 'web:listings_picture_list' c.id %}">房源图片</a>
                     <a class="btn-xs btn-info" href="{% url 'web:listings_edit' c.id %}">编辑</a>
+                    {% if not c.quality %}
+                      <a class="btn-xs btn-success" href="{% url 'web:listings_onquality' c.id %}">
+                        设为品质房源
+                      </a>
+                    {% else %}
+                      <a class="btn-xs btn-warning" href="{% url 'web:listings_offquality' c.id %}">
+                        取消品质房源
+                      </a>
+                    {% endif %}
+
                     {% if not c.status or c.status == 1 %}
                       <a class="btn-xs btn-success" href="{% url 'web:listings_online' c.id %}?page={{page}}">上线</a>
                     {% else %}
