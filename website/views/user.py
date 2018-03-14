@@ -32,6 +32,7 @@ from imagestore.qiniu_manager import(
     url
 )
 
+from website.views.home import check_captcha
 from utils import(
     check_v_code,
     md5_create,
@@ -694,6 +695,7 @@ def reset_pwd(request):
     }
     if request.method == 'POST':
         phoneNum = request.POST.get('phoneNum', '')
+        img_code = request.POST.get('img_code', '')
         vcode = request.POST.get('vcode', '')
         password1 = request.POST.get('password1', '')
         password2 = request.POST.get('password2', '')
@@ -720,6 +722,9 @@ def reset_pwd(request):
                         'error_code': 4,
                         'error_msg': '验证码错误'
                     })
+
+                if not check_captcha(request, img_code):
+                    return JsonResponse({'error_code': 1, 'error_msg': '图形验证码错误'})
 
                 profile = Profile.obs.get_queryset().filter(
                     mobile=phoneNum

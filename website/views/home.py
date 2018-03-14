@@ -2,12 +2,14 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from captcha.image import ImageCaptcha
 from django.db.models import Q, Avg
 from django.template import loader
 
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db import transaction
+from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from web.models import(
     Advertising,
@@ -16,7 +18,8 @@ from web.models import(
     FeedBack,
     HousingEvaluation,
     RentHouse,
-    RentHouseMeet
+    RentHouseMeet,
+    HousingResourcesMeet
 )
 
 from imagestore.qiniu_manager import (
@@ -69,8 +72,8 @@ def index(request):
     advertising_list = Advertising.obs.get_queryset().order_by('-order_no')
     housingresources_list = HousingResources.obs.get_queryset().filter(audit_status=2, status=2)
     housingresources_list1 = housingresources_list.order_by('-updated')[:8]
-    housingresources_list2 = housingresources_list.order_by('-click_count')[:8]
-    housingresources_list3 = housingresources_list.filter(hot=1)[:8]
+    housingresources_list2 = housingresources_list.filter(quality=1).order_by('-updated')[:8]
+    housingresources_list3 = housingresources_list.order_by('-click_count')[:8]
 
     context = {
         'module': 'index',
@@ -94,7 +97,7 @@ def search(request):
 
     if keyword:
         housingresources_list = housingresources_list.filter(
-            Q(community__icontains=keyword) | Q(address__icontains=keyword))
+            Q(community__icontains=keyword) | Q(address__icontains=keyword) | Q(content__icontains=keyword))
 
     context = {
         'module': 'index',
@@ -164,6 +167,11 @@ def housing_resources(request, housing_resources_id):
     housing_evaluations = HousingEvaluation.obs.get_queryset().filter(
         housing_resources=housing_resources).order_by('-created')
 
+    # 增加点击量
+    if request.user and not request.user.is_staff:
+        housing_resources.click_count += 1
+        housing_resources.save()
+
     for he in housing_evaluations:
         he.point_str = get_xinxing(he.point, 5)
         if not he.niming:
@@ -214,6 +222,7 @@ def register(request):
     if request.method == 'POST':
         phoneNum = request.POST.get('phoneNum', '')
         vcode = request.POST.get('vcode', '')
+        img_code = request.POST.get('img_code', '')
         email = request.POST.get('email', '')
         password1 = request.POST.get('password1', '')
         password2 = request.POST.get('password2', '')
@@ -237,6 +246,9 @@ def register(request):
                         'error_msg': '验证码错误'
                     })
 
+                if not check_captcha(request, img_code):
+                    return JsonResponse({'error_code': 1, 'error_msg': '图形验证码错误'})
+
                 is_register = Profile.objects.filter(
                     is_del=False,
                     is_valid=True,
@@ -248,14 +260,15 @@ def register(request):
                         'error_msg': '该手机号码已注册'
                     })
 
+                user = User.objects.create_user(phoneNum, email, md5_create(DB_PREFIX + password1))
                 profile = Profile.objects.create(
+                    user=user,
                     user_name=phoneNum,
                     mobile=phoneNum,
                     email=email,
                     password=md5_create(DB_PREFIX + password1)
                 )
 
-                user = profile.get_user()
                 token = jwt_token_gen(user)
                 profile.jwt_token = token
                 profile.save()
@@ -405,3 +418,56 @@ def send_vcode1(request):
     else:
         return JsonResponse({'error_code': 1, 'error_msg': '发送失败'})
 
+
+@csrf_exempt
+def housing_resources_meet_create(request):
+    try:
+        with transaction.atomic():
+            c_user = request.session.get('c_user', {})
+            profile = Profile.obs.get_queryset().filter(pk=c_user.get('id', 0)).first()
+
+            housing_resources_id = request.POST.get('housing_resources_id', 0)
+            select_date = request.POST.get('select_date', '')
+            meet_time = datetime.datetime.strptime(select_date, "%Y-%m-%d")
+            housing_resources = HousingResources.objects.get(pk=housing_resources_id)
+            housing_resources_meet, _ = HousingResourcesMeet.objects.get_or_create(
+                user=profile.user,
+                housing_resources=housing_resources
+            )
+            housing_resources_meet.meet_time = meet_time
+            housing_resources_meet.save()
+
+    except Exception as e:
+        logging.error(e)
+        return JsonResponse({'error_code': 1, 'error_msg': '预约失败'})
+
+    return JsonResponse({'error_code': 0, 'error_msg': '已接受预约工作人员会在一个工作日内协助完成预约。'})
+
+
+def captcha(request):
+    '''验证码
+    '''
+    image = ImageCaptcha()
+    code = str(random.randint(1000, 9999))
+
+    request.session['captcha_json'] = simplejson.dumps(
+        {'img_code': code}, ensure_ascii=False)
+    response = HttpResponse(content_type='image/jpeg')
+    image.write(code, response)
+    return response
+
+
+def check_captcha(request, code):
+
+    captcha_json = request.session.get('captcha_json', '')
+    if not captcha_json:
+        return False
+
+    captcha_obj = simplejson.loads(captcha_json)
+    s_code = captcha_obj['img_code'].strip().lower()
+    t_code = code.strip().lower()
+
+    if not s_code == t_code:
+        return False
+
+    return True

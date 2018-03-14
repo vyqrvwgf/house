@@ -151,6 +151,7 @@ def meet_complete(request, renthouse_meet_id):
     client = RentHouseMeet.objects.filter(pk=renthouse_meet_id).first()
     if client:
         client.status = 1
+        client.comp_meet_time = datetime.datetime.now()
         client.save()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

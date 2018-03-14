@@ -20,6 +20,11 @@
                 <button class="fr able get_v_code" value="获取验证码">获取验证码</button>
             </p>
             <span class="vCodeWrong"></span>
+            <p class="verification-code clearfix">
+                <input class="fl" type="text" name="img_code" id="img_code" placeholder="图形验证码">
+                <img src="{% url 'website:captcha' %}" width="100px" onclick="refresh_captcha($(this))">
+            </p>
+            <span class="imgCodeWrong"></span>
             <p>
                 <input class="mailbox" id="email" type="text" placeholder="邮箱">
             </p>
@@ -42,6 +47,9 @@
 {% block script %}
 <script src="/static/website/js/05-2-register.js"></script>
 <script>
+    function refresh_captcha(img) {
+        img.attr("src", '{% url "website:captcha" %}' + '?random=' + Math.random());
+    }
 /**
  * Created by Administrator on 2017/8/8 0008.
  */
@@ -50,6 +58,7 @@ $(document).ready(function () {
     $("#submit").on('click', function(){
         var phoneNum = $.trim($('#phoneNum').val())
         var vcode = $.trim($('#vcode').val())
+        var img_code = $.trim($('#img_code').val())
         var email = $.trim($('#email').val())
         var password1 = $.trim($('#password1').val())
         var password2 = $.trim($('#password2').val())
@@ -101,6 +110,14 @@ $(document).ready(function () {
             $(".vCodeWrong").html("请输入验证码").addClass("wrong");
             tongguo = false
         }
+        // 图形验证码
+        if(img_code){
+            $('#img_code').css("color","green");
+        }else {
+            $(".imgCodeWrong").html("验证码不能为空").addClass("wrong");
+            tongguo = false
+        }
+
         // 邮箱校验
         var reg2 = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
         if(reg2.test(email)){
@@ -128,6 +145,7 @@ $(document).ready(function () {
                 data: {
                     phoneNum: phoneNum,
                     vcode: vcode,
+                    img_code: img_code,
                     email: email,
                     password1: password1,
                     password2: password2

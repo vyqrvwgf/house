@@ -90,12 +90,7 @@ class Profile(BaseModel):
         (1, '已认证')
     )
 
-    user = models.ForeignKey(
-        User,
-        default=None,
-        blank=True,
-        null=True,
-        verbose_name='用户')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.CharField(
         max_length=128,
         default='',
@@ -514,8 +509,16 @@ class RentHouseMeet(BaseModel):
         null=True,
         blank=True,
         verbose_name='求租')
-    meet_time = models.DateTimeField(auto_now=True, verbose_name="预约时间")
-    comp_meet_time = models.DateTimeField(default=datetime.datetime.now(), verbose_name="已预约时间")
+    meet_time = models.DateTimeField(
+        default=None,
+        blank=True,
+        null=True,
+        verbose_name="预约时间")
+    comp_meet_time = models.DateTimeField(
+        default=None,
+        blank=True,
+        null=True,
+        verbose_name="已预约时间")
     status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=0,
@@ -675,6 +678,10 @@ class HousingResources(BaseModel):
         null=True,
         blank=True,
         verbose_name='房屋描述')
+    quality = models.IntegerField(
+        choices=VAILD_CHOICES,
+        default=0,
+        verbose_name='是否为品质房源')
     status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=0,
@@ -729,6 +736,45 @@ class HousingResources(BaseModel):
         '''获取卧室数量
         '''
         return Bedroom.obs.get_queryset().filter(housing_resources=self).count()
+
+
+class HousingResourcesMeet(BaseModel):
+
+    class Meta(object):
+        verbose_name = '房源预约'
+        verbose_name_plural = '房源预约'
+
+    STATUS_CHOICES = (
+        (0, '待看房'),
+        (1, '已看房'),
+    )
+
+    user = models.ForeignKey(
+        User,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name='用户')
+    housing_resources = models.ForeignKey(
+        HousingResources,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name='房源发布')
+    meet_time = models.DateTimeField(
+        default=None,
+        blank=True,
+        null=True,
+        verbose_name="预约时间")
+    comp_meet_time = models.DateTimeField(
+        default=None,
+        blank=True,
+        null=True,
+        verbose_name="已预约时间")
+    status = models.IntegerField(
+        choices=STATUS_CHOICES,
+        default=0,
+        verbose_name='状态')
 
 
 class HousingResourcesComment(BaseModel):

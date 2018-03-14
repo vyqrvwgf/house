@@ -86,6 +86,16 @@ urlpatterns = [
         listings.online, name='listings_online'),
     url(r'^listings/(?P<housingresources_id>\d+)/offline$',
         listings.offline, name='listings_offline'),
+    url(r'^listings/(?P<housingresources_id>\d+)/onquality$',
+        listings.onquality, name='listings_onquality'),
+    url(r'^listings/(?P<housingresources_id>\d+)/offquality$',
+        listings.offquality, name='listings_offquality'),
+
+    # 房源预约
+    url(r'^listings/meet/list/$', listings.meet_list, name='listings_meet_list'),
+    url(r'^listings/meet/(?P<housingresources_meet_id>\d+)/delete$', listings.meet_delete, name='listings_meet_delete'),
+    url(r'^listings/meet/(?P<housingresources_meet_id>\d+)/complete$', listings.meet_complete, name='listings_meet_complete'),
+
     url(r'^listings/(?P<housingresources_id>\d+)/delete$',
         listings.delete, name='listings_delete'),
     # 房源图片
@@ -126,7 +136,6 @@ urlpatterns = [
         listings_release.online, name='listings_release_online'),
     url(r'^listings_release/(?P<housingresources_id>\d+)/offline/$',
         listings_release.offline, name='listings_release_offline'),
-
 
     # 求租列表
     url(r'^wanted/list/$', wanted.list, name='wanted_list'),
