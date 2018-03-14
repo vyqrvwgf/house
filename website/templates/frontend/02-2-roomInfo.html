@@ -224,7 +224,7 @@
                 <div class="trig_txt">
                     <div class="trig-price orange">{{ th.month_rent }} <span>元/月</span></div>
                     <div class="trig-addr">{{ th.area }}-{{ th.community }}-{{ th.category }}-朝{{  th.get_direction_display }}-{{ th.sitting_room_area }}㎡</div>
-                    <div class="trig-describe">{{ th.content }}</div>
+                    <div class="trig-describe">{{ th.category }}</div>
                 </div>
             </a>
         {% endfor %}
@@ -244,7 +244,7 @@
                 <div class="trig_txt">
                     <div class="trig-price orange">{{ ff.month_rent }} <span>元/月</span></div>
                     <div class="trig-addr">{{ ff.area }}-{{ ff.community }}-{{ ff.category }}-朝{{  ff.get_direction_display }}-{{ ff.sitting_room_area }}㎡</div>
-                    <div class="trig-describe">{{ ff.content }}</div>
+                    <div class="trig-describe">{{ ff.category }}</div>
                 </div>
             </a>
         {% endfor %}
