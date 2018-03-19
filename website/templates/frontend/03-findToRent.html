@@ -128,13 +128,15 @@
                 <p><label for="">租客姓名：</label>{{ rh.name }}</p>
                 <p><label for="">房租预算：</label><strong class="orange">{{ rh.rent }}</strong></p>
                 <p><label for="">期望房型：</label>二房一厅</p>
-                <p><label for="">其他要求：</label>有天然气可以做饭，合租总人数不超过5人</p>
+                <p><label for="">其他要求：</label>{{ rh.description }}</p>
                 <p><label for="">基础设施：</label></p>
                 <ul class="surrounding-facilities clearfix">
+                {% for in in rh.infrastructure.all  %}
                     <li>
-                        <img src="/static/website/images/01bingxiang.jpg" alt=""><br>
-                        <label>冰箱</label><br>
+                        <img src="{{ in.cover_url }}" alt="">
+                        <br><label>{{ in.name }}</label><br>
                     </li>
+                {% endfor %}
                 </ul>
             </div>
         </li>

@@ -28,13 +28,41 @@
     <!--左边列表-->
     <ul class="tabs fl">
         <h4 align="center">账号管理</h4>
-        <li><a href="#tab1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-01jbxx"></use></svg> 基本信息</a></li>
-        <li><a href="#tab2"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-02fbfy"></use></svg> 房源发布</a></li>
-        <li><a href="#tab3"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-03fygl"></use></svg> 房源管理</a></li>
-        <li><a href="#tab4"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-04qzfb"></use></svg> 求租发布</a></li>
-        <li><a href="#tab5"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-05qzgl"></use></svg> 求租管理</a></li>
-        <li><a href="#tab6"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-06kfgl"></use></svg> 看房管理</a></li>
-        <li><a href="#tab7"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-07zjgl"></use></svg> 资金管理</a></li>
+        <li {% if sub_module == 'user_index' %} class="active" {% endif %}>
+            <a href="{% url 'website:user_index' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-01jbxx"></use>
+                </svg> 基本信息
+            </a>
+        </li>
+        <li {% if sub_module == 'housing_resource_create' %} class="active" {% endif %}>
+            <a href="{% url 'website:housing_resource_create' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-02fbfy"></use>
+                </svg> 房源发布
+            </a>
+        </li>
+        <li {% if sub_module == 'user_housing_resources' %} class="active" {% endif %}>
+            <a href="{% url 'website:user_housing_resources' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-03fygl"></use>
+                </svg> 房源管理
+            </a>
+        </li>
+        <li {% if sub_module == 'rent_house_create' %} class="active" {% endif %}>
+            <a href="{% url 'website:rent_house_create' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-04qzfb"></use>
+                </svg> 求租发布
+            </a>
+        </li>
+        <li {% if sub_module == 'user_rent_house' %} class="active" {% endif %}>
+            <a href="{% url 'website:user_rent_house' %}">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-05qzgl"></use>
+                </svg> 求租管理
+            </a>
+        </li>
     </ul>
     <!--右边列表-->
     <div class="tab_container fr">
