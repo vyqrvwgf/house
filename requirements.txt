@@ -8,3 +8,5 @@ captcha==0.2.1
 redis==2.10.5
 simplejson==3.8.2
 django-guardian==1.4.6
+xlrd==1.0.0
+xlsxwriter==0.9.6

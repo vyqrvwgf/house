@@ -15,9 +15,29 @@
   </div><!-- /.box-header -->
 
   <div class="box-body">
-<!--     <div style="margin-bottom:15px;">
-      <a href="{% url 'web:infrastructure_create' %}" class="btn btn-info">新建</a>
-    </div> -->
+    <div style="margin-bottom:15px;" class="row">
+      <form class="navbar-form navbar-left" method="GET" role="search">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="text" class="form-control" name="search_name" placeholder="手机号" value="{{ search_name }}"/>
+          </div>
+          <div class="input-group">
+            <input type="text" class="form-control" name="search_start" placeholder="开始时间" value="{{ search_start }}" id="search_start"/>
+          </div>
+          <div class="input-group">
+            <input type="text" class="form-control" name="search_end" placeholder="结束时间" value="{{ search_end }}" id="search_end"/>
+          </div>
+          <select class="form-control" name="search_lease">
+              <option value="-1" >选择租赁方式</option>
+              <option value="0" {% if not search_lease %} selected {% endif %}>整租</option>
+              <option value="1" {% if search_lease == 1 %} selected {% endif %}>合租</option>
+          </select>
+          <button type="submit" class="btn btn-info">搜索</button>
+          <a class="btn btn-default" href="{% url 'web:wanted_list' %}">清除</a>
+          <a class="btn btn-info" href="{% url 'web:wanted_import_data' %}">导入</a>
+        </div>
+      </form>
+    </div>
     <div class="row">
       <div class="col-md-12">
         <table class="table table-bordered table-striped">
@@ -49,7 +69,7 @@
                 <td style="vertical-align: middle;">
                   {{ c.province }}{{ c.city }}{% if c.area == 'wc' %}武昌区{% elif c.area == 'hk' %}汉口区{% elif c.area == 'hs' %}洪山区{% elif c.area == 'gg' %}光谷区{% elif c.area == 'hy' %}汉阳区{% endif %}
                 </td>
-                <td style="vertical-align: middle;">{{ c.rent }}</td>
+                <td style="vertical-align: middle;">{{ c.get_rent_display }}</td>
                 <td style="vertical-align: middle;">{{ c.date }}</td>
                 <td style="vertical-align: middle;">{{ c.description }}</td>
                 <td style="vertical-align: middle;">{{ c.get_status_display }}</td>

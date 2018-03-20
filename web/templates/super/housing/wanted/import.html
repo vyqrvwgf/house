@@ -1,0 +1,38 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+求租发布
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      导入求租信息
+    </h3>
+  </div><!-- /.box-header -->
+  <!-- form start -->
+     {% load guardian_tags %}
+     {% load perm_extra %}
+  <form class="form-horizontal" role="form" method="POST"
+    action="{% url 'web:wanted_import_data' %}?page={{ page }}"
+    enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="box-body">
+      <div class="form-group">
+        <label class="col-md-2 control-label">excel</label>
+        <div class="col-md-4">
+          <input type="file" class="form-control" name="data" placeholder=""/>
+          <span style="color: red">{{ error1 }}</span>
+        </div>
+
+      </div>
+    </div>
+    <div class="box-footer">
+        <button type="submit" class="btn btn-success pull-right">
+          导入
+        </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
