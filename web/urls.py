@@ -145,6 +145,7 @@ urlpatterns = [
         wanted.offline, name='wanted_offline'),
     url(r'^wanted/(?P<renthouse_id>\d+)/delete$',
         wanted.delete, name='wanted_delete'),
+    url(r'^wanted/import_data$', wanted.import_data, name='wanted_import_data'),
     # 求租预约
     url(r'^wanted/meet/list/$', wanted.meet_list, name='wanted_meet_list'),
     url(r'^wanted/meet/(?P<renthouse_meet_id>\d+)/delete$', wanted.meet_delete, name='wanted_meet_delete'),

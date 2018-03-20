@@ -467,7 +467,7 @@ class RentHouse(BaseModel):
         default='',
         verbose_name='姓名')
     phone = models.CharField(
-        max_length=11,
+        max_length=120,
         blank=True,
         default='',
         verbose_name='手机')

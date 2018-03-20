@@ -24,6 +24,7 @@ import string
 import logging
 import hashlib
 import uuid
+import xlrd
 
 
 # 确定查询经纬度范围
@@ -85,6 +86,25 @@ def paging_objs(object_list, per_page, page):
         objs = []
 
     return objs
+
+
+def excel_table(input_excel):
+    '''表格
+    '''
+    book = xlrd.open_workbook(file_contents=input_excel.read())
+    sheet = book.sheet_by_index(0)
+
+    dataset = []
+    for r in xrange(sheet.nrows):
+        col = []
+        for c in range(sheet.ncols):
+            sheet_val = sheet.cell(r, c).value
+            if type(sheet_val) != float:
+                sheet_val = sheet_val.encode('utf-8')
+            col.append(sheet_val)
+        dataset.append(col)
+
+    return dataset[1:]
 
 
 def _uuid():
