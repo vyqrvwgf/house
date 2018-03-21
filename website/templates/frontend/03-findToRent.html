@@ -120,7 +120,7 @@
             <div class="left fl">
                 <img src="{{ rh.get_profile.avatar_url }}" alt="">
                 <!-- <p><button class="getContact" rent_house_id='{{ rh.id }}'>联系他</button></p> -->
-                <p class="getContact"><input type="text" id="select_date" readonly="readonly" placeholder="预约看房" rent_house_id='{{ rh.id }}' /></p>
+                <p class="getContact"><input type="text" class="select_date" id="select_date" readonly="readonly" placeholder="预约看房" rent_house_id='{{ rh.id }}' /></p>
 
                 <p><button class="complaint">举报他</button></p>
             </div>
@@ -152,7 +152,7 @@
 <script>
 $(document).ready(function () {
 
-    $('#select_date').on('change', function(){
+    $('.select_date').on('change', function(){
         var rent_house_id = $(this).attr('rent_house_id')
         var select_date = $(this).val()
         $.ajax({
