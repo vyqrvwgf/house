@@ -3,7 +3,7 @@
 from django.conf.urls import url
 
 from web.views import (
-    index_view,
+    index,
     auth,
     column,
     home,
@@ -12,23 +12,37 @@ from web.views import (
     operating,
     infrastructure,
     user,
-    flush_view,
+    flush,
     listings,
     wanted,
     listings_release,
-    wanted_release
+    wanted_release,
+    acl,
+    group
 )
 
 # 管理后台
 urlpatterns = [
     # 首页
-    url(r'^$', index_view.index, name='admin_index'),
+    url(r'^$', index.index, name='admin_index'),
     # 登陆注册
     url(r'^login$', auth.login_view, name='admin_login'),
     url(r'^logout$', auth.logout_view, name='admin_logout'),
-    url(r'^uptoken/$', index_view.uptoken, name='admin_uptoken'),
+    url(r'^uptoken/$', index.uptoken, name='admin_uptoken'),
 
-    url(r'^flush/setting/$', flush_view.setting, name='flush_setting'),
+    url(r'^flush/setting/$', flush.setting, name='flush_setting'),
+
+    url(r'^acl$', acl.list, name='acl_list'),
+    url(r'^acl/add$', acl.add, name='acl_add'),
+    url(r'^acl/(?P<acl_id>\d+)/edit$', acl.edit, name='acl_edit'),
+    url(r'^acl/(?P<acl_id>\d+)/delete$', acl.delete, name='acl_delete'),
+
+    url(r'^group$', group.list, name='group_list'),
+    url(r'^group/add$', group.add, name='group_add'),
+    url(r'^group/(?P<group_id>\d+)/edit$',
+        group.edit, name='group_edit'),
+    url(r'^group/(?P<group_id>\d+)/delete$',
+        group.delete, name='group_delete'),
 
     # 轮播
     url(r'^advertising/list/$', home.advertising_list, name='advertising_list'),
@@ -197,8 +211,8 @@ urlpatterns = [
         operating.operating_delete, name='operating_delete'),
 
     # 上传文件
-    url(r'^ckeditor_upload$', index_view.ckeditor_upload, name='admin_upload'),
+    url(r'^ckeditor_upload$', index.ckeditor_upload, name='admin_upload'),
     url(r'^ckeditor_many_upload$',
-        index_view.ckeditor_many_upload,
+        index.ckeditor_many_upload,
         name='admin_many_upload'),
 ]

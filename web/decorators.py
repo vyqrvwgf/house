@@ -6,13 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.utils.functional import wraps
 from django.http import HttpResponse
 
-from backend.models import ACL
+from web.models import ACL
 
 
-backend_login_required = partial(login_required, login_url='/admin/login')
+web_login_required = partial(login_required, login_url='/admin/login')
 
 
-def backend_permission_required(codename, module):
+def web_permission_required(codename, module):
     def decorator(view):
         @wraps(view)
         def wrapper(request, *args, **kwargs):

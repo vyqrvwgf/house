@@ -89,7 +89,7 @@
             <li class="header">
               管理后台
             </li>
-            {% if 'home' in request.session.menu_str or 'advertising' in request.session.menu_str or 'news' in request.session.menu_str %}
+            {% if "view_module" in user|get_acl_perms:"home" %}
             <li class="treeview {% if module == 'home' or module == 'advertising' %}active{% endif %}">
               <a href="">
                 <i class="fa fa-home"></i>
@@ -97,26 +97,22 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                {% if 'advertising' in request.session.menu_str %}
-                <li {% if module == 'advertising' %} class="active" {% endif %}>
+                <li class="{% if module == 'advertising' %}active{% endif %}">
                   <a href="{% url 'web:advertising_list' %}">
                     <i class="fa fa-circle-o"></i>轮播图管理
                   </a>
                 </li>
-                {% endif %}
-
-                {% if 'news' in request.session.menu_str %}
-                <li {% if module == 'news' %} class="active" {% endif %}>
+                <li class="{% if module == 'news' %}active{% endif %}">
                   <a href="">
                     <i class="fa fa-circle-o"></i>最新资讯
                   </a>
                 </li>
-                {% endif %}
               </ul>
             </li>
             {% endif %}
-            {% if 'column' in request.session.menu_str %}
-            <li {% if module == 'column' %}class="active" {% endif %}>
+
+            {% if "view_module" in user|get_acl_perms:"column" %}
+            <li class="{% if module == 'column' %}active{% endif %}">
               <a href="{% url 'web:column_list' %}">
                 <i class="fa fa-dashboard"></i>
                 <span>栏目管理</span>
@@ -124,8 +120,8 @@
             </li>
             {% endif %}
 
-            {% if 'user' in request.session.menu_str %}
-            <li {% if module == 'user' %}class="active" {% endif %}>
+            {% if "view_module" in user|get_acl_perms:"user" %}
+            <li class="{% if module == 'user' %}active{% endif %}">
               <a href="{% url 'web:user_list' %}">
                 <i class="fa fa-dashboard"></i>
                 <span>用户管理</span>
@@ -133,93 +129,78 @@
             </li>
             {% endif %}
 
-            {% if 'rent_house' in request.session.menu_str or 'infrastructure' in request.session.menu_str or 'listings' in request.session.menu_str or 'listings_meet' in request.session.menu_str or 'wanted' in request.session.menu_str or 'wanted_meet' in request.session.menu_str %}
+            {% if "view_module" in user|get_acl_perms:"house" %}
             <li class="treeview {% if module == 'rent_house' or module == 'infrastructure' or module == 'listings' or module == 'listings_meet' or module == 'wanted' or module == 'wanted_meet' %}active{% endif %}">
-              <a href=""><i class="fa fa-home"></i><span>租房管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="">
+                <i class="fa fa-home"></i>
+                <span>租房管理</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
               <ul class="treeview-menu">
-                {% if 'infrastructure' in request.session.menu_str %}
-                  <li {% if module == 'infrastructure' %}class="active" {% endif %}>
+                  <li class="{% if module == 'infrastructure' %}active{% endif %}">
                     <a href="{% url 'web:infrastructure_list' %}"><i class="fa fa-circle-o"></i>基础设施</a>
                   </li>
-                {% endif %}
-
-                {% if 'listings' in request.session.menu_str or 'listings_meet' in request.session.menu_str %}
-                  <li {% if module == 'listings' or module == 'listings_meet' %}class="active" {% endif %}>
+                  <li class="{% if module == 'listings' or module == 'listings_meet' %}active{% endif %}">
                     <a href=""><i class="fa fa-circle-o"></i>房源管理</a>
                     <ul class="treeview-menu">
-                      <li {% if module == 'listings' %}class="active" {% endif %}>
+                      <li class="{% if module == 'listings' %}active{% endif %}">
                         <a href="{% url 'web:listings_list' %}"><i class="fa fa-circle-o"></i>房源列表</a>
                       </li>
-                      <li {% if module == 'listings_meet' %}class="active" {% endif %}>
+                      <li class="{% if module == 'listings_meet' %}active{% endif %}">
                         <a href="{% url 'web:listings_meet_list' %}"><i class="fa fa-circle-o"></i>预约管理</a>
                       </li>
                     </ul>
                   </li>
-                {% endif %}
-
-                {% if 'wanted' in request.session.menu_str or 'wanted_meet' in request.session.menu_str %}
-                  <li {% if module == 'wanted' or module == 'wanted_meet' %}class="active" {% endif %}>
+                  <li class="{% if module == 'wanted' or module == 'wanted_meet' %}active{% endif %}">
                     <a href=""><i class="fa fa-circle-o"></i>求租管理</a>
                     <ul class="treeview-menu">
-                      <li {% if module == 'wanted' %}class="active" {% endif %}>
+                      <li class="{% if module == 'wanted' %}active{% endif %}">
                         <a href="{% url 'web:wanted_list' %}"><i class="fa fa-circle-o"></i>求租列表</a>
                       </li>
-                      <li {% if module == 'wanted_meet' %}class="active" {% endif %}>
+                      <li class="{% if module == 'wanted_meet' %}active{% endif %}">
                         <a href="{% url 'web:wanted_meet_list' %}"><i class="fa fa-circle-o"></i>预约管理</a>
                       </li>
                     </ul>
                   </li>
-                {% endif %}
               </ul>
             </li>
             {% endif %}
 
-            {% if 'work_approval' in request.session.menu_str or 'authentication' in request.session.menu_str or 'wanted_release' in request.session.menu_str or 'listings_release' in request.session.menu_str %}
+            {% if "view_module" in user|get_acl_perms:"house_release" %}
             <li class="treeview {% if module == 'work_approval' or module == 'authentication' or module == 'wanted_release' or module == 'listings_release' %}active{% endif %}">
               <a href=""><i class="fa fa-home"></i><span>流程审批</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                {% if 'authentication' in request.session.menu_str %}
-                <li {% if module == 'authentication' %}class="active" {% endif %}>
+                <li class="{% if module == 'authentication' %}active{% endif %}">
                   <a href=""><i class="fa fa-circle-o"></i>身份认证</a>
                 </li>
-                {% endif %}
-                {% if 'wanted_release' in request.session.menu_str %}
-                <li {% if module == 'wanted_release' %}class="active" {% endif %}>
+                <li class="{% if module == 'wanted_release' %}active{% endif %}">
                   <a href="{% url 'web:wanted_release_list' %}"><i class="fa fa-circle-o"></i>求租发布</a>
                 </li>
-                {% endif %}
-                {% if 'listings_release' in request.session.menu_str %}
-                <li {% if module == 'listings_release' %}class="active" {% endif %}>
+                <li class="{% if module == 'listings_release' %}active{% endif %}">
                   <a href="{% url 'web:listings_release_list' %}"><i class="fa fa-circle-o"></i>房源发布</a>
                 </li>
-                {% endif %}
               </ul>
             </li>
             {% endif %}
 
-            {% if 'information' in request.session.menu_str or 'market_feedback' in request.session.menu_str or 'complaints' in request.session.menu_str %}
+            {% if "view_module" in user|get_acl_perms:"information" %}
             <li class="treeview {% if module == 'information' or module == 'market_feedback' %}active{% endif %}">
               <a href=""><i class="fa fa-home"></i><span>信息中心</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                {% if 'market_feedback' in request.session.menu_str %}
-                  <li {% if module == 'market_feedback' %}class="active" {% endif %}>
+                  <li class="{% if module == 'market_feedback' %}active{% endif %}">
                     <a href=""><i class="fa fa-circle-o"></i>市场反馈</a>
                   </li>
-                {% endif %}
-
-                {% if 'complaints' in request.session.menu_str %}
-                  <li {% if module == 'complaints' %}class="active" {% endif %}>
+                  <li class="{% if module == 'complaints' %}active{% endif %}">
                     <a href=""><i class="fa fa-circle-o"></i>投诉管理</a>
                   </li>
-                {% endif %}
               </ul>
             </li>
             {% endif %}
 
-            {% if 'activity' in request.session.menu_str %}
-            <li {% if module == 'activity' %}class="active" {% endif %}>
+            {% if "view_module" in user|get_acl_perms:"activity" %}
+            <li class="{% if module == 'activity' %}active{% endif %}">
               <a href="">
                 <i class="fa fa-dashboard"></i>
                 <span>活动管理</span>
@@ -227,8 +208,8 @@
             </li>
             {% endif %}
 
-            {% if 'bill' in request.session.menu_str %}
-            <li {% if module == 'bill' %}class="active" {% endif %}>
+            {% if "view_module" in user|get_acl_perms:"bill" %}
+            <li class="{% if module == 'bill' %}active{% endif %}">
               <a href="">
                 <i class="fa fa-dashboard"></i>
                 <span>财务管理</span>
@@ -236,8 +217,8 @@
             </li>
             {% endif %}
 
-            {% if 'join' in request.session.menu_str %}
-            <li {% if module == 'join' %}class="active" {% endif %}>
+            {% if "view_module" in user|get_acl_perms:"join" %}
+            <li class="{% if module == 'join' %}active{% endif %}">
               <a href="">
                 <i class="fa fa-dashboard"></i>
                 <span>企业中心</span>
@@ -245,43 +226,35 @@
             </li>
             {% endif %}
 
-            {% if 'settings' in request.session.menu_str or 'sms' in request.session.menu_str or 'feedback' in request.session.menu_str or 'joint_venture_account' in request.session.menu_str or 'operating' in request.session.menu_str or 'permissions' in request.session.menu_str %}
-            <li class="treeview {% if module == 'settings' or module == 'sms' or module == 'feedback' or module == 'joint_venture_account' or module == 'operating' or module == 'permissions' %}active{% endif %}">
+            {% if "view_module" in user|get_acl_perms:"settings" %}
+            <li class="treeview {% if module == 'settings' or module == 'sms' or module == 'feedback' or module == 'joint_venture_account' or module == 'operating' or module == 'acl' or module == 'group' %}active{% endif %}">
               <a href="">
                 <i class="fa fa-home"></i>
                 <span>系统管理</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                {% if 'sms' in request.session.menu_str %}
-                <li {% if module == 'sms' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>短信</a>
+                <li class="{% if module == 'acl' %}active{% endif %}" >
+                  <a href="{% url 'web:acl_list' %}"><i class="fa fa-circle-o"></i>权限模块</a>
                 </li>
-                {% endif %}
-                {% if 'feedback' in request.session.menu_str %}
-                <li {% if module == 'feedback' %}class="active" {% endif %}>
-                  <a href=""><i class="fa fa-circle-o"></i>意见反馈</a>
+                <li class="{% if module == 'group' %}active{% endif %}" >
+                  <a href="{% url 'web:group_list' %}"><i class="fa fa-circle-o"></i>用户组</a>
                 </li>
-                {% endif %}
-                {% if 'joint_venture_account' in request.session.menu_str %}
-                <li {% if module == 'joint_venture_account' %}class="active" {% endif %}>
+                <li class="{% if module == 'joint_venture_account' %}active{% endif %}">
                   <a href="{% url 'web:venture_manage_list' %}"><i class="fa fa-circle-o"></i>合作企业管理员</a>
                 </li>
-                {% endif %}
-                {% if 'operating' in request.session.menu_str %}
-                <li {% if module == 'operating' %}class="active" {% endif %}>
+                <li class="{% if module == 'operating' %}active{% endif %}">
                   <a href="{% url 'web:operating_list' %}"><i class="fa fa-circle-o"></i>系统管理员</a>
                 </li>
-                {% endif %}
-                {% if 'permissions' in request.session.menu_str %}
-                <li {% if module == 'permissions' %}class="active" {% endif %}>
-                  <a href="{% url 'web:permissions_list' %}"><i class="fa fa-circle-o"></i>权限组</a>
+                <li class="{% if module == 'sms' %}active{% endif %}">
+                  <a href=""><i class="fa fa-circle-o"></i>短信</a>
                 </li>
-                {% endif %}
+                <li class="{% if module == 'feedback' %}active{% endif %}">
+                  <a href=""><i class="fa fa-circle-o"></i>意见反馈</a>
+                </li>
               </ul>
             </li>
             {% endif %}
-
           </ul><!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->
@@ -297,7 +270,10 @@
             {% endblock %}
           </h1>
           <ol class="breadcrumb">
-            <li><a href="{% url 'web:admin_index' %}"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li>
+              <a href="{% url 'web:admin_index' %}">
+              <i class="fa fa-dashboard"></i>首页</a>
+            </li>
             {% block breadcrumb %}
             {% endblock %}
           </ol>
