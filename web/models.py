@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.db.models import Count, Sum
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.db.models import Q
 
 from imagestore.qiniu_manager import url, o_url
@@ -212,6 +212,7 @@ class ACL(BaseModel):
 
         verbose_name = "访问控制列表"
         verbose_name_plural = "访问控制列表"
+
         permissions = (
             ('view_module', '查看'),
             ('add_module', '添加'),

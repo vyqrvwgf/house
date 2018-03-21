@@ -4,7 +4,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from imagestore.qiniu_manager import upload, url
@@ -69,6 +69,7 @@ def venture_manage_create(request):
         user.username = username
         user.is_staff = True
         user.set_password(password)
+        user.groups = list(group_list)
         user.save()
         joint_venture_account.user = user
 
@@ -78,12 +79,16 @@ def venture_manage_create(request):
         joint_venture_account.save()
 
         return HttpResponseRedirect(reverse('web:venture_manage_list'))
+
+    groups = Group.objects.all()
     context = {
         'module': 'joint_venture_account',
         'permissionss': permissionss,
         'joint_ventures': joint_ventures,
         'DOMAIN': DOMAIN,
+        'groups': groups,
     }
+
     return render(request, 'super/settings/venture_manage/create.html', context)
 
 
@@ -98,6 +103,8 @@ def venture_manage_edit(request, account_id):
         password = request.POST.get('password', '')
         joint_venture_id = request.POST.get('joint_venture_id', 0)
         permissions = request.POST.get('permissions', 0)
+        group_id_list = request.POST.getlist('group_id', '')
+        group_list = Group.objects.filter(id__in=group_id_list)
 
         if joint_venture_id:
             joint_venture = JointVenture.objects.filter(pk=int(joint_venture_id)).first()
@@ -109,6 +116,7 @@ def venture_manage_edit(request, account_id):
         user.username = username
         if password:
             user.set_password(password)
+        user.groups = list(group_list)
         user.save()
         client.user = user
 
@@ -120,6 +128,9 @@ def venture_manage_edit(request, account_id):
         return HttpResponseRedirect(reverse('web:venture_manage_list')
             + '?page=' + page
         )
+
+    groups = Group.objects.all()
+
     context = {
         'module': 'joint_venture_account',
         'client': client,
@@ -127,6 +138,7 @@ def venture_manage_edit(request, account_id):
         'joint_ventures': joint_ventures,
         'DOMAIN': DOMAIN,
         'page': page,
+        'groups': groups,
     }
     return render(request, 'super/settings/venture_manage/create.html', context)
 

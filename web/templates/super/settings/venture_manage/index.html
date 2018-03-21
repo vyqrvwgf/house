@@ -25,6 +25,7 @@
             <tr>
               <th>#</th>
               <th>账号</th>
+              <th>用户组</th>
               <th>合作企业</th>
               <th>操作</th>
             </tr>
@@ -32,6 +33,11 @@
               <tr role="row">
                 <td style="vertical-align: middle;">{{ c.id }}</td>
                 <td style="vertical-align: middle;">{{ c.user.username }}</td>
+                <td style="vertical-align: middle;">
+                {% for g in c.user.groups.all %}
+                  {{ g.name }},
+                {% endfor %}
+                </td>
                 <td style="vertical-align: middle;">{{ c.joint_venture.name }}</td>
                 <td style="vertical-align: middle;">
                   <a class="btn-xs btn-info" href="{% url 'web:venture_manage_edit' c.id %}?page={{page}}">编辑</a>

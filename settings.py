@@ -71,7 +71,7 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
-    'web.auth_backends.mobile.MobileBackend',
+    # 'web.auth_backends.mobile.MobileBackend',
 )
 
 
