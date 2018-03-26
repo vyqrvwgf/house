@@ -217,7 +217,7 @@ def housing_resource_create(request):
             # 存储卧室信息
             for i in range(1, int(bedroom_count)):
                 areai = request.POST.get('area' + str(i), 0)
-                detailsi = request.POST.getlist('details' + str(i), 0)
+                detailsi = request.POST.getlist('details' + str(i), [])
                 house_configs = HouseConfig.obs.get_queryset().filter(pk__in=detailsi)
                 bedroom = Bedroom.objects.create(
                     housing_resources=housing_resources,
