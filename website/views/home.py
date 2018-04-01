@@ -447,14 +447,14 @@ def housing_resources_meet_create(request):
 def captcha(request):
     '''验证码
     '''
-    image = ImageCaptcha()
-    code = str(random.randint(1000, 9999))
+    from common.pil_verify_image import generate_verify_image
+
+    mstream, strs = generate_verify_image(save_img=True)
 
     request.session['captcha_json'] = simplejson.dumps(
-        {'img_code': code}, ensure_ascii=False)
-    response = HttpResponse(content_type='image/jpeg')
-    image.write(code, response)
-    return response
+        {'img_code': strs}, ensure_ascii=False)
+    print request.session['captcha_json']
+    return HttpResponse('data:image/gif;base64,' + mstream.getvalue().encode('base64'))
 
 
 def check_captcha(request, code):

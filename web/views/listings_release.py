@@ -61,9 +61,7 @@ def offline(request, housingresources_id):
         client.audit_status = 1
         client.save()
 
-    return HttpResponseRedirect(reverse('web:listings_release_list')
-        + '?page=' + str(page)
-    )
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 @staff_member_required(login_url='/admin/login')
@@ -74,6 +72,4 @@ def online(request, housingresources_id):
         client.audit_status = 2
         client.save()
 
-    return HttpResponseRedirect(reverse('web:listings_release_list')
-        + '?page=' + str(page)
-    )
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
