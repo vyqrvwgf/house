@@ -154,10 +154,10 @@
                     <label>楼层数：</label>
                     <input class="house-type" name="layer" type="number" placeholder="" value="{{ housing_resources.layer }}">
                 </p>
-                <p>
+<!--                 <p>
                     <label>总层数：</label>
                     <input class="house-type" name="total_layer" type="number" placeholder="" value="{{ housing_resources.total_layer }}">
-                </p>
+                </p> -->
                 <p>
                     <label>所在小区：</label>
                     <input class="district" name="community" id="district" type="text" placeholder="输入小区名字" value="{{ housing_resources.community }}">
@@ -201,12 +201,12 @@
                     <label>餐饮购物：</label>
                     <input class="mall" type="text" placeholder="商场、超市等" value="{{ housing_resources.buy }}">
                 </p>
-                <h4>客厅</h4>
+   <!--              <h4>客厅</h4>
                 <p>
                     有无客厅：
                     <input type="radio" name="sitting_room" id="yes" {% if not housing_resources.sitting_room %}checked{% endif %}> 有 &nbsp;&nbsp;
                     <input type="radio" name="sitting_room" id="no" {% if housing_resources.sitting_room == 1 %}checked{% endif %}> 无
-                </p>
+                </p> -->
                 <p class="livingArea">
                     <label>面积：</label>
                     <input class="area" name="sitting_room_area" type="text" value="{{ housing_resources.sitting_room }}">&nbsp; m³
@@ -220,7 +220,7 @@
                     <input type="checkbox" name="sitting_room_complete" value="2" {% if '2' in housing_resources.sitting_room_complete %}checked{% endif %}>
                     &nbsp;&nbsp;
                 </p>
-                <h4>卧室</h4>
+<!--                 <h4>卧室</h4>
                 {% for b in housing_resources.bedrooms %}
                     <div class="bedroom">
                         <h5>卧室</h5>
@@ -236,7 +236,7 @@
                         </p>
                         <p><label for=""></label></p>
                     </div>
-                {% endfor %}
+                {% endfor %} -->
 
                 <button class="addBedroom" type="button">增加卧室</button>
                 <h4>上传房产证照片</h4>

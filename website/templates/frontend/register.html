@@ -22,7 +22,7 @@
             <span class="vCodeWrong"></span>
             <p class="verification-code clearfix">
                 <input class="fl" type="text" name="img_code" id="img_code" placeholder="图形验证码">
-                <img src="{% url 'website:captcha' %}" width="100px" onclick="refresh_captcha($(this))">
+                <img src="" id="verify_code" width="100px" height="40px" onclick="refresh_captcha($(this))">
             </p>
             <span class="imgCodeWrong"></span>
             <p>
@@ -47,9 +47,13 @@
 {% block script %}
 <script src="/static/website/js/05-2-register.js"></script>
 <script>
-    function refresh_captcha(img) {
-        img.attr("src", '{% url "website:captcha" %}' + '?random=' + Math.random());
+    function refresh_captcha() {
+        $.get('{% url "website:captcha" %}',function(data){
+            console.log(data)
+            $('#verify_code').attr('src', data)
+        })
     }
+    refresh_captcha();
 /**
  * Created by Administrator on 2017/8/8 0008.
  */

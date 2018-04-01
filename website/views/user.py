@@ -169,6 +169,7 @@ def housing_resource_create(request):
             housing_resources.layer = layer
             housing_resources.total_layer = total_layer
             housing_resources.community = community
+            housing_resources.month_rent = month_rent
             housing_resources.address = address
             housing_resources.bus = bus
             housing_resources.subway = subway
@@ -318,6 +319,7 @@ def housing_resource_edit(request, housing_resources_id):
             housing_resources.layer = layer
             housing_resources.total_layer = total_layer
             housing_resources.community = community
+            housing_resources.month_rent = month_rent
             housing_resources.address = address
             housing_resources.bus = bus
             housing_resources.subway = subway
