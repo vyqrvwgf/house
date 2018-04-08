@@ -19,7 +19,7 @@ default_font = os.path.join(BASE_DIR, 'common/biminb__.ttf')         # 验证码
 
 
 # 生成验证码接口
-def generate_verify_image(size=(120, 30),
+def generate_verify_image(size=(120, 40),
                           chars=init_chars,
                           img_type="GIF",
                           mode="RGB",
@@ -29,9 +29,9 @@ def generate_verify_image(size=(120, 30),
                           font_type=default_font,
                           length=4,
                           draw_lines=True,
-                          n_line=(1, 4),
+                          n_line=(1, 6),
                           draw_points=True,
-                          point_chance=2,
+                          point_chance=12,
                           save_img=False):
 
     """
@@ -123,6 +123,6 @@ def generate_verify_image(size=(120, 30),
     img.save(mstream, img_type)
 
     if save_img:
-        img.save("common/validate.gif", img_type)
+        img.save(os.path.join(BASE_DIR, 'common/validate.gif'), img_type)
 
     return mstream, strs
