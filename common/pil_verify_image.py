@@ -19,19 +19,19 @@ default_font = os.path.join(BASE_DIR, 'common/biminb__.ttf')         # 验证码
 
 
 # 生成验证码接口
-def generate_verify_image(size=(120, 40),
+def generate_verify_image(size=(100, 40),
                           chars=init_chars,
                           img_type="GIF",
                           mode="RGB",
                           bg_color=(255, 255, 255),
                           fg_color=(0, 0, 255),
-                          font_size=18,
+                          font_size=23,
                           font_type=default_font,
                           length=4,
                           draw_lines=True,
-                          n_line=(1, 6),
+                          n_line=(1, 4),
                           draw_points=True,
-                          point_chance=12,
+                          point_chance=40,
                           save_img=False):
 
     """
@@ -66,13 +66,12 @@ def generate_verify_image(size=(120, 40),
         """绘制干扰线"""
 
         line_num = random.randint(*n_line)  # 干扰线条数
-
         for i in range(line_num):
             # 起始点
             begin = (random.randint(0, size[0]), random.randint(0, size[1]))
             # 结束点
             end = (random.randint(0, size[0]), random.randint(0, size[1]))
-            draw.line([begin, end], fill=(0, 0, 0))
+            draw.line([begin, end], fill=(0, 255, 0), width=4)
 
     def create_points():
         """绘制干扰点"""
