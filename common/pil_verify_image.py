@@ -122,6 +122,6 @@ def generate_verify_image(size=(100, 40),
     img.save(mstream, img_type)
 
     if save_img:
-        img.save(os.path.join(BASE_DIR, 'common/validate.gif'), img_type)
+        img.save(os.path.join(BASE_DIR, 'static/upload/validate.gif'), img_type)
 
     return mstream, strs
