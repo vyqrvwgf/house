@@ -1086,3 +1086,13 @@ class Withdrawal(BaseModel):
         choices=STATUS_CHOICES,
         default=0,
         verbose_name="状态")
+
+
+class HouseDemand(BaseModel):
+
+    class Meta(object):
+        verbose_name = "租房需求"
+        verbose_name_plural = "租房需求"
+
+    mobile = models.CharField(default='', max_length=300, verbose_name="手机号")
+    content = models.CharField(default='', max_length=300, verbose_name="需求")

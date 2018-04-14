@@ -11,6 +11,7 @@ from settings import (
     SMS_APP_ID
 )
 from sms import SMSManager
+from datetime import datetime
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from functools import wraps
@@ -165,9 +166,10 @@ def send_v_code(mobile, v_code, expired_minutes):
         SMS_SUB_ACCOUNT_TOKEN,
         SMS_APP_ID)
     try:
-        result = sms_manager.send_auth_code(
+
+        result = sms_manager.send_sms_msg(
             mobile,
-            v_code,
+            [datetime.now().strftime('%Y-%m-%d %H:%M'), v_code, expired_minutes],
             expired_minutes=expired_minutes,
             template_id=SMS_TEMPLATE_CODE_ID)
         send_status = True

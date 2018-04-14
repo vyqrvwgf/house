@@ -18,7 +18,8 @@ from web.views import (
     listings_release,
     wanted_release,
     acl,
-    group
+    group,
+    house_demand
 )
 
 # 管理后台
@@ -173,6 +174,9 @@ urlpatterns = [
         wanted_release.online, name='wanted_release_online'),
     url(r'^wanted_release/(?P<renthouse_id>\d+)/offline/$',
         wanted_release.offline, name='wanted_release_offline'),
+
+    # 租房需求
+    url(r'^house_demand/list/$', house_demand.list, name='house_demand_list'),
 
     # 商家管理员
     url(r'^venture_manage/list$',

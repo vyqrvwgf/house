@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'guardian',
     'web',
     'website',
+    'wechatapi'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -154,6 +155,11 @@ REDIS_TIMEOUT = 7*24*60*60
 # 加密前缀
 DB_PREFIX = 'house_'
 
+
+# 微信
+WECHAT_APP_ID = 'wx80d7ef667ec4ee53'
+WECHAT_APP_SECRET = '6389d5eb5637a2241d10914e010c8641'
+
 # 云通讯
 SMS_ACCOUNT_SID = '8aaf07085d106c7f015d4660f8c015cb'
 SMS_ACCOUNT_TOKEN = 'e91031fce3f948efb7549308d709ba19'
@@ -196,6 +202,9 @@ STATICFILES_DIRS = [
 ]
 
 UPLOAD_DIR = os.path.join(BASE_DIR, 'static', 'upload')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = UPLOAD_DIR
 
 DOMAIN = 'http://www.yuejuweb.com'
 
