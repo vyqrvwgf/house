@@ -24,7 +24,7 @@ from settings import (
     MEDIA_URL
 )
 
-from utils import send_v_code, check_v_code, verify_mobile
+from utils import send_v_code2, check_v_code, verify_mobile
 
 redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
 
@@ -42,7 +42,7 @@ class SendSmsCodeView(APIView):
             return JsonResponse({'error_code': 2, 'error_msg': '手机号格式错误'})
 
         v_code = str(random.randint(1000, 9999))
-        data = send_v_code(mobile, v_code, 2)
+        data = send_v_code2(mobile, v_code, 2)
 
         if data:
             redis_conn.set('v_code_json', json.dumps({data['mobile']: data[
