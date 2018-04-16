@@ -6,6 +6,7 @@ from settings import (
     SMS_ACCOUNT_TOKEN,
     SMS_SUB_ACCOUNT_SID,
     SMS_TEMPLATE_CODE_ID,
+    SMS_TEMPLATE_CODE_H5,
     SMS_TEMPLATE_CODE_RESET,
     SMS_SUB_ACCOUNT_TOKEN,
     SMS_APP_ID
@@ -205,6 +206,30 @@ def send_v_code1(mobile, v_code, expired_minutes):
         data['v_code'] = v_code
         data['send_time'] = int(time.time())
     return data
+
+
+def send_v_code2(mobile, v_code, expired_minutes):
+    sms_manager = SMSManager(
+        SMS_ACCOUNT_SID,
+        SMS_ACCOUNT_TOKEN,
+        SMS_SUB_ACCOUNT_SID,
+        SMS_SUB_ACCOUNT_TOKEN,
+        SMS_APP_ID)
+    try:
+
+        result = sms_manager.send_sms_msg(
+            mobile,
+            [datetime.now().strftime('%Y-%m-%d %H:%M'), v_code, expired_minutes],
+            expired_minutes=expired_minutes,
+            template_id=SMS_TEMPLATE_CODE_H5)
+        send_status = True
+    except Exception as e:
+        send_status = False
+    data = {}
+    if send_status:
+        data['mobile'] = mobile
+        data['v_code'] = v_code
+        data['send_time'] = int(time.time())
 
 
 def send_notice(mobile, datas, template_id):

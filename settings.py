@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'guardian',
     'web',
     'website',
@@ -30,6 +31,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -168,6 +170,7 @@ SMS_SUB_ACCOUNT_TOKEN = 'a48f2a39778715aa270e5028f5843cba'
 SMS_APP_ID = '8aaf07085d106c7f015d4660faa615d1'
 SMS_TEMPLATE_CODE_ID = 236748
 SMS_TEMPLATE_CODE_RESET = 236749
+SMS_TEMPLATE_CODE_H5 = 243758
 
 # 云通讯
 # SMS_ACCOUNT_SID = '8a216da85b602cda015b6650215a044a'
@@ -192,6 +195,37 @@ APP_ID = 'app_SOGGKKPaLafDq1aH'
 
 QQ_MAP_API_URL = 'https://map.qq.com/api/js?v=2.exp&libraries=drawing,geometry,autocomplete,convertor'
 
+
+# 跨域增加忽略
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+    '*',
+)
+
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+    'VIEW',
+)
+
+CORS_ALLOW_HEADERS = (
+    'XMLHttpRequest',
+    'X_FILENAME',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'Pragma',
+)
 
 STATIC_URL = '/static/'
 
