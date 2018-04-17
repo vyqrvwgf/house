@@ -1,1 +1,39 @@
-$(function(){var i=$(".intro-high-module");i.height(.258333333*$(window).innerWidth()),$(window).on("resize",function(){i.height(.258333333*$(window).innerWidth())}),$(window).on("scroll",function(){var i=$(".j_top");$(window).scrollTop()?i.addClass("top-fixed"):i.removeClass("top-fixed")}),window.onload=function(){var i=$(".about-tap .item.active"),o=i.index();$(".about-change-block").eq(o).show().siblings(".about-change-block").hide()},$(".about-tap .item").on("click",function(){var i=$(this).index();$(this).addClass("active").siblings(".item").removeClass("active"),$(".about-change-block").eq(i).show().siblings(".about-change-block").hide()}),$(".dropdown-title").on("click",function(){var i=$(this).children(".title"),o=$(this).children(".dropdown-text");i.hasClass("open")?i.removeClass("open"):i.addClass("open"),o.slideToggle(),o.click(function(i){i=i||window.event,i.stopPropagation()?i.stopPropagation():i.cancelbubble=!0})}),$(".nav-ball").on("click",function(){$(this).siblings(".nav-top").slideToggle("fast")})});
+/**
+ * Created by Administrator on 2017/9/17 0017.
+ */
+$(document).ready(function() {
+    //    <!-- Swiper JS -->
+    //    banner autoplay
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        paginationClickable: true,
+        spaceBetween: 1000,
+        centeredSlides: true,
+        autoplay: 4000,
+        autoplayDisableOnInteraction: false,
+        effect: 'fade',
+        loop: true
+    });
+
+    // 房源推荐切换
+    //Default Action
+    $(".tab-content").hide(); //Hide all content
+    $("ul.tabs li:first").addClass("active").show(); //Activate first tab
+    $(".tab-content:first").show(); //Show first tab content
+
+//On Click Event
+    $("ul.tabs li").click(function() {
+        $("ul.tabs li").removeClass("active"); //Remove any "active" class
+        $(this).addClass("active"); //Add "active" class to selected tab
+        $(".tab-content").hide(); //Hide all tab content
+        var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+        $(activeTab).fadeIn(); //Fade in the active content
+        return false;
+    });
+
+});
+
+
+
