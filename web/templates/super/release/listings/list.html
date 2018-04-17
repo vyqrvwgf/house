@@ -48,6 +48,7 @@
                 </td>
                 <td style="vertical-align: middle;">{{ c.get_audit_status_display }}</td>
                 <td style="vertical-align: middle;">
+                    <a class="btn-xs btn-success" target="_blank" href="{% url 'website:housing_resources' c.id %}">预览</a>
                     <!-- <a class="btn btn-info" href="{% url 'web:infrastructure_edit' c.id %}">编辑</a> -->
                     <a class="btn-xs btn-success" href="{% url 'web:listings_release_online' c.id %}?page={{page}}">通过</a>
                     <a class="btn-xs btn-danger" href="{% url 'web:listings_release_offline' c.id %}?page={{page}}">不通过</a>

@@ -7,6 +7,7 @@
     {% block style %}
     <link rel="stylesheet" href="/static/website/css/03-findToRent.css">
     <link rel="stylesheet" href="/static/website/css/02-1-roomResource-1.css">
+    <script src="//at.alicdn.com/t/font_344262_oaepqui8yxwuq5mi.js"></script>
     {% endblock %}
 
 {% block container %}
@@ -21,18 +22,30 @@
         <li><a href="{% url 'website:housing_resources_map_list' %}">地图找房</a></li>
     </ul>
 </div>
-
 <!-- 房源筛选 -->
 <div class="panel-filter banxin clearfix">
     <!--位置筛选-->
     <div class="container clearfix">
         <!--地区列表-->
-        <ul class="tabs clearfix">
+        <ul class="tabs clearfix area">
             <li><strong>区域</strong>：&nbsp;</li>
-            <li value=""><a href="#tab1">&nbsp;全部&nbsp;</a></li>
-            <li value="洪山"><a href="#tab2">&nbsp;洪山&nbsp;</a></li>
-            <li value="汉阳"><a href="#tab3">&nbsp;汉阳&nbsp;</a></li>
-            <li value="武昌"><a href="#tab4">&nbsp;武昌&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;洪山&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;汉阳&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;武昌&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;黄陂&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;江岸&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;东西湖&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;江夏&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;汉桥&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;硚口&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;青山&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;蔡甸&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;新洲&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;武汉周边&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;东湖高新&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;经济开发区&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;汉南&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;全部&nbsp;</a></li>
         </ul>
 
         <!--区域范围列表-->
@@ -53,60 +66,62 @@
                 </ul>
             </div>
         </div> -->
+
     </div>
 
     <!--价格筛选-->
     <div class="row price clearfix">
         <ul class="clearfix fl">
             <li><strong>价格</strong>：&nbsp;</li>
-            <li class="active" value="">&nbsp;不限&nbsp;</li>
-            <li value="500">500以下&nbsp;</li>
-            <li value="500-1000">500-1000&nbsp;</li>
-            <li value="1000-1500">1000-1500&nbsp;</li>
-            <li value="1500-2000">1500-2000&nbsp;</li>
-            <li value="2000-2500">2000-2500&nbsp;</li>
-            <li value="2500-3000">2500-3000&nbsp;</li>
-            <li value="3000-3500">3000-3500&nbsp;</li>
-            <li value="3500-4000">3500-4000&nbsp;</li>
+            <li class="active">&nbsp;不限&nbsp;</li>
+            <li>500以下&nbsp;</li>
+            <li>500-1000&nbsp;</li>
+            <li>1000-1500&nbsp;</li>
+            <li>1500-2000&nbsp;</li>
+            <li>2000-2500&nbsp;</li>
+            <li>2500-3000&nbsp;</li>
+            <li>3000-3500&nbsp;</li>
+            <li>3500-4000&nbsp;</li>
         </ul>
-        <div class="self-pricing fl">&nbsp;
-            <input type="text" name="start_price"> - <input type="text" name="end_price">
+        <div class="self-pricing fl">
+            <input type="text"> - <input type="text">
             <button>确定</button>
         </div>
     </div>
+
     <!--户型筛选-->
     <div class="row structure">
         <ul class="clearfix">
-            <li>
-                <strong>户型</strong>：&nbsp;
-            </li>
-            <li class="active" value="">&nbsp;不限&nbsp;</li>
-            <li value="一室">一室&nbsp;</li>
-            <li value="二室">二室&nbsp;</li>
-            <li value="三室">三室&nbsp;</li>
-            <li value="四室">四室&nbsp;</li>
-            <li value="五室">五室&nbsp;</li>
-            <li value="其他">其他&nbsp;</li>
+            <li><strong>户型</strong>：&nbsp;</li>
+            <li class="active">&nbsp;不限&nbsp;</li>
+            <li>一室&nbsp;</li>
+            <li>二室&nbsp;</li>
+            <li>三室&nbsp;</li>
+            <li>四室&nbsp;</li>
+            <li>五室&nbsp;</li>
+            <li>其他&nbsp;</li>
         </ul>
     </div>
+
     <!--合租/整租 筛选-->
     <div class="row wayToRent">
         <ul class="clearfix">
             <li><strong>方式</strong>：&nbsp;</li>
-            <li class="active">&nbsp;不限&nbsp; </li>
+            <li class="active">&nbsp;不限&nbsp;</li>
             <li id="entireRent">整租&nbsp;</li>
             <li id="sharedRent">合租&nbsp;</li>
         </ul>
     </div>
+
     <!--室友 筛选-->
-<!--     <div class="row roommate">
+<!--<div class="row roommate">
         <ul class="clearfix">
-            <li><strong>室友</strong>：&nbsp;</li>
+            <li><strong>室友</strong>：&nbsp</li>
             <li class="active">&nbsp;不限&nbsp;</li>
-            <li>夫妻&nbsp;</li>
-            <li>朋友&nbsp;</li>
-            <li>男生&nbsp;</li>
-            <li>女生&nbsp;</li>
+            <li>夫妻&nbsp</li>
+            <li>朋友&nbsp</li>
+            <li>男生&nbsp</li>
+            <li>女生&nbsp</li>
         </ul>
     </div> -->
 </div>
@@ -129,14 +144,14 @@
                     </svg>
                 </strong>
                 <span class="confirmed">户主本人</span>
-                <strong >
+                <strong>
                     <svg class="icon" aria-hidden="true">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use>
                     </svg>
                 </strong>
                 <span class="confirmed">核实工作单位</span>
             </p>
-            <p class="trig-describe">{{ h.content|safe }}</p>
+            <p class="trig-describe">{{ h.category }}</p>
         </div>
     </a>
 {% endfor %}
@@ -145,8 +160,162 @@
 <!--footer begin-->
 
 {% block script %}
-<script src="/static/website/js/03-findToRent.js"></script>
+<script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script type="text/javascript">
-    
+    function search_conditions() {
+        var area = $('.area').find('li.active a').text()
+        var price = $('.price').find('li.active').text()
+        var structure = $('.structure').find('li.active').text()
+        var waytorent = $('.wayToRent').find('li.active').text()
+        console.log(area + ';' + price + ';' + structure + ';' + waytorent)
+
+        
+
+
+
+
+    }
+</script>
+<script>
+/**
+ * Created by Administrator on 2017/9/11 0011.
+ */
+$(document).ready(function() {
+
+    //初始化 位置列表
+    //Default Action
+    $(".tab_content").hide(); //Hide all content
+    $("ul.tabs li:nth-child(2)").addClass("active").show(); //Activate first tab
+    $(".tab_content:first").show(); //Show first tab content
+
+    //初始化 区域范围列表
+    //Default Action
+    $(".s_tab_content").hide(); //Hide all content
+    $("ul.service_tabs li:nth-child(1)").addClass("active").show(); //Activate first tab
+    $(".s_tab_content:first").show(); //Show first tab content
+
+    //On Click Event
+    $("ul.tabs li").click(function () {
+        //【选择位置】
+        $("ul.tabs li").removeClass("active"); //Remove any "active" class
+        $(this).addClass("active"); //Add "active" class to selected tab
+        $(".tab_content").hide(); //Hide all tab content
+        var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+        // console.log(activeTab);
+        $(activeTab).fadeIn(); //Fade in the active content
+
+        //每次【位置选择】结束，对应的【区域范围】回到初始值
+        //Default Action
+        $(".s_tab_content").hide(); //Hide all content
+        var newContent = $(activeTab).find("ul").find("li:nth-child(2)").find("a").attr("href"); //Show first tab content
+        $(newContent).show();
+        $("ul.service_tabs li").removeClass("active");
+        $("ul.service_tabs li:nth-child(1)").addClass("active").show(); //Activate first tab
+
+
+        //【选择位置】 >> 【选择区域】
+        //On Click Event
+        $("ul.service_tabs li").click(function () {
+            $("ul.service_tabs li").removeClass("active"); //Remove any "active" class
+            $(this).addClass("active"); //Add "active" class to selected tab
+            $(".s_tab_content").hide(); //Hide all tab content
+            var activeTab2 = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+            $(activeTab2).fadeIn(); //Fade in the active content
+            return false;
+        });
+        search_conditions()
+        return false;
+    });
+
+    //初次 【选择位置】 >> 【选择区域】
+    $("ul.service_tabs li").click(function () {
+        $("ul.service_tabs li").removeClass("active"); //Remove any "active" class
+        $(this).addClass("active"); //Add "active" class to selected tab
+        $(".s_tab_content").hide(); //Hide all tab content
+        var activeTab2 = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+        console.log(activeTab2);
+        $(activeTab2).fadeIn(); //Fade in the active content
+        return false;
+    });
+
+    //其他筛选条件
+    //价格筛选
+    filter1("price");
+    //房型筛选
+    filter1("structure");
+    //租赁方式筛选
+    filter2("wayToRent");
+    //室友筛选
+    $(".wayToRent li:gt(1)").click(function () {
+        if($("#sharedRent").hasClass("active")){
+            $(".roommate").show();
+        }else{
+            $(".roommate").hide();
+        }
+    });
+
+    filter2("roommate");
+
+    function filter1(rowName) {
+        var liArr = $("."+rowName+" ul li");
+        var choose = false;
+        var total = liArr.length - 2;
+        var num = 0;
+
+        // console.log(liArr);
+        // //选中【不限】时，其他不用高亮
+        $(liArr[1]).click(function () {
+            $(this).addClass("active");
+            for(var i = 2; i < liArr.length;i++){
+                $(liArr[i]).removeClass("active");
+            }
+        });
+
+        // 点击除【不限】之外的选项时高亮，全高亮时改为全部不高亮，【不限】选项高亮
+        //为 不限 后面的 选项进行单独绑定点击事件
+        for(var i = 2; i < liArr.length;i++) {
+            console.log(liArr[i]);
+            $(liArr[i]).click(function () {
+                //每次点击重置 choose 的值，且
+                // choose = true;
+                // num = 0;
+                liArr.removeClass("active");
+
+                //点击后，高亮显示
+                if($(this).hasClass("active")){
+                    $(this).removeClass("active");
+                }else{
+                    $(this).addClass("active");
+                }
+
+                // //每次点击，都遍历一次确定是否都选中了
+                // for (var j = 2; j < liArr.length; j++) {
+                //     if($(liArr[j]).attr("class") === undefined) {
+                //         choose = false;
+                //         num++;
+                //         if(num === total ){
+                //             choose = true;
+                //         }
+                //     }
+                // }
+
+                // //对  choose 进行判断
+                // if(choose){
+                //     $("."+rowName+" ul li").removeClass("active");
+                //     $(liArr[1]).addClass("active");
+                // }else{
+                //     $(liArr[1]).removeClass("active");
+                // }
+            });
+        }
+
+    }
+    function filter2(rowName) {
+        $("."+rowName+" ul li").click(function () {
+            $(this).parent().find("li").removeClass("active");
+            $(this).addClass("active");
+        });
+    }
+});
 </script>
 {% endblock %}

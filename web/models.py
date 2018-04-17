@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.db.models import Count, Sum
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.db.models import Q
 
 from imagestore.qiniu_manager import url, o_url
@@ -90,12 +90,7 @@ class Profile(BaseModel):
         (1, '已认证')
     )
 
-    user = models.ForeignKey(
-        User,
-        default=None,
-        blank=True,
-        null=True,
-        verbose_name='用户')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.CharField(
         max_length=128,
         default='',
@@ -217,6 +212,7 @@ class ACL(BaseModel):
 
         verbose_name = "访问控制列表"
         verbose_name_plural = "访问控制列表"
+
         permissions = (
             ('view_module', '查看'),
             ('add_module', '添加'),
@@ -472,7 +468,7 @@ class RentHouse(BaseModel):
         default='',
         verbose_name='姓名')
     phone = models.CharField(
-        max_length=11,
+        max_length=120,
         blank=True,
         default='',
         verbose_name='手机')
@@ -489,6 +485,45 @@ class RentHouse(BaseModel):
     def get_profile(self):
         profile = Profile.obs.get_queryset().filter(user=self.user).first()
         return profile
+
+
+class RentHouseMeet(BaseModel):
+
+    class Meta(object):
+        verbose_name = '求租预约'
+        verbose_name_plural = '求租预约'
+
+    STATUS_CHOICES = (
+        (0, '待看房'),
+        (1, '已看房'),
+    )
+
+    user = models.ForeignKey(
+        User,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name='用户')
+    rent_house = models.ForeignKey(
+        RentHouse,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name='求租')
+    meet_time = models.DateTimeField(
+        default=None,
+        blank=True,
+        null=True,
+        verbose_name="预约时间")
+    comp_meet_time = models.DateTimeField(
+        default=None,
+        blank=True,
+        null=True,
+        verbose_name="已预约时间")
+    status = models.IntegerField(
+        choices=STATUS_CHOICES,
+        default=0,
+        verbose_name='状态')
 
 
 class HousingResources(BaseModel):
@@ -644,6 +679,10 @@ class HousingResources(BaseModel):
         null=True,
         blank=True,
         verbose_name='房屋描述')
+    quality = models.IntegerField(
+        choices=VAILD_CHOICES,
+        default=0,
+        verbose_name='是否为品质房源')
     status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=0,
@@ -698,6 +737,45 @@ class HousingResources(BaseModel):
         '''获取卧室数量
         '''
         return Bedroom.obs.get_queryset().filter(housing_resources=self).count()
+
+
+class HousingResourcesMeet(BaseModel):
+
+    class Meta(object):
+        verbose_name = '房源预约'
+        verbose_name_plural = '房源预约'
+
+    STATUS_CHOICES = (
+        (0, '待看房'),
+        (1, '已看房'),
+    )
+
+    user = models.ForeignKey(
+        User,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name='用户')
+    housing_resources = models.ForeignKey(
+        HousingResources,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name='房源发布')
+    meet_time = models.DateTimeField(
+        default=None,
+        blank=True,
+        null=True,
+        verbose_name="预约时间")
+    comp_meet_time = models.DateTimeField(
+        default=None,
+        blank=True,
+        null=True,
+        verbose_name="已预约时间")
+    status = models.IntegerField(
+        choices=STATUS_CHOICES,
+        default=0,
+        verbose_name='状态')
 
 
 class HousingResourcesComment(BaseModel):
@@ -1008,3 +1086,13 @@ class Withdrawal(BaseModel):
         choices=STATUS_CHOICES,
         default=0,
         verbose_name="状态")
+
+
+class HouseDemand(BaseModel):
+
+    class Meta(object):
+        verbose_name = "租房需求"
+        verbose_name_plural = "租房需求"
+
+    mobile = models.CharField(default='', max_length=300, verbose_name="手机号")
+    content = models.CharField(default='', max_length=300, verbose_name="需求")

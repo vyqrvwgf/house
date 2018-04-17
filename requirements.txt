@@ -4,6 +4,10 @@ djangorestframework-jwt==1.8.0
 qiniu==7.1.2
 mysql-python==1.2.5
 pingpp==2.0.11
+captcha==0.2.1
 redis==2.10.5
 simplejson==3.8.2
 django-guardian==1.4.6
+xlrd==1.0.0
+xlsxwriter==0.9.6
+django-cors-headers==2.1.0

@@ -19,16 +19,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'guardian',
     'web',
     'website',
+    'wechatapi'
 ]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -40,7 +43,7 @@ ROOT_URLCONF = 'house.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend', 'dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -52,6 +55,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'house.wsgi.application'
 
@@ -71,7 +75,7 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
-    'web.auth_backends.mobile.MobileBackend',
+    # 'web.auth_backends.mobile.MobileBackend',
 )
 
 
@@ -154,6 +158,11 @@ REDIS_TIMEOUT = 7*24*60*60
 # 加密前缀
 DB_PREFIX = 'house_'
 
+
+# 微信
+WECHAT_APP_ID = 'wx80d7ef667ec4ee53'
+WECHAT_APP_SECRET = '6389d5eb5637a2241d10914e010c8641'
+
 # 云通讯
 SMS_ACCOUNT_SID = '8aaf07085d106c7f015d4660f8c015cb'
 SMS_ACCOUNT_TOKEN = 'e91031fce3f948efb7549308d709ba19'
@@ -162,6 +171,7 @@ SMS_SUB_ACCOUNT_TOKEN = 'a48f2a39778715aa270e5028f5843cba'
 SMS_APP_ID = '8aaf07085d106c7f015d4660faa615d1'
 SMS_TEMPLATE_CODE_ID = 236748
 SMS_TEMPLATE_CODE_RESET = 236749
+SMS_TEMPLATE_CODE_H5 = 243758
 
 # 云通讯
 # SMS_ACCOUNT_SID = '8a216da85b602cda015b6650215a044a'
@@ -187,15 +197,50 @@ APP_ID = 'app_SOGGKKPaLafDq1aH'
 QQ_MAP_API_URL = 'https://map.qq.com/api/js?v=2.exp&libraries=drawing,geometry,autocomplete,convertor'
 
 
+# 跨域增加忽略
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+    '*',
+)
+
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+    'VIEW',
+)
+
+CORS_ALLOW_HEADERS = (
+    'XMLHttpRequest',
+    'X_FILENAME',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'Pragma',
+)
+
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'frontend/dist/static'),
 ]
 
 UPLOAD_DIR = os.path.join(BASE_DIR, 'static', 'upload')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = UPLOAD_DIR
 
 DOMAIN = 'http://www.yuejuweb.com'
 

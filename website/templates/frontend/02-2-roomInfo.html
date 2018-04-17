@@ -7,6 +7,9 @@
     {% block style %}
     <link rel="stylesheet" href="/static/website/css/02-2-roomInfo.css">
     <link rel="stylesheet" href="/static/website/css/swiper.min.css">
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.structure.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.theme.css"/>
     {% endblock %}
 
 {% block container %}
@@ -56,7 +59,10 @@
                 <span>{{ housing_resources.get_lease_display }}</span>
             </p>
             <p class="payment"><span class="orange">￥{{ housing_resources.month_rent }}/月</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="how">押{{ housing_resources.bet }}付{{ housing_resources.pay }}</span></p>
-            <p class="phoneNum orange"><button>预 约 看 房</button></p>
+            <!-- <p class="phoneNum orange"><button>预 约 看 房</button></p> -->
+            <p class="getContact orange">
+                <input type="text" id="select_date" housing_resources_id={{housing_resources.id}} readonly="readonly" placeholder="预约看房" />
+            </p>
         </div>
     </div>
 </div>
@@ -95,7 +101,6 @@
             </p>
             <p class="text"><label for="">面积：</label>&nbsp;&nbsp;<span>{{ housing_resources.sitting_room_area }}</span>㎡</p>
             <p class="text"><label for="">小区：</label>&nbsp;&nbsp;<span>{{ housing_resources.area }}</span></p>
-            <p class="text"><label for="">地址：</label>&nbsp;&nbsp;<span>{{ housing_resources.complete_address }}</span></p>
         </div>
     </div>
 
@@ -154,7 +159,7 @@
     </div>
 
     <!-- 6 房间概况-->
-    <div class="someInfo wrapper clearfix">
+<!--     <div class="someInfo wrapper clearfix">
         <div class="left fl"><svg class="icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-6-roominfo"></use></svg> 房价概况</div>
         <div class="right fl">
             <ul>
@@ -176,10 +181,10 @@
             {% endfor %}
             </ul>
         </div>
-    </div>
+    </div> -->
 
     <!-- 7 看房评价-->
-    <div class="comment wrapper clearfix">
+<!--     <div class="comment wrapper clearfix">
         <div class="left fl">
             <svg class="icon" aria-hidden="true">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-comment"></use>
@@ -203,7 +208,7 @@
             {% endfor %}
             </ul>
         </div>
-    </div>
+    </div> -->
 </div>
 <!--房屋详情 end-->
 
@@ -218,7 +223,7 @@
                 <div class="trig_txt">
                     <div class="trig-price orange">{{ th.month_rent }} <span>元/月</span></div>
                     <div class="trig-addr">{{ th.area }}-{{ th.community }}-{{ th.category }}-朝{{  th.get_direction_display }}-{{ th.sitting_room_area }}㎡</div>
-                    <div class="trig-describe">{{ th.content }}</div>
+                    <div class="trig-describe">{{ th.category }}</div>
                 </div>
             </a>
         {% endfor %}
@@ -238,7 +243,7 @@
                 <div class="trig_txt">
                     <div class="trig-price orange">{{ ff.month_rent }} <span>元/月</span></div>
                     <div class="trig-addr">{{ ff.area }}-{{ ff.community }}-{{ ff.category }}-朝{{  ff.get_direction_display }}-{{ ff.sitting_room_area }}㎡</div>
-                    <div class="trig-describe">{{ ff.content }}</div>
+                    <div class="trig-describe">{{ ff.category }}</div>
                 </div>
             </a>
         {% endfor %}
@@ -250,28 +255,11 @@
 
 {% block script %}
 <script charset="utf-8" src="{{ qq_map_api_url }}"></script>
+<script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="/static/website/js/swiper.min.js"></script>
+<script src="/static/website/js/02-2-roomInfo.js"></script>
 <!-- Initialize Swiper -->
 <script>
-    var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-        paginationClickable: true,
-        spaceBetween: 500,
-        centeredSlides: true,
-        autoplay: 2000,
-        autoplayDisableOnInteraction: false,
-        effect: 'fade',
-        loop: true
-    });
-
-    $(".backToTop").click(function () {
-        console.log(11);
-        scrollTo(0,0);
-    });
-
-
   var lng = {% if not housing_resources or housing_resources.lng == 0.0000000 %}114.30{% else %}{{ housing_resources.lng }}{% endif %};
   var lat = {% if not housing_resources or housing_resources.lat == 0.0000000 %}30.60{% else %}{{ housing_resources.lat }}{% endif %};
 
@@ -291,6 +279,31 @@
     });
     //marker.setAnimation(qq.maps.Animation.DROP);
   },200);
+
+
+    $('#select_date').on('change', function(){
+        var housing_resources_id = $(this).attr('housing_resources_id')
+        var select_date = $(this).val()
+        $.ajax({
+            url: '{% url "website:housing_resources_meet_create" %}',
+            type: 'post',
+            data: {
+                housing_resources_id: housing_resources_id,
+                select_date: select_date,
+            },
+            success: function(res, status){
+                if (res.error_code == 1) {
+                    window.location.href = '{% url "website:home_login" %}'
+                }
+                if (!res.error_code) {
+                    alert(res.error_msg)
+                }
+            },
+            error: function(res, status){
+                alert('预约失败')
+            }
+        })
+    })
 
 </script>
 {% endblock %}

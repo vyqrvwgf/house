@@ -3,7 +3,7 @@
 from django.conf.urls import url
 
 from web.views import (
-    index_view,
+    index,
     auth,
     column,
     home,
@@ -12,23 +12,38 @@ from web.views import (
     operating,
     infrastructure,
     user,
-    flush_view,
+    flush,
     listings,
     wanted,
     listings_release,
-    wanted_release
+    wanted_release,
+    acl,
+    group,
+    house_demand
 )
 
 # 管理后台
 urlpatterns = [
     # 首页
-    url(r'^$', index_view.index, name='admin_index'),
+    url(r'^$', index.index, name='admin_index'),
     # 登陆注册
     url(r'^login$', auth.login_view, name='admin_login'),
     url(r'^logout$', auth.logout_view, name='admin_logout'),
-    url(r'^uptoken/$', index_view.uptoken, name='admin_uptoken'),
+    url(r'^uptoken/$', index.uptoken, name='admin_uptoken'),
 
-    url(r'^flush/setting/$', flush_view.setting, name='flush_setting'),
+    url(r'^flush/setting/$', flush.setting, name='flush_setting'),
+
+    url(r'^acl$', acl.list, name='acl_list'),
+    url(r'^acl/add$', acl.add, name='acl_add'),
+    url(r'^acl/(?P<acl_id>\d+)/edit$', acl.edit, name='acl_edit'),
+    url(r'^acl/(?P<acl_id>\d+)/delete$', acl.delete, name='acl_delete'),
+
+    url(r'^group$', group.list, name='group_list'),
+    url(r'^group/add$', group.add, name='group_add'),
+    url(r'^group/(?P<group_id>\d+)/edit$',
+        group.edit, name='group_edit'),
+    url(r'^group/(?P<group_id>\d+)/delete$',
+        group.delete, name='group_delete'),
 
     # 轮播
     url(r'^advertising/list/$', home.advertising_list, name='advertising_list'),
@@ -86,6 +101,16 @@ urlpatterns = [
         listings.online, name='listings_online'),
     url(r'^listings/(?P<housingresources_id>\d+)/offline$',
         listings.offline, name='listings_offline'),
+    url(r'^listings/(?P<housingresources_id>\d+)/onquality$',
+        listings.onquality, name='listings_onquality'),
+    url(r'^listings/(?P<housingresources_id>\d+)/offquality$',
+        listings.offquality, name='listings_offquality'),
+
+    # 房源预约
+    url(r'^listings/meet/list/$', listings.meet_list, name='listings_meet_list'),
+    url(r'^listings/meet/(?P<housingresources_meet_id>\d+)/delete$', listings.meet_delete, name='listings_meet_delete'),
+    url(r'^listings/meet/(?P<housingresources_meet_id>\d+)/complete$', listings.meet_complete, name='listings_meet_complete'),
+
     url(r'^listings/(?P<housingresources_id>\d+)/delete$',
         listings.delete, name='listings_delete'),
     # 房源图片
@@ -127,7 +152,6 @@ urlpatterns = [
     url(r'^listings_release/(?P<housingresources_id>\d+)/offline/$',
         listings_release.offline, name='listings_release_offline'),
 
-
     # 求租列表
     url(r'^wanted/list/$', wanted.list, name='wanted_list'),
     url(r'^wanted/(?P<renthouse_id>\d+)/online$',
@@ -136,6 +160,11 @@ urlpatterns = [
         wanted.offline, name='wanted_offline'),
     url(r'^wanted/(?P<renthouse_id>\d+)/delete$',
         wanted.delete, name='wanted_delete'),
+    url(r'^wanted/import_data$', wanted.import_data, name='wanted_import_data'),
+    # 求租预约
+    url(r'^wanted/meet/list/$', wanted.meet_list, name='wanted_meet_list'),
+    url(r'^wanted/meet/(?P<renthouse_meet_id>\d+)/delete$', wanted.meet_delete, name='wanted_meet_delete'),
+    url(r'^wanted/meet/(?P<renthouse_meet_id>\d+)/complete$', wanted.meet_complete, name='wanted_meet_complete'),
 
     # 求租发布审核
     url(r'^wanted_release/list/$',
@@ -145,6 +174,9 @@ urlpatterns = [
         wanted_release.online, name='wanted_release_online'),
     url(r'^wanted_release/(?P<renthouse_id>\d+)/offline/$',
         wanted_release.offline, name='wanted_release_offline'),
+
+    # 租房需求
+    url(r'^house_demand/list/$', house_demand.list, name='house_demand_list'),
 
     # 商家管理员
     url(r'^venture_manage/list$',
@@ -183,8 +215,8 @@ urlpatterns = [
         operating.operating_delete, name='operating_delete'),
 
     # 上传文件
-    url(r'^ckeditor_upload$', index_view.ckeditor_upload, name='admin_upload'),
+    url(r'^ckeditor_upload$', index.ckeditor_upload, name='admin_upload'),
     url(r'^ckeditor_many_upload$',
-        index_view.ckeditor_many_upload,
+        index.ckeditor_many_upload,
         name='admin_many_upload'),
 ]

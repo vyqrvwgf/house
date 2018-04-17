@@ -25,14 +25,18 @@
             <tr>
               <th>#</th>
               <th>账号</th>
-              <th>权限组</th>
+              <th>用户组</th>
               <th>操作</th>
             </tr>
             {% for c in clients %}
               <tr role="row">
                 <td style="vertical-align: middle;">{{ c.id }}</td>
                 <td style="vertical-align: middle;">{{ c.user.username }}</td>
-                <td style="vertical-align: middle;">{{ c.permissions.name }}</td>
+                <td style="vertical-align: middle;">
+                {% for g in c.user.groups.all %}
+                  {{ g.name }},
+                {% endfor %}
+                </td>
                 <td style="vertical-align: middle;">
                   <a class="btn-xs btn-info" href="{% url 'web:operating_edit' c.id %}?page={{page}}">编辑</a>
                   <a class="btn-xs btn-danger" href="{% url 'web:operating_delete' c.id %}?page={{page}}" onclick="return confirm('确认删除吗?')">删除</a>

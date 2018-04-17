@@ -12,7 +12,7 @@ from web.models import (
     JointVentureAccount,
     JointVenture
 )
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from settings import BACK_PAGE_COUNT, UPLOAD_DIR, DOMAIN
 
 import urllib
@@ -59,11 +59,14 @@ def operating_create(request):
         password = request.POST.get('password', '')
         permissions = request.POST.get('permissions', 0)
         joint_venture_account = JointVentureAccount()
+        group_id_list = request.POST.getlist('group_id', '')
+        group_list = Group.objects.filter(id__in=group_id_list)
 
         user = User()
         user.username = username
         user.set_password(password)
         user.is_staff = True
+        user.groups = list(group_list)
         user.save()
         joint_venture_account.user = user
 
@@ -74,10 +77,12 @@ def operating_create(request):
 
         return HttpResponseRedirect(reverse('web:operating_list'))
 
+    groups = Group.objects.all()
     context = {
         'module': 'operating',
         'permissionss': permissionss,
         'DOMAIN': DOMAIN,
+        'groups': groups,
     }
     return render(request, 'super/settings/operating/create.html', context)
 
@@ -91,11 +96,14 @@ def operating_edit(request, operating_id):
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
         permissions = request.POST.get('permissions', 0)
+        group_id_list = request.POST.getlist('group_id', '')
+        group_list = Group.objects.filter(id__in=group_id_list)
 
         user = client.user
         user.username = username
         if password:
             user.set_password(password)
+        user.groups = list(group_list)
         user.save()
         client.user = user
 
@@ -107,11 +115,14 @@ def operating_edit(request, operating_id):
         return HttpResponseRedirect(reverse('web:operating_list')
             + '?page' + page
         )
+
+    groups = Group.objects.all()
     context = {
         'module': 'operating',
         'client': client,
         'permissionss': permissionss,
         'DOMAIN': DOMAIN,
         'page': page,
+        'groups': groups,
     }
     return render(request, 'super/settings/operating/create.html', context)

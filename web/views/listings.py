@@ -14,6 +14,7 @@ from web.models import (
     HousingPicture,
     Bedroom,
     HouseConfig,
+    HousingResourcesMeet,
 )
 
 from imagestore.qiniu_manager import(
@@ -49,7 +50,7 @@ def list(request):
     search_name = request.GET.get('search_name', '')
     if search_name:
         context['search_name'] = search_name
-        objs = objs.filter(content__icontains=search_name)
+        objs = objs.filter(user__profile__mobile__icontains=search_name)
 
     search_lease = request.GET.get('search_lease', -1)
     search_lease = int(search_lease) if search_lease else -1
@@ -324,6 +325,80 @@ def online(request, housingresources_id):
     client = HousingResources.objects.filter(pk=housingresources_id).first()
     if client:
         client.status = 2
+        client.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@staff_member_required(login_url='/admin/login')
+def meet_list(request):
+    context = {
+        'module': 'listings_meet'
+    }
+    objs = HousingResourcesMeet.obs.get_queryset().order_by('-created')
+
+    search_start = request.GET.get('search_start', '')
+    if search_start:
+        context['search_start'] = search_start
+        start_date = datetime.datetime.strptime(search_start, '%Y-%m-%d')
+        objs = objs.filter(created__gte=start_date)
+
+    search_end = request.GET.get('search_end', '')
+    if search_end:
+        context['search_end'] = search_end
+        end_date = datetime.datetime.strptime(search_end, '%Y-%m-%d')
+        objs = objs.filter(created__lte=end_date)
+
+    page = request.GET.get('page', 1)
+    clients = paging_objs(
+        object_list=objs,
+        per_page=BACK_PAGE_COUNT,
+        page=page)
+
+    context['clients'] = clients
+
+    return render(request, 'super/housing/listings/meet/list.html', context)
+
+
+@staff_member_required(login_url='/admin/login')
+def meet_complete(request, housingresources_meet_id):
+    page = request.GET.get('page', '')
+    client = HousingResourcesMeet.objects.filter(pk=housingresources_meet_id).first()
+    if client:
+        client.status = 1
+        client.comp_meet_time = datetime.datetime.now()
+        client.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@staff_member_required(login_url='/admin/login')
+def meet_delete(request, housingresources_meet_id):
+    page = request.GET.get('page', '')
+    client = HousingResourcesMeet.objects.filter(pk=housingresources_meet_id).first()
+    if client:
+        client.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@staff_member_required(login_url='/admin/login')
+def onquality(request, housingresources_id):
+    page = request.GET.get('page', '')
+
+    client = HousingResources.objects.filter(pk=housingresources_id).first()
+    if client:
+        client.quality = 1
+        client.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@staff_member_required(login_url='/admin/login')
+def offquality(request, housingresources_id):
+    page = request.GET.get('page', '')
+    client = HousingResources.objects.filter(pk=housingresources_id).first()
+    if client:
+        client.quality = 0
         client.save()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

@@ -1,0 +1,67 @@
+{% extends 'super/base.html' %}
+
+{% block pageheader %}
+预约管理
+{% endblock %}
+
+{% block mainbody %}
+<div class="box box-success">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      预约管理
+    </h3>
+    <div class="box-tools">
+    </div>
+  </div><!-- /.box-header -->
+
+  <div class="box-body">
+<!--     <div style="margin-bottom:15px;">
+      <a href="{% url 'web:infrastructure_create' %}" class="btn btn-info">新建</a>
+    </div> -->
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered table-striped">
+          <tbody>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>用户</th>
+              <th>求租ID</th>
+              <th>预约时间</th>
+              <th>实际看房时间</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+            {% for c in clients %}
+              <tr>
+                <td style="vertical-align: middle;">{{ c.id }}</td>
+                <td style="vertical-align: middle;">{{ c.user.username }}</td>
+                <td style="vertical-align: middle;">{{ c.rent_house.id }}</td>
+                <td style="vertical-align: middle;">{{ c.meet_time|date:"Y-m-d" }}</td>
+                <td style="vertical-align: middle;">
+                  {% if c.status %}
+                    {{ c.comp_meet_time }}
+                  {% endif %}
+                </td>
+                <td style="vertical-align: middle;">{{ c.get_status_display }}</td>
+                <td style="vertical-align: middle;">
+                  <a class="btn-xs btn-success" href="{% url 'web:wanted_meet_complete' c.id %}" onclick="return confirm('确认已看房吗?')">
+                    确认已看房
+                  </a>&nbsp;
+                  <a class="btn-xs btn-danger" href="{% url 'web:wanted_meet_delete' c.id %}" onclick="return confirm('确认删除吗?')">
+                    删除
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% with clients as paging_objs %}
+      {% include 'super/paging.html' %}
+    {% endwith %}
+
+  </div>
+</div>
+{% endblock %}

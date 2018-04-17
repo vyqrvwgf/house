@@ -6,11 +6,13 @@ from settings import (
     SMS_ACCOUNT_TOKEN,
     SMS_SUB_ACCOUNT_SID,
     SMS_TEMPLATE_CODE_ID,
+    SMS_TEMPLATE_CODE_H5,
     SMS_TEMPLATE_CODE_RESET,
     SMS_SUB_ACCOUNT_TOKEN,
     SMS_APP_ID
 )
 from sms import SMSManager
+from datetime import datetime
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from functools import wraps
@@ -24,6 +26,7 @@ import string
 import logging
 import hashlib
 import uuid
+import xlrd
 
 
 # 确定查询经纬度范围
@@ -87,6 +90,25 @@ def paging_objs(object_list, per_page, page):
     return objs
 
 
+def excel_table(input_excel):
+    '''表格
+    '''
+    book = xlrd.open_workbook(file_contents=input_excel.read())
+    sheet = book.sheet_by_index(0)
+
+    dataset = []
+    for r in xrange(sheet.nrows):
+        col = []
+        for c in range(sheet.ncols):
+            sheet_val = sheet.cell(r, c).value
+            if type(sheet_val) != float:
+                sheet_val = sheet_val.encode('utf-8')
+            col.append(sheet_val)
+        dataset.append(col)
+
+    return dataset[1:]
+
+
 def _uuid():
     uid = str(uuid.uuid1())
     child_list = uid.split('-')[:-1]
@@ -145,9 +167,10 @@ def send_v_code(mobile, v_code, expired_minutes):
         SMS_SUB_ACCOUNT_TOKEN,
         SMS_APP_ID)
     try:
-        result = sms_manager.send_auth_code(
+
+        result = sms_manager.send_sms_msg(
             mobile,
-            v_code,
+            [datetime.now().strftime('%Y-%m-%d %H:%M'), v_code, expired_minutes],
             expired_minutes=expired_minutes,
             template_id=SMS_TEMPLATE_CODE_ID)
         send_status = True
@@ -183,6 +206,30 @@ def send_v_code1(mobile, v_code, expired_minutes):
         data['v_code'] = v_code
         data['send_time'] = int(time.time())
     return data
+
+
+def send_v_code2(mobile, v_code, expired_minutes):
+    sms_manager = SMSManager(
+        SMS_ACCOUNT_SID,
+        SMS_ACCOUNT_TOKEN,
+        SMS_SUB_ACCOUNT_SID,
+        SMS_SUB_ACCOUNT_TOKEN,
+        SMS_APP_ID)
+    try:
+
+        result = sms_manager.send_sms_msg(
+            mobile,
+            [datetime.now().strftime('%Y-%m-%d %H:%M'), v_code, expired_minutes],
+            expired_minutes=expired_minutes,
+            template_id=SMS_TEMPLATE_CODE_H5)
+        send_status = True
+    except Exception as e:
+        send_status = False
+    data = {}
+    if send_status:
+        data['mobile'] = mobile
+        data['v_code'] = v_code
+        data['send_time'] = int(time.time())
 
 
 def send_notice(mobile, datas, template_id):

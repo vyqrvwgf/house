@@ -5,6 +5,7 @@ from django.conf.urls import url
 from website.views import (
     home,
     user,
+    rent_house,
 )
 
 # 管理后台
@@ -12,6 +13,7 @@ urlpatterns = [
     # 首页
     url(r'^$', home.index, name='home_index'),
     url(r'^search$', home.search, name='home_search'),
+    url(r'^captcha/$', home.captcha, name='captcha'),
     url(r'^register$', home.register, name='home_register'),
     url(r'^login$', home.login, name='home_login'),
     url(r'^feedback/add$', home.feedback_add, name='home_feedback_add'),
@@ -26,10 +28,14 @@ urlpatterns = [
         home.housing_resources_map_list, name='housing_resources_map_list'),
     url(r'^housing_resources/(?P<housing_resources_id>\d+)$',
         home.housing_resources, name='housing_resources'),
+    url(r'^housing_resources/meet/create$',
+        home.housing_resources_meet_create, name='housing_resources_meet_create'),
 
     # 求租
     url(r'^rent_house$',
-        home.rent_house_list, name='rent_house_list'),
+        rent_house.rent_house_list, name='rent_house_list'),
+    url(r'^rent_house/meet/create$',
+        rent_house.rent_house_meet_create, name='rent_house_meet_create'),
 
     # 用户
     url(r'^user$', user.index, name='user_index'),

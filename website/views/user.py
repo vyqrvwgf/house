@@ -32,6 +32,7 @@ from imagestore.qiniu_manager import(
     url
 )
 
+from website.views.home import check_captcha
 from utils import(
     check_v_code,
     md5_create,
@@ -168,6 +169,7 @@ def housing_resource_create(request):
             housing_resources.layer = layer
             housing_resources.total_layer = total_layer
             housing_resources.community = community
+            housing_resources.month_rent = month_rent
             housing_resources.address = address
             housing_resources.bus = bus
             housing_resources.subway = subway
@@ -216,7 +218,7 @@ def housing_resource_create(request):
             # 存储卧室信息
             for i in range(1, int(bedroom_count)):
                 areai = request.POST.get('area' + str(i), 0)
-                detailsi = request.POST.getlist('details' + str(i), 0)
+                detailsi = request.POST.getlist('details' + str(i), [])
                 house_configs = HouseConfig.obs.get_queryset().filter(pk__in=detailsi)
                 bedroom = Bedroom.objects.create(
                     housing_resources=housing_resources,
@@ -317,6 +319,7 @@ def housing_resource_edit(request, housing_resources_id):
             housing_resources.layer = layer
             housing_resources.total_layer = total_layer
             housing_resources.community = community
+            housing_resources.month_rent = month_rent
             housing_resources.address = address
             housing_resources.bus = bus
             housing_resources.subway = subway
@@ -694,6 +697,7 @@ def reset_pwd(request):
     }
     if request.method == 'POST':
         phoneNum = request.POST.get('phoneNum', '')
+        img_code = request.POST.get('img_code', '')
         vcode = request.POST.get('vcode', '')
         password1 = request.POST.get('password1', '')
         password2 = request.POST.get('password2', '')
@@ -720,6 +724,9 @@ def reset_pwd(request):
                         'error_code': 4,
                         'error_msg': '验证码错误'
                     })
+
+                if not check_captcha(request, img_code):
+                    return JsonResponse({'error_code': 1, 'error_msg': '图形验证码错误'})
 
                 profile = Profile.obs.get_queryset().filter(
                     mobile=phoneNum

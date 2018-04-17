@@ -4,7 +4,13 @@
 /**
  * Created by Administrator on 2017/8/8 0008.
  */
+
 $(document).ready(function() {
+
+    $('#select_date, .select_date').datepicker({
+        dateFormat: 'yy-mm-dd',
+        monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+    });
 
     //初始化 位置列表
     //Default Action
@@ -35,6 +41,8 @@ $(document).ready(function() {
         $(newContent).show();
         $("ul.service_tabs li").removeClass("active");
         $("ul.service_tabs li:nth-child(1)").addClass("active").show(); //Activate first tab
+
+
 
         //【选择位置】 >> 【选择区域】
         //On Click Event
@@ -138,5 +146,4 @@ $(document).ready(function() {
             $(this).addClass("active");
         });
     }
-
 });
