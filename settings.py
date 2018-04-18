@@ -43,7 +43,7 @@ ROOT_URLCONF = 'house.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend', 'dist')],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend', 'wechat_client')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -234,7 +234,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'frontend/dist/static'),
+    os.path.join(BASE_DIR, 'frontend/wechat_client/static'),
 ]
 
 UPLOAD_DIR = os.path.join(BASE_DIR, 'static', 'upload')
