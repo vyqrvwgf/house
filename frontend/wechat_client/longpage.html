@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
     <!-- Link Swiper's CSS -->
-    <link rel="stylesheet" href="/static/h5/css/swiper.min.css">
+    <link rel="stylesheet" href="static/css/swiper.min.css">
 
     <!-- Demo styles -->
     <style>
@@ -32,10 +32,11 @@
         background: #fff;
 
         /* Center slide text vertically */
-        /*display: -webkit-box;
+        /* display: -webkit-box;
         display: -ms-flexbox;
         display: -webkit-flex;
-        display: flex;*/
+        display: flex; */
+
         -webkit-box-pack: center;
         -ms-flex-pack: center;
         -webkit-justify-content: center;
@@ -48,7 +49,6 @@
         background-size: cover;
     }
     .input-style {
-        text-align: center;
         border-color: #f5f5f5;
         border-width: 2px;
         border-radius: 10px;
@@ -56,15 +56,14 @@
         height: 44px;
     }
     .input-area-style {
-        text-align: center;
         border-color: #f5f5f5;
         border-width: 2px;
         border-radius: 10px;
         width: 80%;
-        height: 300px;
+        height: 120px;
     }
     .security-input {
-        border-color: #f5f5f5
+        border-color: #f5f5f5;
         border-width: 2px;
         border-radius: 10px;
         width: 60%;
@@ -79,6 +78,15 @@
 
         background-color: #ffff66;
     }
+    .commit-button {
+        border-color: #f5f5f5;
+        border-width: 2px;
+        border-radius: 10px;
+        color: #fff;
+        background-color: #ffff66;
+        width: 80%;
+        height: 44px;
+    }
     .img-code {
     	border-color: #f5f5f5;
         border-width: 2px;
@@ -92,87 +100,109 @@
     <!-- Swiper -->
     <div class="swiper-container" >
         <div class="swiper-wrapper">
-            <div class="swiper-slide" style="background-image: url(/static/h5/img/6.jpg)">
+            <div class="swiper-slide" style="background-image: url(static/img/1.jpg)"></div>
+            <div class="swiper-slide" style="background-image: url(static/img/2.jpg)"></div>
+            <div class="swiper-slide" style="background-image: url(static/img/3.jpg)"></div>
+            <div class="swiper-slide" style="background-image: url(static/img/4.jpg)"></div>
+            <div class="swiper-slide" style="background-image: url(static/img/5.jpg)"></div>
+            <div class="swiper-slide" style="background-image: url(static/img/6.jpg)">
+                <p><h1 style="color: #ffa500">欢迎来到悦居</h1></p>
                 <p><input class="input-style" id="phone-input" type="text" placeholder="联系方式"></p>
                 <p>
                 	<input class="security-input" type="text" placeholder="图形验证码" />
-                	<button class="img-code" id="img-code"></button>
+                	<button class="img-code" id="img-code" onclick=javascript:refresh()></button>
                 </p>
                 <p>
-                    <input class="security-input" type="text" placeholder="验证码" />
-                    <button class="security-button" onclick=javascript:get_security()>获取验证码</button>
+                    <input class="security-input" id="security-code" type="text" placeholder="验证码" />
+                    <button class="security-button" id="security-button" type="button" onclick=javascript:get_security()>获取验证码</button>
                 </p>
                 <p>
-                    <textarea class="input-area-style" placeholder="租房需求"></textarea>
+                    <textarea class="input-area-style" id="content" placeholder="租房需求"></textarea>
                 </p>
                 <p>
-                    <img src="/static/h5/img/qrcode.jpg">
+                    <button class="commit-button" onclick=javascript:commit()>提交</button>
+                </p>
+                <p>
+                    <img class src="static/img/qrcode.jpg" style="width: 10%;height:10%">
                 </p>
             </div>
-            <div class="swiper-slide" style="background-image: url(/static/h5/img/1.jpg)"></div>
-            <div class="swiper-slide" style="background-image: url(/static/h5/img/2.jpg)"></div>
-            <div class="swiper-slide" style="background-image: url(/static/h5/img/3.jpg)"></div>
-            <div class="swiper-slide" style="background-image: url(/static/h5/img/4.jpg)"></div>
-            <div class="swiper-slide" style="background-image: url(/static/h5/img/5.jpg)"></div>
         </div>
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
     </div>
 
     <!-- Swiper JS -->
-    <script src="/static/h5/js/swiper.min.js"></script>
-    <script src="/static/h5/js/jquery-3.2.1.min.js"></script>
+    <script src="static/js/swiper.min.js"></script>
+    <script src="static/js/jquery-3.2.1.min.js"></script>
     <!-- Initialize Swiper -->
     <script type="text/javascript">
-    $(document).ready(function() {
+    document.ready = function() {
     	$.ajax({
             type: "GET",
             url: "http://www.yuejuweb.com/wechatapi/0/send/img_code",
             dataType: "json",
-            crossDomain: true,
-            credientials: true,
             success: function(data) {
-            	// if data["error_code"] == 0 {
-            	// 	$(#'img-code').attr('src', data['data']['captcha'])
-            	// } else {
-            	// 	alert(data["error_msg"])
-            	// }
-            },
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-                xhr.setRequestHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-                xhr.setRequestHeader('Access-Control-Max-Age', 1000);
-                xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
-                xhr.setRequestHeader('Content-type', 'application/json');
+            	let object = JSON.parse(data);
+                if (object.error_code == 0) {
+                    document.getElementById('img-code').attr('src', object.data.captcha);
+                } else {
+                    alert(data.error_msg);
+                }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
             }
 	    });
-    });
+    }
     var swiper = new Swiper('.swiper-container', {
         pagination: '.swiper-pagination',
         paginationClickable: true,
         direction: 'vertical'
     });
+
+    var countDownTime = 60;
+    function countDown() {
+        console.log(countDownTime);
+        let button = document.getElementById('security-button');
+        if (countDownTime == 0) { 
+            button.removeAttribute("disabled"); 
+            button.innerHTML = "获取验证码"; 
+            countDownTime = 60; 
+        } else { 
+            button.setAttribute("disabled", true); 
+            button.innerHTML = "重新发送(" + countDownTime + ")"
+            countDownTime--; 
+            setTimeout(function() { 
+                countDown(); 
+            }, 1000);
+        } 
+    }
     function get_security() {
         let phone = document.getElementById("phone-input").value
         if (phone.length == 0) {
-            alert("请输入手机号")
+            alert("请输入手机号");
         } else {
 	        $.ajax({
 	            type: "POST",
 	            url: "http://www.yuejuweb.com/wechatapi/0/send/sms_code",
-	            data: "{'mobile':" + phone + "}" 
+	            data: "{'mobile':" + phone + "}", 
 	            dataType: "json",
                 crossDomain: true,
                 credientials: true,
 	            success: function(data) {
-	            	if data["error_code"] == 0 {
-	            		$(#'img-code').attr('src', data['data']['captcha'])
-	            	} else {
-	            		alert(data["error_msg"])
-	            	}
+                    let object = JSON.parse(data);
+                    if (object.error_code == 0) {
+                        countDown();
+                        alert("验证码已发送到手机");
+                    } else if (object.error_code == 1) {
+                        alert("发送验证码失败");
+                    } else if (object.error_code == 2) {
+                        alert("请检查手机号是否正确");
+                    } else if (object.error_code == 3) {
+                        alert("请输入手机号码");
+                    } else {
+                        alert(data.error_msg);
+                    }
 	            },
 	            beforeSend: function(xhr) {
 	                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
@@ -182,10 +212,78 @@
 	                xhr.setRequestHeader('Content-type', 'application/json');
 	            },
 	            error: function(XMLHttpRequest, textStatus, errorThrown) {
-	                alert(XMLHttpRequest.status);
+	                alert(errorThrown);
 	            }
 	        });
         }
+    }
+    function refresh() {
+        $.ajax({
+            type: "GET",
+            url: "http://www.yuejuweb.com/wechatapi/0/send/img_code",
+            dataType: "json",
+            success: function(data) {
+            	let object = JSON.parse(data);
+                if (object.error_code == 0) {
+                    document.getElementById('img-code').attr('src', object.data.captcha);
+                } else {
+                    alert(data.error_msg);
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+            }
+	    });
+    }
+    function commit() {
+        let phone = document.getElementById("phone-input").value;
+        let security_code = document.getElementById('security-code').value;
+        let img_code = document.getElementById('img-code').value;
+        let content = document.getElementById('content').value
+        if (phone.length == 0) {
+            alert("请输入手机号");
+            return
+        }
+        if (security_code.length == 0) {
+            alert("请输入验证码");
+            return
+        }
+        if (img_code.length == 0) {
+            alert("请输入图形验证码");
+            return
+        }
+        if (content.length == 0) {
+            alert("请输入租房需求");
+            return
+        }
+        $.ajax({
+            type: "POST",
+            url: "http://www.yuejuweb.com/wechatapi/0/house/demand",
+            data: {
+                "mobile": phone,
+                "sms_code": security_code,
+                "img_code": img_code,
+                "content": content
+            },
+            dataType: "json",
+            success: function(data) {
+                let object = JSON.parse(data);
+                if (object.error_code == 0) {
+                    alert("登录成功");
+                }  else if (object.error_code == 1) {
+                    alert("参数错误");
+                } else if (object.error_code == 2) {
+                    alert("验证码错误");
+                } else if (object.error_code == 3) {
+                    alert("图形验证码错误");
+                } else {
+                    alert(data.error_msg);
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.errorThrown);
+            }
+        });
     }
     </script>
 </body>
