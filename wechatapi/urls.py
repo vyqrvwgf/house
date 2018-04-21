@@ -14,4 +14,5 @@ urlpatterns = [
 
     # 租房需求
     url(r'^0/house/demand/$', base.HouseDemandView.as_view(), name='house_demand'),
+    url(r'^0/wx_config/$', base.WxConfig.as_view(), name='wx_config'),
 ]
