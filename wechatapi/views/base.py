@@ -40,7 +40,7 @@ class WxConfig(APIView):
 
         return JsonResponse({
             'error_code': 0,
-            'error_code': '请求成功',
+            'error_msg': '请求成功',
             'data': {
                 'wx_config': get_wx_config(req_url)
             }
