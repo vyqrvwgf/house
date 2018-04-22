@@ -228,6 +228,7 @@ def send_v_code2(mobile, v_code, expired_minutes):
     data['mobile'] = mobile
     data['v_code'] = v_code
     data['send_time'] = int(time.time())
+    return data
 
 
 def send_notice(mobile, datas, template_id):
