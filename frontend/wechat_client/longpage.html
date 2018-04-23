@@ -144,8 +144,7 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <!-- Initialize Swiper -->
     <script type="text/javascript">
-    window.onload = function() {
-    	$.ajax({
+        $.ajax({
             type: "GET",
             url: "http://www.yuejuweb.com/wechatapi/0/send/img_code/",
             dataType: "json",
@@ -159,8 +158,7 @@
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
             }
-	    });
-
+        });
         $.ajax({
             type: "POST",
             url: "http://www.yuejuweb.com/wechatapi/0/wx_config/",
@@ -216,6 +214,11 @@
                 alert(XMLHttpRequest.status);
             }
         });
+
+    </script>
+    <script type="text/javascript">
+    window.onload = function() {
+
     }
     var swiper = new Swiper('.swiper-container', {
         pagination: '.swiper-pagination',
