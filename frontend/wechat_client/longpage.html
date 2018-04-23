@@ -172,10 +172,10 @@
                 if (data.error_code == 0) {
                     wx.config({
                         debug: true, 
-                        appId: data.wx_config.appId, 
-                        timestamp: parseInt(data.wx_config.timestamp), 
-                        nonceStr: data.wx_config.noncestr, 
-                        signature: data.wx_config.signature,
+                        appId: data.data.wx_config.appId, 
+                        timestamp: parseInt(data.data.wx_config.timestamp), 
+                        nonceStr: data.data.wx_config.noncestr, 
+                        signature: data.data.wx_config.signature,
                         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] 
                     });
                     wx.ready(function(){
