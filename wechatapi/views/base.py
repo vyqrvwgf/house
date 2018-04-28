@@ -7,6 +7,7 @@ import random
 
 from django.db import transaction
 from django.contrib.auth.models import User
+from wechat.wx_config import get_wx_config
 from django.db.models import Q
 from rest_framework.views import APIView
 from django.http import JsonResponse
@@ -27,6 +28,23 @@ from settings import (
 from utils import send_v_code2, check_v_code, verify_mobile
 
 redis_conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
+
+
+class WxConfig(APIView):
+    """获取微信配置
+    """
+    permission_classes = (AllowAny, )
+
+    def post(self, request):
+        req_url = request.data.get('req_url', '')
+
+        return JsonResponse({
+            'error_code': 0,
+            'error_msg': '请求成功',
+            'data': {
+                'wx_config': get_wx_config(req_url)
+            }
+        })
 
 
 class SendSmsCodeView(APIView):

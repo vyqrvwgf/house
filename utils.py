@@ -216,7 +216,6 @@ def send_v_code2(mobile, v_code, expired_minutes):
         SMS_SUB_ACCOUNT_TOKEN,
         SMS_APP_ID)
     try:
-
         result = sms_manager.send_sms_msg(
             mobile,
             [datetime.now().strftime('%Y-%m-%d %H:%M'), v_code, expired_minutes],
@@ -226,10 +225,10 @@ def send_v_code2(mobile, v_code, expired_minutes):
     except Exception as e:
         send_status = False
     data = {}
-    if send_status:
-        data['mobile'] = mobile
-        data['v_code'] = v_code
-        data['send_time'] = int(time.time())
+    data['mobile'] = mobile
+    data['v_code'] = v_code
+    data['send_time'] = int(time.time())
+    return data
 
 
 def send_notice(mobile, datas, template_id):

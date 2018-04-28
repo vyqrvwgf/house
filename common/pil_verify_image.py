@@ -29,9 +29,9 @@ def generate_verify_image(size=(100, 40),
                           font_type=default_font,
                           length=4,
                           draw_lines=True,
-                          n_line=(1, 4),
+                          n_line=(1, 3),
                           draw_points=True,
-                          point_chance=40,
+                          point_chance=20,
                           save_img=False):
 
     """

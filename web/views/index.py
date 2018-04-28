@@ -97,3 +97,10 @@ def uptoken(request):
         'uptoken': token,
     }))
 
+
+@csrf_exempt
+def validation(request):
+    echostr = request.GET.get('echostr', '')
+    context = {}
+    return render(request, 'MP_verify_Dh0tQXMmIg6fVOq9.txt', context)
+
