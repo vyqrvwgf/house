@@ -113,10 +113,10 @@
         </div>
         <div class="right fl">
             <ul class="surrounding-facilities clearfix">
-            {% for in in housing_resources.infrastructure.all  %}
+            {% for j in housing_resources.infrastructure.all  %}
                 <li>
-                    <img src="{{ in.cover_url }}" alt="">
-                    <br><label>{{ in.name }}</label><br>
+                    <img src="{{ j.cover_url }}" alt="">
+                    <br><label>{{ j.name }}</label><br>
                 </li>
             {% endfor %}
             </ul>
