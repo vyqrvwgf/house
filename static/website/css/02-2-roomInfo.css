@@ -35,6 +35,9 @@
     -ms-flex-align: center;
     -webkit-align-items: center;
     align-items: center;
+
+    background-color: #000;
+    background-size: contain;
 }
 
 .contact{
