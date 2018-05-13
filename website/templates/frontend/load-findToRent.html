@@ -1,0 +1,26 @@
+{% for rh in rent_houses %}
+<li class="item clearfix">
+    <div class="left fl">
+        <img src="{{ rh.get_profile.avatar_url }}" alt="">
+        <!-- <p><button class="getContact" rent_house_id='{{ rh.id }}'>联系他</button></p> -->
+        <p class="getContact"><input type="text" class="select_date" id="select_date" readonly="readonly" placeholder="预约看房" rent_house_id='{{ rh.id }}' /></p>
+
+        <p><button class="complaint">举报他</button></p>
+    </div>
+    <div class="right fl">
+        <p><label for="">租客姓名：</label>{{ rh.name }}</p>
+        <p><label for="">房租预算：</label><strong class="orange">{{ rh.rent }}</strong></p>
+        <p><label for="">期望房型：</label>二房一厅</p>
+        <p><label for="">其他要求：</label>{{ rh.description }}</p>
+        <p><label for="">基础设施：</label></p>
+        <ul class="surrounding-facilities clearfix">
+        {% for in in rh.infrastructure.all  %}
+            <li>
+                <img src="{{ in.cover_url }}" alt="">
+                <br><label>{{ in.name }}</label><br>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</li>
+{% endfor %}
