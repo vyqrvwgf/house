@@ -38,11 +38,50 @@ import logging
 
 def rent_house_list(request):
 
-    rent_houses = RentHouse.obs.get_queryset().filter(status=2, audit_status=2)
+    rent_house_list = RentHouse.obs.get_queryset().filter(status=2, audit_status=2)
+
+    if request.method == 'POST':
+        area = request.POST.get('area', '')
+        price = request.POST.get('price', '')
+        waytorent = request.POST.get('waytorent', '')
+        start_price = request.POST.get('start_price', '')
+        end_price = request.POST.get('end_price', '')
+
+        print request.POST
+        if area and area != u'不限':
+            rent_house_list = rent_house_list.filter(area__icontains=area)
+        
+        if start_price:
+            rent_house_list = rent_house_list.filter(rent__gte=start_price)
+        
+        if end_price:
+            rent_house_list = rent_house_list.filter(rent__lte=end_price)
+
+        if not start_price and not end_price and price and price != u'不限':
+            price_list = price.split('-')
+            start_price = price_list[0]
+            end_price = price_list[1] if len(price_list) > 1 else 0
+            if not end_price:
+                rent_house_list = rent_house_list.filter(rent__lte=int(start_price))
+            else:
+                rent_house_list = rent_house_list.filter(
+                    rent__gte=int(start_price),
+                    rent__lte=int(end_price),
+                )
+        if waytorent == u'整租':
+            rent_house_list = rent_house_list.filter(lease=0)
+        elif waytorent == u'合租':
+            rent_house_list = rent_house_list.filter(lease=1)
+        print rent_house_list
+        tmp = loader.get_template('frontend/load-findToRent.html')
+        html = tmp.render({'rent_houses': rent_house_list})
+        return JsonResponse({'html': html})
+
+    rent_house_list = rent_house_list.filter(area__icontains=u'洪山')
 
     context = {
         'module': 'rent_house',
-        'rent_houses': rent_houses,
+        'rent_houses': rent_house_list,
     }
 
     return render(request, 'frontend/03-findToRent.html', context)

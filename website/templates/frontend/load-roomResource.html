@@ -1,0 +1,27 @@
+{% for h in housingresources_list  %}
+<a href="{% url 'website:housing_resources' h.id %}" class="trig">
+    <img src="{{ h.cover_url }}" alt="">
+    <div class="trig_txt">
+        <p class="trig-price orange clearfix">
+            <strong>{{ h.month_rent }}</strong>
+            <span>元/月</span>
+            <strong class="fr">★★★★☆</strong>
+        </p>
+        <p class="trig-realInfo">
+            <strong>
+                <svg class="icon" aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use>
+                </svg>
+            </strong>
+            <span class="confirmed">户主本人</span>
+            <strong>
+                <svg class="icon" aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuanzhong"></use>
+                </svg>
+            </strong>
+            <span class="confirmed">核实工作单位</span>
+        </p>
+        <p class="trig-describe">{{ h.category }}</p>
+    </div>
+</a>
+{% endfor %}

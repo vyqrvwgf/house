@@ -84,8 +84,8 @@
             <li>3500-4000&nbsp;</li>
         </ul>
         <div class="self-pricing fl">
-            <input type="text"> - <input type="text">
-            <button>确定</button>
+            <input type="text" name="start_price"> - <input type="text" name="end_price">
+            <button onclick="search_conditions()">确定</button>
         </div>
     </div>
 
@@ -163,17 +163,33 @@
 <script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script type="text/javascript">
     function search_conditions() {
-        var area = $('.area').find('li.active a').text()
-        var price = $('.price').find('li.active').text()
-        var structure = $('.structure').find('li.active').text()
-        var waytorent = $('.wayToRent').find('li.active').text()
-        console.log(area + ';' + price + ';' + structure + ';' + waytorent)
+        var area = $.trim($('.area').find('li.active a').text())
+        var price = $.trim($('.price').find('li.active').text())
+        var structure = $.trim($('.structure').find('li.active').text())
+        var waytorent = $.trim($('.wayToRent').find('li.active').text())
+        var start_price = $('input[name=start_price]').val()
+        var end_price = $('input[name=end_price]').val()
+        if(!start_price && !end_price){
+            price = price.replace('不限', '')
+            price = price.replace('以下', '')
+        }
+        console.log(area + ';' + price + ';' + structure + ';' + waytorent + ';' + start_price + ';' + end_price)
+        if(area == '全部'){
+            area = ''
+        }
+        var postData = {
+            'area': area,
+            'price': price,
+            'start_price': start_price,
+            'end_price': end_price,
+            'structure': structure,
+            'waytorent': waytorent,
+        }
 
-        
-
-
-
-
+        $.post("{% url 'website:housing_resources_list' %}", postData,function(data) {
+            console.log(data)
+            $('.tabpanel.banxin').html(data.html)
+        });
     }
 </script>
 <script>
@@ -287,7 +303,7 @@ $(document).ready(function() {
                 }else{
                     $(this).addClass("active");
                 }
-
+                search_conditions()
                 // //每次点击，都遍历一次确定是否都选中了
                 // for (var j = 2; j < liArr.length; j++) {
                 //     if($(liArr[j]).attr("class") === undefined) {
@@ -308,12 +324,12 @@ $(document).ready(function() {
                 // }
             });
         }
-
     }
     function filter2(rowName) {
         $("."+rowName+" ul li").click(function () {
             $(this).parent().find("li").removeClass("active");
             $(this).addClass("active");
+            search_conditions()
         });
     }
 });
