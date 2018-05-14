@@ -184,8 +184,6 @@ def housing_resources_list(request):
         html = tmp.render({'housingresources_list': housingresources_list})
         return JsonResponse({'html': html})
 
-    housingresources_list = housingresources_list.filter(area__icontains=u'洪山')
-
     context = {
         'module': 'housing_resources',
         'housingresources_list': housingresources_list,
