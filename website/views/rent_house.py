@@ -77,8 +77,6 @@ def rent_house_list(request):
         html = tmp.render({'rent_houses': rent_house_list})
         return JsonResponse({'html': html})
 
-    rent_house_list = rent_house_list.filter(area__icontains=u'洪山')
-
     context = {
         'module': 'rent_house',
         'rent_houses': rent_house_list,
