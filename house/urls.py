@@ -19,6 +19,5 @@ urlpatterns = [
     # 超级后台
     url(r'^superadmin/', admin.site.urls),
     url(r'^MP_verify_Dh0tQXMmIg6fVOq9.txt', index.validation),
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': MEDIA_ROOT}), 
 ]
-
-urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
