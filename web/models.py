@@ -309,6 +309,7 @@ class Infrastructure(BaseModel):
         blank=True,
         verbose_name="图片")
 
+    @property
     def cover_url(self):
         return url(self.cover)
 
@@ -701,6 +702,7 @@ class HousingResources(BaseModel):
     lng = models.FloatField(default=0, verbose_name='经度')
     lat = models.FloatField(default=0, verbose_name='纬度')
 
+    @property
     def cover_url(self):
         return url(self.cover)
 
