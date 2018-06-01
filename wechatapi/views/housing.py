@@ -171,8 +171,8 @@ class HouseResourcesListView(APIView):
         waytorent = request.query_params.get('waytorent', '')
 
         try:
-            page = 1 if not page else page
             page = int(page)
+            page = 1 if not page else page
             page_size = int(page_size)
 
             housingresources_list = HousingResources.obs.get_queryset().filter(
