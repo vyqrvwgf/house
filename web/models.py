@@ -704,6 +704,8 @@ class HousingResources(BaseModel):
 
     @property
     def cover_url(self):
+        if not self.cover:
+            return self.get_pictures()[0] if self.get_pictures() else ''
         return url(self.cover)
 
     def hall_url(self):
