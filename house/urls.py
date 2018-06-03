@@ -15,6 +15,7 @@ urlpatterns = [
     # 管理员后台
     url(r'^admin/', include('web.urls', namespace='web')),
     url(r'^h5$', TemplateView.as_view(template_name='longpage.html')),
+    url(r'^h5/houses/$', TemplateView.as_view(template_name='index.html')),
     url(r'^wechatapi/', include('wechatapi.urls', namespace='wechatapi')),
     # 超级后台
     url(r'^superadmin/', admin.site.urls),

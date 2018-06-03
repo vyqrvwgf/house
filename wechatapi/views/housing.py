@@ -165,6 +165,7 @@ class HouseResourcesListView(APIView):
 
         page = request.query_params.get('page', 0)
         page_size = request.query_params.get('page_size', 5)
+        keywords = request.query_params.get('keywords', '')
         area = request.query_params.get('area', '')
         start_price = request.query_params.get('start_price', 0)
         end_price = request.query_params.get('end_price', 0)
@@ -179,6 +180,10 @@ class HouseResourcesListView(APIView):
                 audit_status=2,
                 status=2,
             )
+            if keywords:
+                housingresources_list = housingresources_list.filter(
+                    Q(community__icontains=keyword) | Q(address__icontains=keyword) | Q(content__icontains=keyword))
+
             if area and area != u'不限':
                 housingresources_list = housingresources_list.filter(area__icontains=area)
             
