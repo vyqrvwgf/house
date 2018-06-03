@@ -6,6 +6,7 @@ from django.conf.urls import url
 from wechatapi.views import (
     base,
     housing,
+    rent_house,
 )
 
 urlpatterns = [
@@ -22,5 +23,7 @@ urlpatterns = [
     # url(r'^0/house/$', housing.HouseView.as_view(), name='house_add'),
     url(r'^0/houses/$', housing.HouseResourcesListView.as_view(), name='houses'),
     url(r'^0/house/$', housing.HouseResourceDetailView.as_view(), name='house'),
+    # 求租
+    url(r'^0/rent_houses/$', rent_house.RentHouseListView.as_view(), name='houses'),
 
 ]

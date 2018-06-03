@@ -144,7 +144,66 @@
 |subway|str|""|附近地铁|
 |address|str|""|地址|
 |pictures|list|['', '']|房源图片|
-|infrastructures|list|[{}]|房源基础设置|
+|infrastructures|list|[{}]|基础设施|
 |infrastructure_id|int|0|房源基础设置id|
 
 
+
+
+### 求租列表
+
+***
+
+#### path: /rent_houses/
+#### method: get
+#### 参数:
+
+|参数|类型|示例|说明|
+|:-------------:|:-------------:|:-------------:|:-------------:|
+|page|int|1|当前页|
+|page_size|int|10|每页记录数|
+|keywords|str|"武昌"|搜索关键词|
+|area|str|"武昌"|位置|
+|start_price|int|10|开始价格范围，500， 600|
+|end_price|int|10|结束价格范围，没有则不传|
+|waytorent|str|"整租"|租赁方式|
+
+#### 返回示例:
+```python
+{
+    "data": {
+        "rent_houses": [
+            {
+                "description": "要门面用来做生意",
+                "avatar": "",
+                "rent": 0,
+                "infrastructures": [
+                    {
+                        "name": "1212a阿斯顿发",
+                        "infrastructure_id": 1
+                    }
+                ],
+                "rent_house_id": 153,
+                "name": "刘道"
+            }
+        ],
+        "rent_house_count": 2,
+        "page": 1,
+        "page_size": 10
+    },
+    "error_code": 0,
+    "error_msg": "请求成功"
+}
+```
+
+#### 返回参数
+|参数|类型|示例|说明|
+|:-------------:|:-------------:|:-------------:|:-------------:|
+|rent_house_count|int|1|总记录数|
+|rent_house_id|int|0|求租id|
+|avatar|str|0|求租人头像|
+|rent|int|0|租金|
+|infrastructures|list|[{}]|基础设施|
+|infrastructure_id|int|0|基础设置id|
+|name|str|""|租客姓名|
+|description|str|""|其他要求|
