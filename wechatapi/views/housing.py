@@ -182,7 +182,7 @@ class HouseResourcesListView(APIView):
             )
             if keywords:
                 housingresources_list = housingresources_list.filter(
-                    Q(community__icontains=keyword) | Q(address__icontains=keyword) | Q(content__icontains=keyword))
+                    Q(community__icontains=keywords) | Q(address__icontains=keywords) | Q(content__icontains=keywords))
 
             if area and area != u'不限':
                 housingresources_list = housingresources_list.filter(area__icontains=area)
