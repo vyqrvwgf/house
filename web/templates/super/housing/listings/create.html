@@ -139,6 +139,16 @@
                   <option value="武昌区" {% if not client.area or client.area == '武昌区' %}selected{% endif %}>武昌区</option>
                   <option value="洪山区" {% if client.area == '洪山区' %}selected{% endif %}>洪山区</option>
                   <option value="汉阳区" {% if client.area == '汉阳区' %}selected{% endif %}>汉阳区</option>
+                  <option value="黄陂区" {% if client.area == '黄陂区' %}selected{% endif %}>黄陂区</option>
+                  <option value="江岸区" {% if client.area == '江岸区' %}selected{% endif %}>江岸区</option>
+                  <option value="东西湖区" {% if client.area == '东西湖区' %}selected{% endif %}>东西湖区</option>
+                  <option value="江夏区" {% if client.area == '江夏区' %}selected{% endif %}>江夏区</option>
+                  <option value="汉桥区" {% if client.area == '汉桥区' %}selected{% endif %}>汉桥区</option>
+                  <option value="硚口区" {% if client.area == '硚口区' %}selected{% endif %}>硚口区</option>
+                  <option value="青山区" {% if client.area == '青山区' %}selected{% endif %}>青山区</option>
+                  <option value="蔡甸区" {% if client.area == '蔡甸区' %}selected{% endif %}>蔡甸区</option>
+                  <option value="新洲区" {% if client.area == '新洲区' %}selected{% endif %}>新洲区</option>
+                  <option value="汉南区" {% if client.area == '汉南区' %}selected{% endif %}>汉南区</option>
               </select>
               <input class="addr" name="address" id="addr" type="text" placeholder="具体街道地址" value="{{ client.address }}">
           </div>
