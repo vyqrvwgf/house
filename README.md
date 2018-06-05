@@ -111,6 +111,8 @@
             "address": "街道",
             "pictures": ["http:1212.jpg", "http://122.jp"],
             "month_rent": 1212,
+            "bet": 1,
+            "pay": 0.5,
             "infrastructures": [{
                 "infrastructure_id": 1,
                 "name": "浴缸",
@@ -123,7 +125,6 @@
     "error_msg": "请求成功"
 }
 ```
-
 #### 返回参数
 |参数|类型|示例|说明|
 |:-------------:|:-------------:|:-------------:|:-------------:|
@@ -146,6 +147,8 @@
 |pictures|list|['', '']|房源图片|
 |infrastructures|list|[{}]|基础设施|
 |infrastructure_id|int|0|房源基础设置id|
+|bet|float|0|押|
+|pay|float|0|付|
 
 
 

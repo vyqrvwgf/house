@@ -269,6 +269,8 @@ class HouseResourceDetailView(APIView):
                 'area': housing_resources.area,
                 'infrastructures': infrastructures,
                 'subway': housing_resources.subway,
+                'bet': housing_resources.bet,
+                'pay': housing_resources.pay,
                 'bus': housing_resources.bus,
                 'buy': housing_resources.buy,
                 'address': housing_resources.address,
