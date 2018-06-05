@@ -171,9 +171,19 @@
                         <option value="武汉市">武汉市</option>
                     </select>
                     <select name="area">
-                        <option value="武昌区" {% if not housing_resources.area or housing_resources == '武昌区' %}selected{% endif %}>武昌区</option>
+                        <option value="武昌区" {% if not housing_resources.area or housing_resources.area == '武昌区' %}selected{% endif %}>武昌区</option>
                         <option value="洪山区" {% if housing_resources.area == '洪山区' %}selected{% endif %}>洪山区</option>
                         <option value="汉阳区" {% if housing_resources.area == '汉阳区' %}selected{% endif %}>汉阳区</option>
+                        <option value="黄陂区" {% if housing_resources.area == '黄陂区' %}selected{% endif %}>黄陂区</option>
+                        <option value="江岸区" {% if housing_resources.area == '江岸区' %}selected{% endif %}>江岸区</option>
+                        <option value="东西湖区" {% if housing_resources.area == '东西湖区' %}selected{% endif %}>东西湖区</option>
+                        <option value="江夏区" {% if housing_resources.area == '江夏区' %}selected{% endif %}>江夏区</option>
+                        <option value="汉桥区" {% if housing_resources.area == '汉桥区' %}selected{% endif %}>汉桥区</option>
+                        <option value="硚口区" {% if housing_resources.area == '硚口区' %}selected{% endif %}>硚口区</option>
+                        <option value="青山区" {% if housing_resources.area == '青山区' %}selected{% endif %}>青山区</option>
+                        <option value="蔡甸区" {% if housing_resources.area == '蔡甸区' %}selected{% endif %}>蔡甸区</option>
+                        <option value="新洲区" {% if housing_resources.area == '新洲区' %}selected{% endif %}>新洲区</option>
+                        <option value="汉南区" {% if housing_resources.area == '汉南区' %}selected{% endif %}>汉南区</option>
                     </select>
                     <input class="addr" name="address" id="addr" type="text" placeholder="具体街道地址" value="{{ housing_resources.address }}">
                 </p>
