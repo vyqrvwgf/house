@@ -1,6 +1,6 @@
 {% extends 'frontend/base.html' %}
 
-{% block pageheader %}
+{% block title %}
 房源详情
 {% endblock %}
 
@@ -57,6 +57,7 @@
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-1-part"></use>
                 </svg>
                 <span>{{ housing_resources.get_lease_display }}</span>
+                &nbsp;&nbsp;押<span>{{ housing_resources.bet }}</span>付{{ housing_resources.pay }}
             </p>
             <p class="payment"><span class="orange">￥{{ housing_resources.month_rent }}/月</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="how">押{{ housing_resources.bet }}付{{ housing_resources.pay }}</span></p>
             <!-- <p class="phoneNum orange"><button>预 约 看 房</button></p> -->
@@ -100,7 +101,7 @@
                 <span>{{ housing_resources.layer }}/{{ housing_resources.total_layer }}F</span>
             </p>
             <p class="text"><label for="">面积：</label>&nbsp;&nbsp;<span>{{ housing_resources.sitting_room_area }}</span>㎡</p>
-            <p class="text"><label for="">小区：</label>&nbsp;&nbsp;<span>{{ housing_resources.area }}</span></p>
+            <p class="text"><label for="">小区：</label>&nbsp;&nbsp;<span>{{ housing_resources.community }}</span></p>
         </div>
     </div>
 
@@ -113,10 +114,10 @@
         </div>
         <div class="right fl">
             <ul class="surrounding-facilities clearfix">
-            {% for in in housing_resources.infrastructure.all  %}
+            {% for j in housing_resources.infrastructure.all  %}
                 <li>
-                    <img src="{{ in.cover_url }}" alt="">
-                    <br><label>{{ in.name }}</label><br>
+                    <img src="{{ j.cover_url }}" alt="">
+                    <br><label>{{ j.name }}</label><br>
                 </li>
             {% endfor %}
             </ul>
@@ -133,11 +134,11 @@
         <div class="right fl">
             <p class="text">
                 <label for="">附近公交：</label>&nbsp;&nbsp;
-                <span>{{ housing_resources.subway }}</span>
+                <span>{{ housing_resources.bus }}</span>
             </p>
             <p class="text">
                 <label for="">附近地铁：</label>&nbsp;&nbsp;
-                <span>{{ housing_resources.bus }}</span>
+                <span>{{ housing_resources.subway }}</span>
             </p>
             <p class="text">
                 <label for="">餐饮购物：</label>&nbsp;&nbsp;

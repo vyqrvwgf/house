@@ -1,6 +1,6 @@
 {% extends 'frontend/base.html' %}
 
-{% block pageheader %}
+{% block title %}
 求租信息
 {% endblock %}
 
@@ -17,31 +17,31 @@
 </div>
 <div class="panel-filter banxin clearfix">
     <!--位置筛选-->
-    <div class="container clearfix">
+    <div class="container clearfix area">
         <!--地区列表-->
         <ul class="tabs clearfix">
-            <li><strong>区域</strong>：&nbsp</li>
-            <li><a href="#tab1">&nbsp洪山&nbsp </a></li>
-            <li><a href="#tab2">&nbsp汉阳&nbsp</a></li>
-            <li><a href="#tab1">&nbsp武昌&nbsp</a></li>
-            <li><a href="#tab2">&nbsp黄陂&nbsp</a></li>
-            <li><a href="#tab1">&nbsp江岸&nbsp</a></li>
-            <li><a href="#tab2">&nbsp东西湖&nbsp</a></li>
-            <li><a href="#tab1">&nbsp江夏&nbsp</a></li>
-            <li><a href="#tab2">&nbsp汉桥&nbsp</a></li>
-            <li><a href="#tab1">&nbsp硚口&nbsp</a></li>
-            <li><a href="#tab2">&nbsp青山&nbsp</a></li>
-            <li><a href="#tab1">&nbsp蔡甸&nbsp</a></li>
-            <li><a href="#tab2">&nbsp新洲&nbsp</a></li>
-            <li><a href="#tab1">&nbsp武汉周边&nbsp</a></li>
-            <li><a href="#tab2">&nbsp东湖高新&nbsp</a></li>
-            <li><a href="#tab1">&nbsp经济开发区&nbsp</a></li>
-            <li><a href="#tab2">&nbsp汉南&nbsp</a></li>
-            <li><a href="#tab1">&nbsp全部&nbsp</a></li>
+            <li><strong>区域</strong>：&nbsp;</li>
+            <li><a href="#tab1">&nbsp;全部&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;汉阳&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;武昌&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;黄陂&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;江岸&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;东西湖&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;江夏&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;汉桥&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;硚口&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;青山&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;蔡甸&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;新洲&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;武汉周边&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;东湖高新&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;经济开发区&nbsp;</a></li>
+            <li><a href="#tab2">&nbsp;汉南&nbsp;</a></li>
+            <li><a href="#tab1">&nbsp;洪山&nbsp;</a></li>
         </ul>
 
         <!--区域范围列表-->
-        <div class="district_container">
+        <!-- <div class="district_container">
             <div id="tab1" class="tab_content" style="display: block;">
                 <ul class="service_tabs clearfix">
                     <li>&nbsp全部&nbsp</li>
@@ -57,53 +57,54 @@
                     <li>&nbspH 王家湾&nbsp</li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!--价格筛选-->
     <div class="row price">
         <ul class="clearfix">
-            <li><strong>价格</strong>：&nbsp</li>
-            <li class="active">&nbsp不限&nbsp</li>
-            <li>500以下&nbsp</li>
-            <li>500-1000&nbsp</li>
-            <li>1000-1500&nbsp</li>
-            <li>1500-2000&nbsp</li>
-            <li>2000-2500&nbsp</li>
-            <li>2500-3000&nbsp</li>
-            <li>3000-3500&nbsp</li>
-            <li>3500-4000&nbsp</li>
-            <li><input type="text"> - <input type="text"> <button>确定</button></li>
-
+            <li><strong>价格</strong>：&nbsp;</li>
+            <li class="active">&nbsp;不限&nbsp;</li>
+            <li>500以下&nbsp;</li>
+            <li>500-1000&nbsp;</li>
+            <li>1000-1500&nbsp;</li>
+            <li>1500-2000&nbsp;</li>
+            <li>2000-2500&nbsp;</li>
+            <li>2500-3000&nbsp;</li>
+            <li>3000-3500&nbsp;</li>
+            <li>3500-4000&nbsp;</li>
+            <li>
+                <input type="text" name="start_price"> - <input type="text" name="end_price">
+                <button onclick="search_conditions()">确定</button>
+            </li>
         </ul>
     </div>
 
     <!--户型筛选-->
-    <div class="row structure">
+    <!-- <div class="row structure">
         <ul class="clearfix">
-            <li><strong>户型</strong>：&nbsp</li>
-            <li class="active">&nbsp不限&nbsp</li>
-            <li>一室&nbsp</li>
-            <li>二室&nbsp</li>
-            <li>三室&nbsp</li>
-            <li>四室&nbsp</li>
-            <li>五室&nbsp</li>
-            <li>其他&nbsp</li>
+            <li><strong>户型</strong>：&nbsp;</li>
+            <li class="active">&nbsp;不限&nbsp;</li>
+            <li>一室&nbsp;</li>
+            <li>二室&nbsp;</li>
+            <li>三室&nbsp;</li>
+            <li>四室&nbsp;</li>
+            <li>五室&nbsp;</li>
+            <li>其他&nbsp;</li>
         </ul>
-    </div>
+    </div> -->
 
     <!--合租/整租 筛选-->
     <div class="row wayToRent">
         <ul class="clearfix">
-            <li><strong>方式</strong>：&nbsp</li>
-            <li class="active">&nbsp不限&nbsp </li>
-            <li id="entireRent">整租&nbsp</li>
-            <li id="sharedRent">合租&nbsp</li>
+            <li><strong>方式</strong>：&nbsp;</li>
+            <li class="active">&nbsp;不限&nbsp;</li>
+            <li id="entireRent">整租&nbsp;</li>
+            <li id="sharedRent">合租&nbsp;</li>
         </ul>
     </div>
-
     <!--室友 筛选-->
-    <div class="row roommate">
+    <!-- <div class="row roommate">
         <ul class="clearfix">
             <li><strong>室友</strong>：&nbsp</li>
             <li>&nbsp不限&nbsp</li>
@@ -111,7 +112,7 @@
             <li> 都是帅哥&nbsp</li>
             <li> 美女帅哥&nbsp</li>
         </ul>
-    </div>
+    </div> -->
 </div>
 <div class="banxin">
     <ul class="items">
@@ -127,7 +128,7 @@
             <div class="right fl">
                 <p><label for="">租客姓名：</label>{{ rh.name }}</p>
                 <p><label for="">房租预算：</label><strong class="orange">{{ rh.rent }}</strong></p>
-                <p><label for="">期望房型：</label>二房一厅</p>
+                <!-- <p><label for="">期望房型：</label>二房一厅</p> -->
                 <p><label for="">其他要求：</label>{{ rh.description }}</p>
                 <p><label for="">基础设施：</label></p>
                 <ul class="surrounding-facilities clearfix">
@@ -148,6 +149,37 @@
 
 {% block script %}
 <script src="/static/website/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script>
+    function search_conditions() {
+        var area = $.trim($('.area').find('li.active a').text())
+        var price = $.trim($('.price').find('li.active').text())
+        var structure = $.trim($('.structure').find('li.active').text())
+        var waytorent = $.trim($('.wayToRent').find('li.active').text())
+        var start_price = $('input[name=start_price]').val()
+        var end_price = $('input[name=end_price]').val()
+        if(!start_price && !end_price){
+            price = price.replace('不限', '')
+            price = price.replace('以下', '')
+        }
+        console.log(area + ';' + price + ';' + structure + ';' + waytorent + ';' + start_price + ';' + end_price)
+        if(area == '全部'){
+            area = ''
+        }
+        var postData = {
+            'area': area,
+            'price': price,
+            'start_price': start_price,
+            'end_price': end_price,
+            'structure': structure,
+            'waytorent': waytorent,
+        }
+
+        $.post("{% url 'website:rent_house_list' %}", postData,function(data) {
+            console.log(data)
+            $('.banxin > .items').html(data.html)
+        });
+    }
+</script>
 <script>
 $(document).ready(function () {
 
@@ -181,14 +213,18 @@ $(document).ready(function () {
     });
     //初始化 位置列表
     //Default Action
+    //初始化 位置列表
+    //Default Action
     $(".tab_content").hide(); //Hide all content
     $("ul.tabs li:nth-child(2)").addClass("active").show(); //Activate first tab
     $(".tab_content:first").show(); //Show first tab content
+
     //初始化 区域范围列表
     //Default Action
     $(".s_tab_content").hide(); //Hide all content
     $("ul.service_tabs li:nth-child(1)").addClass("active").show(); //Activate first tab
     $(".s_tab_content:first").show(); //Show first tab content
+
     //On Click Event
     $("ul.tabs li").click(function () {
         //【选择位置】
@@ -196,8 +232,9 @@ $(document).ready(function () {
         $(this).addClass("active"); //Add "active" class to selected tab
         $(".tab_content").hide(); //Hide all tab content
         var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
-        console.log(activeTab);
+        // console.log(activeTab);
         $(activeTab).fadeIn(); //Fade in the active content
+
         //每次【位置选择】结束，对应的【区域范围】回到初始值
         //Default Action
         $(".s_tab_content").hide(); //Hide all content
@@ -205,6 +242,8 @@ $(document).ready(function () {
         $(newContent).show();
         $("ul.service_tabs li").removeClass("active");
         $("ul.service_tabs li:nth-child(1)").addClass("active").show(); //Activate first tab
+
+
         //【选择位置】 >> 【选择区域】
         //On Click Event
         $("ul.service_tabs li").click(function () {
@@ -215,8 +254,10 @@ $(document).ready(function () {
             $(activeTab2).fadeIn(); //Fade in the active content
             return false;
         });
+        search_conditions()
         return false;
     });
+
     //初次 【选择位置】 >> 【选择区域】
     $("ul.service_tabs li").click(function () {
         $("ul.service_tabs li").removeClass("active"); //Remove any "active" class
@@ -227,6 +268,7 @@ $(document).ready(function () {
         $(activeTab2).fadeIn(); //Fade in the active content
         return false;
     });
+
     //其他筛选条件
     //价格筛选
     filter1("price");
@@ -242,12 +284,15 @@ $(document).ready(function () {
             $(".roommate").hide();
         }
     });
+
     filter2("roommate");
+
     function filter1(rowName) {
         var liArr = $("."+rowName+" ul li");
         var choose = false;
         var total = liArr.length - 2;
         var num = 0;
+
         // console.log(liArr);
         // //选中【不限】时，其他不用高亮
         $(liArr[1]).click(function () {
@@ -256,37 +301,42 @@ $(document).ready(function () {
                 $(liArr[i]).removeClass("active");
             }
         });
+
         // 点击除【不限】之外的选项时高亮，全高亮时改为全部不高亮，【不限】选项高亮
         //为 不限 后面的 选项进行单独绑定点击事件
         for(var i = 2; i < liArr.length;i++) {
             console.log(liArr[i]);
             $(liArr[i]).click(function () {
                 //每次点击重置 choose 的值，且
-                choose = true;
-                num = 0;
+                // choose = true;
+                // num = 0;
+                liArr.removeClass("active");
+
                 //点击后，高亮显示
                 if($(this).hasClass("active")){
                     $(this).removeClass("active");
                 }else{
                     $(this).addClass("active");
                 }
-                //每次点击，都遍历一次确定是否都选中了
-                for (var j = 2; j < liArr.length; j++) {
-                    if($(liArr[j]).attr("class") === undefined) {
-                        choose = false;
-                        num++;
-                        if(num === total ){
-                            choose = true;
-                        }
-                    }
-                }
-                //对  choose 进行判断
-                if(choose){
-                    $("."+rowName+" ul li").removeClass("active");
-                    $(liArr[1]).addClass("active");
-                }else{
-                    $(liArr[1]).removeClass("active");
-                }
+                search_conditions()
+                // //每次点击，都遍历一次确定是否都选中了
+                // for (var j = 2; j < liArr.length; j++) {
+                //     if($(liArr[j]).attr("class") === undefined) {
+                //         choose = false;
+                //         num++;
+                //         if(num === total ){
+                //             choose = true;
+                //         }
+                //     }
+                // }
+
+                // //对  choose 进行判断
+                // if(choose){
+                //     $("."+rowName+" ul li").removeClass("active");
+                //     $(liArr[1]).addClass("active");
+                // }else{
+                //     $(liArr[1]).removeClass("active");
+                // }
             });
         }
     }
@@ -294,6 +344,7 @@ $(document).ready(function () {
         $("."+rowName+" ul li").click(function () {
             $(this).parent().find("li").removeClass("active");
             $(this).addClass("active");
+            search_conditions()
         });
     }
 

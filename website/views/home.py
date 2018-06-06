@@ -138,7 +138,51 @@ def feedback_add(request):
 
 def housing_resources_list(request):
 
-    housingresources_list = HousingResources.obs.get_queryset().filter(audit_status=2, status=2)
+    housingresources_list = HousingResources.obs.get_queryset().filter(
+        audit_status=2,
+        status=2,
+    )
+    if request.method == 'POST':
+        area = request.POST.get('area', '')
+        price = request.POST.get('price', '')
+        structure = request.POST.get('structure', '')
+        waytorent = request.POST.get('waytorent', '')
+        start_price = request.POST.get('start_price', '')
+        end_price = request.POST.get('end_price', '')
+
+        print request.POST
+        if area and area != u'不限':
+            housingresources_list = housingresources_list.filter(area__icontains=area)
+        
+        if start_price:
+            housingresources_list = housingresources_list.filter(month_rent__gte=start_price)
+        
+        if end_price:
+            housingresources_list = housingresources_list.filter(month_rent__lte=end_price)
+
+        if not start_price and not end_price and price and price != u'不限':
+            price_list = price.split('-')
+            start_price = price_list[0]
+            end_price = price_list[1] if len(price_list) > 1 else 0
+            if not end_price:
+                housingresources_list = housingresources_list.filter(month_rent__lte=int(start_price))
+            else:
+                housingresources_list = housingresources_list.filter(
+                    month_rent__gte=int(start_price),
+                    month_rent__lte=int(end_price),
+                )  
+
+        if structure and structure != u'不限':
+            housingresources_list = housingresources_list.filter(category__icontains=structure)
+
+        if waytorent == u'整租':
+            housingresources_list = housingresources_list.filter(lease=0)
+        elif waytorent == u'合租':
+            housingresources_list = housingresources_list.filter(lease=1)
+
+        tmp = loader.get_template('frontend/load-roomResource.html')
+        html = tmp.render({'housingresources_list': housingresources_list})
+        return JsonResponse({'html': html})
 
     context = {
         'module': 'housing_resources',

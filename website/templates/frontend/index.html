@@ -1,8 +1,8 @@
 
 {% extends 'frontend/base.html' %}
 
-{% block pageheader %}
-首页
+{% block title %}
+    租房无中介费用
 {% endblock %}
 
     {% block style %}
@@ -110,7 +110,7 @@
                         <div class="trig_txt">
                             <div class="trig-price orange">{{ h.month_rent }} <span>元/月</span></div>
                             <div class="trig-addr">
-                            {{ h.area }}-{{ h.community }}-{{ h.category }}-    朝{{  h.get_direction_display }}-{{ h.sitting_room_area }}㎡
+                            {{ h.area }}-{{ h.community }}-{{ h.category }}-朝{{  h.get_direction_display }}-{{ h.sitting_room_area }}㎡
                             </div>
                             <div class="trig-describe">{{ h.category }}</div>
                         </div>
